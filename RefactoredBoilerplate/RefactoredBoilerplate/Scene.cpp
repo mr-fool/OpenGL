@@ -30,7 +30,7 @@ extern int level;
 
 
 
-void  Scene::createSquare(double side_length) {
+Geometry&  Scene::createSquare(double side_length) {
 
 	Geometry square;
 
@@ -47,8 +47,9 @@ void  Scene::createSquare(double side_length) {
 	square.colors.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
 	square.colors.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
 
+	return square;
 }
-void Scene::createDiamond(double side_length) {
+Geometry& Scene::createDiamond(double side_length) {
 
 	Geometry diamond;
 
@@ -66,11 +67,12 @@ void Scene::createDiamond(double side_length) {
 	diamond.colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
 	diamond.colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
 	
-
+	return diamond;
 }
 
 
-void  Scene::diamondAndSquare(int level, vector<Geometry> &objects) {
+void Scene::diamondAndSquare(int level, vector<Geometry> &objects) {
+	objects.clear();
 	double side_length = 0.9;
 	double size = side_length / 2;
 
@@ -87,9 +89,11 @@ void  Scene::diamondAndSquare(int level, vector<Geometry> &objects) {
 		objects.push_back(diamond);
 		size = size/2;
 	}
+	
 }
 
 void Scene::createSpiral(int level , vector<Geometry> &objects) {
+	objects.clear();
 	vec3 startColor(0.0, 1.0, 0.5);
 	vec3 endColor(1.0, 0.0, 0.5);
 
