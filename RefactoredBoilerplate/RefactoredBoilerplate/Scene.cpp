@@ -30,7 +30,7 @@ extern int level;
 
 
 
-static Geometry createSquare(double side_length) {
+void  Scene::createSquare(double side_length) {
 
 	Geometry square;
 
@@ -47,9 +47,8 @@ static Geometry createSquare(double side_length) {
 	square.colors.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
 	square.colors.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
 
-	return square;
 }
-static Geometry createDiamond(double side_length) {
+void Scene::createDiamond(double side_length) {
 
 	Geometry diamond;
 
@@ -68,17 +67,16 @@ static Geometry createDiamond(double side_length) {
 	diamond.colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
 	
 
-	return diamond;
 }
 
 
-void  diamondAndSquare(int level, vector<Geometry> &objects) {
+void  Scene::diamondAndSquare(int level, vector<Geometry> &objects) {
 	double side_length = 0.9;
 	double size = side_length / 2;
 
 	for (int i = 1; i <= level; i++) {
-		Geometry square = createSquare(size);
-		Geometry diamond = createDiamond(size);
+		Geometry square = Geometry(Scene::createSquare(size));
+		Geometry diamond = Geometry(Scene::createDiamond(size));
 
 		RenderingEngine::assignBuffers(square);
 		RenderingEngine::assignBuffers(diamond);
@@ -91,7 +89,7 @@ void  diamondAndSquare(int level, vector<Geometry> &objects) {
 	}
 }
 
-void createSpiral(int level , vector<Geometry> &objects) {
+void Scene::createSpiral(int level , vector<Geometry> &objects) {
 	vec3 startColor(0.0, 1.0, 0.5);
 	vec3 endColor(1.0, 0.0, 0.5);
 
@@ -113,34 +111,6 @@ void createSpiral(int level , vector<Geometry> &objects) {
 	objects.push_back(spiral);
 }
 
-//scene and level selection
-void Scene::pick(int scene, int level)
-{
-	// if 0, then use the same scene
-	if (scene)
-		this->scene = scene;
-	this->level = level;
-	switch (this->scene)
-	{
-	case 1:
-		diamondAndSquare(1, objects);
-		break;
-
-	case 2:
-		createSpiral(2, objects);
-		break;
-	default:
-		break;
-	}
-	switch (this->level)
-	{
-	case 1:
-		// do something
-		break;
-	default:
-		break;
-	}
-}
 
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	//pick(scene, level);
