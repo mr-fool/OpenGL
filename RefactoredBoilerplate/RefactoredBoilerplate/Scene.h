@@ -23,8 +23,14 @@ public:
 
 	//Send geometry to the renderer
 	void displayScene();
-	void pick(int, int);
+	void createSquare(double side_length);
+	void createDiamond(double side_length);
 
+	void diamondAndSquare(int level, std::vector<Geometry> &objects);
+	void createSpiral(int level, std::vector<Geometry> &objects);
+
+	void iterationUp();
+	void iterationDown();
 private:
 	RenderingEngine * renderer;
 	int scene, level;
