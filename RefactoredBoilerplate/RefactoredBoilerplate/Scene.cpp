@@ -33,7 +33,7 @@ extern int level;
 static Geometry createSquare(double side_length) {
 
 	Geometry square;
-	
+
 	//Create the first iteration of square and diamond
 	square.verts.push_back(vec3(-side_length, -side_length, 1.0f));
 	square.verts.push_back(vec3(-side_length, side_length, 1.0f));
@@ -42,10 +42,10 @@ static Geometry createSquare(double side_length) {
 
 	// set initial dimensions of the square
 	square.drawMode = GL_LINE_LOOP;
-	square.colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-	square.colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-	square.colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-	square.colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
+	square.colors.push_back(glm::vec3(0.0f,1.0f,0.0f));
+	square.colors.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
+	square.colors.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
+	square.colors.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
 
 	return square;
 }
@@ -76,7 +76,7 @@ void  diamondAndSquare(int level, vector<Geometry> &objects) {
 	double side_length = 0.9;
 	double size = side_length / 2;
 
-	for (int i = 0; i < level; i++) {
+	for (int i = 1; i <= level; i++) {
 		Geometry square = createSquare(size);
 		Geometry diamond = createDiamond(size);
 
@@ -144,7 +144,7 @@ void Scene::pick(int scene, int level)
 
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	//pick(scene, level);
-	diamondAndSquare(2, objects);
+	diamondAndSquare(6, objects);
 
 }
 
