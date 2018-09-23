@@ -64,7 +64,7 @@ void Program::setupWindow() {
 		glfwTerminate();
 		return;
 	}
-	//So we can access this object on key callback
+	//So that we can access this object on key callbacks...
 	glfwSetWindowUserPointer(window, this);
 	//Set the custom function that tracks key presses
 	glfwSetKeyCallback(window, KeyCallback);
@@ -103,54 +103,25 @@ void ErrorCallback(int error, const char* description) {
 // --------------------------------------------------------------------------
 // GLFW callback functions
 int level = 1;
-int s = 1;
+int scene = 1;
 
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-
-	Program* program = (Program*)glfwGetWindowUserPointer(window);
-	Scene* scene = program->getScene();
 	//Key codes are often prefixed with GLFW_KEY_ and can be found on the GLFW website
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 
-	// use up and down key to increase/decrease number of drawn levels
+	Program* program = (Program*)glfwGetWindowUserPointer(window);
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
-		scene->pick(1, 1);
-		s = 1;
+		program->getScene()->diamondAndSquare(6, objects);
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-		scene->pick(2, 1);
-		s = 2;
+		//program->getScene()->changeToCircleScene();
 	}
-	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
-		scene->pick(3, 1);
-		s = 3;
+	if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
+		program->getScene()->iterationUp();
 	}
-	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
-		scene->pick(4, 1);
-		s = 4;
+	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+		program->getScene()->iterationDown();
 	}
-	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
-		scene->pick(5, 1);
-		s = 5;
-	}
-	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
-		scene->pick(6, 1);
-		s = 6;
-	}
-	if (key == GLFW_KEY_7 && action == GLFW_PRESS) {
-		scene->pick(7, 1);
-		s = 7;
-	}
-	if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-		scene->pick(0, level++);
-	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS && level > 0)
-		scene->pick(0, level--);
-	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS && s > 1)
-		scene->pick(0, level--);
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS && s < 7)
-		scene->pick(0, level++);
-}
-
