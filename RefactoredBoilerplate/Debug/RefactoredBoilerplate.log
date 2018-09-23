@@ -1,4 +1,0 @@
-﻿  Scene.cpp
-c:\users\hetzer\documents\boilerplatewindowsvisualstudio\refactoredboilerplate\refactoredboilerplate\scene.cpp(96): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\hetzer\documents\boilerplatewindowsvisualstudio\refactoredboilerplate\refactoredboilerplate\scene.cpp(97): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-  RefactoredBoilerplate.vcxproj -> C:\Users\hetzer\Documents\BoilerplateWindowsVisualStudio\RefactoredBoilerplate\Debug\RefactoredBoilerplate.exe
