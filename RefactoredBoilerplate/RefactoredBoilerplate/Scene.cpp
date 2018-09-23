@@ -156,8 +156,7 @@ void Scene::pick(int scene, int level)
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	//pick(scene, level);
 	diamondAndSquare(3, objects);
-	//diamondAndSquare(0.45, objects);
-	//diamondAndSquare(0.225, objects);
+
 }
 
 Scene::~Scene() {
