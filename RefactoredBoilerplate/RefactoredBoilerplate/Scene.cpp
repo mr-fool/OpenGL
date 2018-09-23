@@ -25,10 +25,9 @@
 using namespace std;
 using namespace glm;
 
-
-//use variables declared in Program.cpp
 extern int scene;
 extern int level;
+
 
 
 static Geometry createSquare(double side_length) {
@@ -108,19 +107,38 @@ void createSpiral(int level , vector<Geometry> &objects) {
 
 	objects.push_back(spiral);
 }
-Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
-	switch (scene) {
+
+//scene and level selection
+void Scene::pick(int scene, int level)
+{
+	// if 0, then use the same scene
+	if (scene)
+		this->scene = scene;
+	this->level = level;
+	switch (this->scene)
+	{
 	case 1:
-		//draw square and diamond
 		diamondAndSquare(0.9, objects);
 		break;
+
 	case 2:
-		//draw spiral
-		createSpiral(0.9, objects);
+		createSpiral(2, objects);
 		break;
 	default:
-		printf("you are out of scene");
+		break;
 	}
+	switch (this->level)
+	{
+	case 1:
+		// do something
+		break;
+	default:
+		break;
+	}
+}
+
+Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
+	pick(scene, level);
 
 }
 
