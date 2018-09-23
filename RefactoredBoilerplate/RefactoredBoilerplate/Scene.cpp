@@ -92,8 +92,8 @@ void  diamondAndSquare(int level, vector<Geometry> &objects) {
 }
 
 void createSpiral(int level , vector<Geometry> &objects) {
-	vec3 startColor(1.0, 0.0, 0.0);
-	vec3 endColor(1.0, 0.0, 0.0);
+	vec3 startColor(0.0, 1.0, 0.5);
+	vec3 endColor(1.0, 0.0, 0.5);
 
 	double side_length = level * 0.9;
 
@@ -144,8 +144,8 @@ void Scene::pick(int scene, int level)
 
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	//pick(scene, level);
-	diamondAndSquare(6, objects);
-
+	//diamondAndSquare(6, objects);
+	createSpiral(5, objects);
 }
 
 Scene::~Scene() {
