@@ -31,6 +31,8 @@ public:
 
 	void iterationUp();
 	void iterationDown();
+	std::vector<Geometry>& getObjects();
+	void createTriangle();
 private:
 	RenderingEngine * renderer;
 	int scene, level;
