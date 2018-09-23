@@ -25,7 +25,7 @@
 using namespace std;
 using namespace glm;
 
-extern int scene;
+extern int s;
 extern int level;
 
 
