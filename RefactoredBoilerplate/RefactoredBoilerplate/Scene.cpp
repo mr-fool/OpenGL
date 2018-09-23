@@ -74,20 +74,9 @@ static Geometry createDiamond(double side_length) {
 
 void  diamondAndSquare(int level, vector<Geometry> &objects) {
 	double side_length = 0.9;
-	Geometry square = createSquare(side_length);
-	Geometry diamond = createDiamond(side_length);
-
-	RenderingEngine::assignBuffers(square);
-	RenderingEngine::assignBuffers(diamond);
-
-	RenderingEngine::setBufferData(square);
-	RenderingEngine::setBufferData(diamond);
-
-	objects.push_back(square);
-	objects.push_back(diamond);
-
 	double size = side_length / 2;
-	for (int i = 1; i < level; i++) {
+
+	for (int i = 0; i < level; i++) {
 		Geometry square = createSquare(size);
 		Geometry diamond = createDiamond(size);
 
@@ -155,7 +144,7 @@ void Scene::pick(int scene, int level)
 
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	//pick(scene, level);
-	diamondAndSquare(3, objects);
+	diamondAndSquare(2, objects);
 
 }
 
