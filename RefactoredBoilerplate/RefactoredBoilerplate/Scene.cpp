@@ -24,8 +24,12 @@
 // vec2 and vec3 are part of the glm math library.
 using namespace std;
 using namespace glm;
-vector<vec2> points;
-vector<vec3> colors;
+
+
+//use variables declared in Program.cpp
+extern int scene;
+extern int level;
+
 
 static Geometry createSquare(double side_length) {
 
@@ -105,10 +109,19 @@ void createSpiral(int level , vector<Geometry> &objects) {
 	objects.push_back(spiral);
 }
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
-	diamondAndSquare(0.9,objects);
-	diamondAndSquare(0.45, objects);
-	//createSpiral(0.9, objects);
-	//createSpiral(2, objects);
+	switch (scene) {
+	case 1:
+		//draw square and diamond
+		diamondAndSquare(0.9, objects);
+		break;
+	case 2:
+		//draw spiral
+		createSpiral(0.9, objects);
+		break;
+	default:
+		printf("you are out of scene");
+	}
+
 }
 
 Scene::~Scene() {
