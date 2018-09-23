@@ -27,10 +27,8 @@ public:
 
 	//Prints system specs to the console
 	void QueryGLVersion();
+	Scene* getScene() { return scene; };
 
-	Scene* getScene() {
-		return scene;
-	}
 private:
 	GLFWwindow * window;
 	RenderingEngine* renderingEngine;
