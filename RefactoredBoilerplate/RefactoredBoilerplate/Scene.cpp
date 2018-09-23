@@ -111,7 +111,15 @@ void Scene::createSpiral(int level , vector<Geometry> &objects) {
 	objects.push_back(spiral);
 }
 
+void Scene::iterationUp()
+{
+	//do something
+}
 
+void Scene::iterationDown()
+{
+//do something
+}
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	//pick(scene, level);
 	//diamondAndSquare(6, objects);
