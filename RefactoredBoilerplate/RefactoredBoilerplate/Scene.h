@@ -23,8 +23,8 @@ public:
 
 	//Send geometry to the renderer
 	void displayScene();
-	Geometry& createSquare(double side_length);
-	Geometry& createDiamond(double side_length);
+	Geometry* createSquare(double side_length);
+	Geometry* createDiamond(double side_length);
 
 	void diamondAndSquare(int level, std::vector<Geometry> &objects);
 	void createSpiral(int level, std::vector<Geometry> &objects);
