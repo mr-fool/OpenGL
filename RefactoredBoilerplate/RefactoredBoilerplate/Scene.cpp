@@ -72,7 +72,8 @@ static Geometry createDiamond(double side_length) {
 }
 
 
-void  diamondAndSquare(double side_length, vector<Geometry> &objects) {
+void  diamondAndSquare(int level, vector<Geometry> &objects) {
+	double side_length = 0.9;
 	Geometry square = createSquare(side_length);
 	Geometry diamond = createDiamond(side_length);
 
@@ -84,6 +85,21 @@ void  diamondAndSquare(double side_length, vector<Geometry> &objects) {
 
 	objects.push_back(square);
 	objects.push_back(diamond);
+
+	double size = side_length / 2;
+	for (int i = 1; i < level; i++) {
+		Geometry square = createSquare(size);
+		Geometry diamond = createDiamond(size);
+
+		RenderingEngine::assignBuffers(square);
+		RenderingEngine::assignBuffers(diamond);
+
+		RenderingEngine::setBufferData(square);
+		RenderingEngine::setBufferData(diamond);
+		objects.push_back(square);
+		objects.push_back(diamond);
+		size = size/2;
+	}
 }
 
 void createSpiral(int level , vector<Geometry> &objects) {
@@ -118,7 +134,7 @@ void Scene::pick(int scene, int level)
 	switch (this->scene)
 	{
 	case 1:
-		diamondAndSquare(0.9, objects);
+		diamondAndSquare(1, objects);
 		break;
 
 	case 2:
@@ -138,8 +154,10 @@ void Scene::pick(int scene, int level)
 }
 
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
-	pick(scene, level);
-
+	//pick(scene, level);
+	diamondAndSquare(3, objects);
+	//diamondAndSquare(0.45, objects);
+	//diamondAndSquare(0.225, objects);
 }
 
 Scene::~Scene() {
