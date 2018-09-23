@@ -23,10 +23,11 @@ public:
 
 	//Send geometry to the renderer
 	void displayScene();
+	void pick(int, int);
 
 private:
 	RenderingEngine * renderer;
-
+	int scene, level;
 	//list of objects in the scene
 	std::vector<Geometry> objects;
 };
