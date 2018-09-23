@@ -102,10 +102,9 @@ void ErrorCallback(int error, const char* description) {
 
 // --------------------------------------------------------------------------
 // GLFW callback functions
-int level = 1;
+int diamondLevel = 1;
 int scene = 1;
-
-
+int spiralLevel = 2; //default
 
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -115,11 +114,13 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	}
 
 	Program* program = (Program*)glfwGetWindowUserPointer(window);
+	std::vector<Geometry>& objects = program->getScene()->getObjects();
+
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
-		program->getScene()->diamondAndSquare(6, objects);
+		program->getScene()->diamondAndSquare(diamondLevel, objects);
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-		program->getScene()->createSpiral(4, objects) ;
+		program->getScene()->createSpiral(spiralLevel, objects);
 	}
 	if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
 		program->getScene()->iterationUp();
@@ -127,3 +128,4 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
 		program->getScene()->iterationDown();
 	}
+}
