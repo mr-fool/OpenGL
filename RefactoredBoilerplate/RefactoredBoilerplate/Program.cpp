@@ -105,6 +105,8 @@ void ErrorCallback(int error, const char* description) {
 int level = 1;
 int scene = 1;
 
+
+
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	//Key codes are often prefixed with GLFW_KEY_ and can be found on the GLFW website
@@ -117,7 +119,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		program->getScene()->diamondAndSquare(6, objects);
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-		//program->getScene()->changeToCircleScene();
+		program->getScene()->createSpiral(4, objects) ;
 	}
 	if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
 		program->getScene()->iterationUp();
