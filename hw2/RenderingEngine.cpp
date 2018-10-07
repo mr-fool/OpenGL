@@ -27,7 +27,7 @@ RenderingEngine::~RenderingEngine() {
 
 void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	//Clears the screen to a dark grey background
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClearColor(0.2f,0.2f,0.2f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// bind our shader program and the vertex array object containing our
