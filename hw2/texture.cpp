@@ -74,13 +74,25 @@ bool InitializeTexture(MyTexture* texture, const char* filename, GLenum target)
 				break;
 		};
 		glTexImage2D(texture->target, 0, format, texture->width, texture->height, 0, format, GL_UNSIGNED_BYTE, data);
-
 		// Note: Only wrapping modes supported for GL_TEXTURE_RECTANGLE when defining
 		// GL_TEXTURE_WRAP are GL_CLAMP_TO_EDGE or GL_CLAMP_TO_BORDER
-		glTexParameteri(texture->target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(texture->target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glTexParameteri(texture->target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(texture->target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 		glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		
+		
+
+
+		/*glTexParameteri(texture->target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(texture->target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+
+		float color[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+		glTexParameterfv(texture->target, GL_TEXTURE_BORDER_COLOR, color);
+
 
 		// Clean up
 		glBindTexture(texture->target, 0);
