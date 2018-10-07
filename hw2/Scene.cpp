@@ -30,6 +30,7 @@ std::vector<Geometry>& Scene::getObjects()
 }
 
 void Scene::changeImage(const char* imageName, std::vector<Geometry> &objects) {
+
 	objects.clear();
 	rectangle.verts.clear();
 	rectangle.uvs.clear();
@@ -65,12 +66,28 @@ void Scene::changeImage(const char* imageName, std::vector<Geometry> &objects) {
 
 	rectangle.drawMode = GL_TRIANGLES;
 
+	int windowHeight = 1024;
+	int windowWidth = 1024;
+	int max_u;
+	int max_v;
+
+	//aspect ratio
+	if (texture.width / texture.height < windowWidth / windowHeight) {
+		max_u = windowWidth * texture.height / windowHeight;
+		max_v = texture.height;
+	}
+	else {
+		max_u = texture.width;
+		max_v = windowHeight * texture.width / windowWidth;
+	}
+
+
 	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2(float(texture.width), 0.f));
-	rectangle.uvs.push_back(glm::vec2(float(texture.width), float(texture.height)));
+	rectangle.uvs.push_back(glm::vec2(float(max_u), 0.f));
+	rectangle.uvs.push_back(glm::vec2(float(max_u), float(max_v)));
 	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2(float(texture.width), float(texture.height)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, float(texture.height)));
+	rectangle.uvs.push_back(glm::vec2(float(max_u), float(max_v)));
+	rectangle.uvs.push_back(glm::vec2(0.0f, float(max_v)));
 
 	//Construct vao and vbos for the triangle
 	RenderingEngine::assignBuffers(rectangle);
@@ -104,7 +121,7 @@ Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 		std::cout << "Texture creation failed" << std::endl;
 	}
 
-		// three vertex positions and assocated colours of a triangle
+	// three vertex positions and assocated colours of a triangle
 	rectangle.verts.push_back(glm::vec3( -0.9f, -0.9f, 1.0f));
 	rectangle.verts.push_back(glm::vec3( 0.9f,  -0.9f, 1.0f));
 	rectangle.verts.push_back(glm::vec3( 0.9f, 0.9f, 1.0f));
@@ -116,13 +133,37 @@ Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 
 
 	rectangle.drawMode = GL_TRIANGLES;
+	
 
-	rectangle.uvs.push_back(glm::vec2( 0.0f, 0.0f));
+	int windowHeight = 1024;
+	int windowWidth = 1024;
+	int max_u;
+	int max_v;
+
+	//aspect ratio
+	if (texture.width / texture.height < windowWidth / windowHeight) {
+		max_u = windowWidth * texture.height / windowHeight;
+		max_v = texture.height;
+	}
+	else {
+		max_u = texture.width;
+		max_v = windowHeight * texture.width / windowWidth;
+	}
+
+
+	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
+	rectangle.uvs.push_back(glm::vec2(float(max_u), 0.f));
+	rectangle.uvs.push_back(glm::vec2(float(max_u), float(max_v)));
+	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
+	rectangle.uvs.push_back(glm::vec2(float(max_u), float(max_v)));
+	rectangle.uvs.push_back(glm::vec2(0.0f, float(max_v)));
+
+	/*rectangle.uvs.push_back(glm::vec2( 0.0f, 0.0f));
 	rectangle.uvs.push_back(glm::vec2( float(texture.width), 0.f));
 	rectangle.uvs.push_back(glm::vec2( float(texture.width), float(texture.height)));
 	rectangle.uvs.push_back(glm::vec2( 0.0f, 0.0f));
 	rectangle.uvs.push_back(glm::vec2( float(texture.width), float(texture.height)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, float(texture.height)));
+	rectangle.uvs.push_back(glm::vec2(0.0f, float(texture.height)));*/
 
 	//Construct vao and vbos for the triangle
 	RenderingEngine::assignBuffers(rectangle);
