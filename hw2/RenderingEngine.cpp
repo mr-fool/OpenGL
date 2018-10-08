@@ -26,6 +26,7 @@ RenderingEngine::~RenderingEngine() {
 }
 
 void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
+
 	//Clears the screen to a dark grey background
 	glClearColor(0.2f,0.2f,0.2f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -34,7 +35,9 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shaderProgram);
 	GLint offsetLoc = glGetUniformLocation(shaderProgram, "offset");
-	glUniform2f(offsetLoc, offsetX, offsetY);
+	glUniform2f(offsetLoc, 0, 0);
+	GLint thetaUniformLocation = glGetUniformLocation(shaderProgram, "theta");
+	glUniform1f(thetaUniformLocation, theta);
 
 	for (const Geometry& g : objects) {
 		glBindVertexArray(g.vao);
