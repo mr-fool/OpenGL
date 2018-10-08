@@ -26,10 +26,11 @@ void main()
 	mat2 rMatrix;
 	rMatrix[0] = vec2(cos(theta), -sin(theta));
 	rMatrix[1] = vec2(sin(theta), cos(theta));
-	vec2 pos = vec2(x, y) * rMatrix;
 	float x = (VertexPosition.x + offset.x); 
 	float y = (VertexPosition.y + offset.y);
-	 gl_Position = vec4(pos, 0.0, 0.0);
+	vec2 pos = vec2(x, y) * rMatrix;
+	vec2 pos= rMatrix * VertexPosition.xy + offset;
+	gl_Position = vec4(pos, 0.0, 0.0);
 
     // assign output colour to be interpolated
     uv = VertexUV;
