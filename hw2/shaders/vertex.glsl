@@ -20,7 +20,7 @@ uniform float theta; // angle of rotation
 void main()
 {
     // assign vertex position without modification
-    gl_Position = vec4(VertexPosition.xy, 0.0, 1.0);
+    //gl_Position = vec4(VertexPosition.xy, 0.0, 1.0);
     
     //rotation
 	mat2 rMatrix;
