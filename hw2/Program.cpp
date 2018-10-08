@@ -27,6 +27,7 @@
 #include <string>     // std::string, std::to_string
 
 #include "global.h"
+#include <algorithm>
 
 Program::Program() {
 	setupWindow();
@@ -117,7 +118,7 @@ void ErrorCallback(int error, const char* description) {
 static int scene = 1;
 //rotation
 bool shiftModifier = false;
- float theta = 0.0;
+float theta = 0.0;
 
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 
@@ -132,6 +133,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
 		theta = 0;
+		scale = 1;
 		std::cout << "Key 1 is detected" << std::endl;
 		program->getScene()->changeImage("image1-mandrill.png", objects, theta);
 		scene = 1;
@@ -139,6 +141,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
 		theta = 0;
+		scale = 1;
 		std::cout << "Key 2 is detected" << std::endl;
 		program->getScene()->changeImage("image2-uclogo.png", objects, theta);
 		scene = 2;
@@ -146,24 +149,28 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
 		theta = 0;
+		scale = 1;
 		std::cout << "Key 3 is detected" << std::endl;
 		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
 		scene = 3;
 	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
 		theta = 0;
+		scale = 1;
 		std::cout << "Key 4 is detected" << std::endl;
 		program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
 		scene = 4;
 	}
 	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
 		theta = 0;
+		scale = 1;
 		std::cout << "Key 5 is detected" << std::endl;
 		program->getScene()->changeImage("image5-pattern.png", objects, theta);
 		scene = 5;
 	}
 	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
 		theta = 0;
+		scale = 1;
 		std::cout << "Key 6 is detected" << std::endl;
 		program->getScene()->changeImage("image6-bubble.png", objects, theta);
 		scene = 6;
@@ -187,6 +194,16 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		theta += M_PI / 6;
 		std::cout << "theta value " + std::to_string(theta) << std::endl;
 		
+	}
+	if (key == GLFW_KEY_UP && action == GLFW_PRESS && shiftModifier == true) {
+		scale +=0.01;
+		std::cout << "scale value " + std::to_string(scale) << std::endl;
+
+	}
+	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS && shiftModifier == true) {
+		scale = std::max(0.0, scale - 0.01);
+		std::cout << "scale value " + std::to_string(scale) << std::endl;
+
 	}
 
 }
