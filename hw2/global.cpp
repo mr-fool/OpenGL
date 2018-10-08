@@ -1,1 +1,1 @@
-extern float offsetX, offsetY, theta, angle;
+#include "global.h"
