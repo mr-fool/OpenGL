@@ -26,7 +26,7 @@
 
 #include <string>     // std::string, std::to_string
 
-#include<global.h>
+#include "global.h"
 
 Program::Program() {
 	setupWindow();
