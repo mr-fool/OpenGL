@@ -1,1 +1,1 @@
-#include "globals.h"
+extern float offsetX, offsetY, theta, angle;
