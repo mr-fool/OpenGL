@@ -33,6 +33,8 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shaderProgram);
+	GLint offsetLoc = glGetUniformLocation(shaderProgram, "offset");
+	glUniform2f(offsetLoc, offsetX, offsetY);
 
 	for (const Geometry& g : objects) {
 		glBindVertexArray(g.vao);
