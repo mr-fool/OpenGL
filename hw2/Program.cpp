@@ -26,6 +26,8 @@
 
 #include <string>     // std::string, std::to_string
 
+#include<global.h>
+
 Program::Program() {
 	setupWindow();
 }
@@ -115,7 +117,7 @@ void ErrorCallback(int error, const char* description) {
 static int scene = 1;
 //rotation
 bool shiftModifier = false;
-static float theta = 0.0;
+ float theta = 0.0;
 
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 
