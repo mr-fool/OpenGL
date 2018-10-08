@@ -29,7 +29,7 @@ void main()
 	float x = (VertexPosition.x + offset.x); 
 	float y = (VertexPosition.y + offset.y);
 	vec2 pos = vec2(x, y) * rMatrix;
-	vec2 pos= rMatrix * VertexPosition.xy + offset;
+	pos= rMatrix * VertexPosition.xy + offset;
 	gl_Position = vec4(pos, 0.0, 0.0);
 
     // assign output colour to be interpolated
