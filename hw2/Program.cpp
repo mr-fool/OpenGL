@@ -163,11 +163,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		scene = 6;
 	}
 
-	//For rotation
-	struct SHADER {
-		enum { LINE = 0, COUNT };		//LINE=0, COUNT=1
-	};
-	GLuint shader[SHADER::COUNT];
+
 
 	if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS) {
 		shiftModifier = true;
@@ -176,18 +172,65 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		shiftModifier = true;
 	}
 	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS && shiftModifier == true) {
-		theta += M_PI / 6;
-		std::cout << "theta value " + std::to_string(theta) << std::endl;
-		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
-		scene = 3;
-		//GLint thetaUniformLocation = glGetUniformLocation(shader[SHADER::LINE], "theta");
-		//glUniform1f(thetaUniformLocation, theta);
-	}
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS && shiftModifier == true) {
 		theta -= M_PI / 6;
 		std::cout << "theta value " + std::to_string(theta) << std::endl;
-		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
-		scene = 3;
+		switch (scene) {
+		case 1:
+			theta = 0;
+			program->getScene()->changeImage("image1-mandrill.png", objects, theta);
+			break;
+		case 2:
+			theta = 0;
+			program->getScene()->changeImage("image2-uclogo.png", objects, theta);
+			break;
+		case 3:
+			theta = 0;
+			program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
+			break;
+		case 4:
+			theta = 0;
+			program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
+			break;
+		case 5:
+			theta = 0;
+			program->getScene()->changeImage("image5-pattern.png", objects, theta);
+			break;
+		case 6:
+			theta = 0;
+			program->getScene()->changeImage("image6-bubble.png", objects, theta);
+			break;
+		}
+
+	}
+	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS && shiftModifier == true) {
+		theta += M_PI / 6;
+		std::cout << "theta value " + std::to_string(theta) << std::endl;
+		switch (scene) {
+		case 1:
+			theta = 0;
+			program->getScene()->changeImage("image1-mandrill.png", objects, theta);
+			break;
+		case 2:
+			theta = 0;
+			program->getScene()->changeImage("image2-uclogo.png", objects, theta);
+			break;
+		case 3:
+			theta = 0;
+			program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
+			break;
+		case 4:
+			theta = 0;
+			program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
+			break;
+		case 5:
+			theta = 0;
+			program->getScene()->changeImage("image5-pattern.png", objects, theta);
+			break;
+		case 6:
+			theta = 0;
+			program->getScene()->changeImage("image6-bubble.png", objects, theta);
+			break;
+		}
 	}
 
 }
