@@ -41,6 +41,10 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	GLint thetaUniformLocation = glGetUniformLocation(shaderProgram, "theta");
 	glUniform1f(thetaUniformLocation, theta);
 
+	//zoom
+	GLint scaleUniformLocation = glGetUniformLocation(shaderProgram, "scale");
+	glUniform1f(scaleUniformLocation, scale);
+
 	for (const Geometry& g : objects) {
 		glBindVertexArray(g.vao);
 		glDrawArrays(g.drawMode, 0, g.verts.size());
