@@ -14,11 +14,22 @@ layout(location = 1) in vec2 VertexUV;
 // output to be interpolated between vertices and passed to the fragment stage
 out vec2 uv;
 
+uniform vec2 offset; // x and y offset
+uniform float theta; // angle of rotation
+
 void main()
 {
     // assign vertex position without modification
     gl_Position = vec4(VertexPosition.xy, 0.0, 1.0);
+    
+    //rotation
+	mat2 rMatrix;
+	rMatrix[0] = vec2(cos(theta), -sin(theta));
+	rMatrix[1] = vec2(sin(theta), cos(theta));
 
+	float x = (VertexPosition.x + offset.x); 
+	float y = (VertexPosition.y + offset.y);
+	vec2 pos = vec2(x, y) * rMatrix;
     // assign output colour to be interpolated
     uv = VertexUV;
 }
