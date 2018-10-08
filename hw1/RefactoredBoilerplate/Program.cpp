@@ -17,16 +17,9 @@
 #include "RenderingEngine.h"
 #include "Scene.h"
 
-#include "texture.h"
-
-
-//Pi
-#define _USE_MATH_DEFINES
-#include <math.h>
-
-#include <string>     // std::string, std::to_string
-
-#include "global.h"
+//For debugging
+#include <string>
+#include <iostream>
 
 Program::Program() {
 	setupWindow();
@@ -67,24 +60,21 @@ void Program::setupWindow() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	int width = 1024;
-	int height = 1024;
-	window = glfwCreateWindow(width, height, "HW2", 0, 0);
+	int width = 720;
+	int height = 720;
+	window = glfwCreateWindow(width, height, "CPSC 453 HW1", 0, 0);
 	if (!window) {
 		std::cout << "Program failed to create GLFW window, TERMINATING" << std::endl;
 		glfwTerminate();
 		return;
 	}
-
 	//So that we can access this object on key callbacks...
 	glfwSetWindowUserPointer(window, this);
-
 	//Set the custom function that tracks key presses
 	glfwSetKeyCallback(window, KeyCallback);
 
 	//Bring the new window to the foreground (not strictly necessary but convenient)
 	glfwMakeContextCurrent(window);
-
 
 	//Intialize GLAD (finds appropriate OpenGL configuration for your system)
 	if (!gladLoadGL()) {
@@ -114,132 +104,90 @@ void ErrorCallback(int error, const char* description) {
 	std::cout << description << std::endl;
 }
 
+// --------------------------------------------------------------------------
+// GLFW callback functions
+static int level = 1;
 static int scene = 1;
-//rotation
-bool shiftModifier = false;
- float theta = 0.0;
-
+static int reloadLevel = 2000;
+// handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-
 	//Key codes are often prefixed with GLFW_KEY_ and can be found on the GLFW website
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 
-	MyTexture texture;
 	Program* program = (Program*)glfwGetWindowUserPointer(window);
 	std::vector<Geometry>& objects = program->getScene()->getObjects();
 
-	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
-		std::cout << "Key 1 is detected" << std::endl;
-		program->getScene()->changeImage("image1-mandrill.png", objects, theta);
-		scene = 1;
+	//for debugging
+	std::cout << level << std::endl;
+	std::cout << scene << std::endl;
+	std::cout << reloadLevel << std::endl;
 
+
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+		level = 1;
+		program->getScene()->diamondAndSquare(level, objects);
+		scene = 1;
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-		std::cout << "Key 2 is detected" << std::endl;
-		program->getScene()->changeImage("image2-uclogo.png", objects, theta);
+		level = 2;
+		program->getScene()->createSpiral(level, objects);
 		scene = 2;
 	}
-
 	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
-		std::cout << "Key 3 is detected" << std::endl;
-		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
+		level = 0;
+		program->getScene()->sierpinjski(level, objects);
 		scene = 3;
 	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
-		std::cout << "Key 4 is detected" << std::endl;
-		program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
+		program->getScene()->sierpinjskiReloaded(reloadLevel, objects);
 		scene = 4;
 	}
-	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
-		std::cout << "Key 5 is detected" << std::endl;
-		program->getScene()->changeImage("image5-pattern.png", objects, theta);
-		scene = 5;
-	}
-	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
-		std::cout << "Key 6 is detected" << std::endl;
-		program->getScene()->changeImage("image6-bubble.png", objects, theta);
-		scene = 6;
-	}
-
-
-
-	if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS) {
-		shiftModifier = true;
-	}
-	if (key == GLFW_KEY_RIGHT_SHIFT && action == GLFW_PRESS) {
-		shiftModifier = true;
-	}
-	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS && shiftModifier == true) {
-		theta -= M_PI / 6;
-		std::cout << "theta value " + std::to_string(theta) << std::endl;
+	if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
+		//program->getScene()->iterationUp();
+		level++;
+		//reloadLevel = reloadLevel + 500;
 		switch (scene) {
-		case 1:
-			theta = 0;
-			program->getScene()->changeImage("image1-mandrill.png", objects, theta);
-			break;
-		case 2:
-			theta = 0;
-			program->getScene()->changeImage("image2-uclogo.png", objects, theta);
-			break;
-		case 3:
-			theta = 0;
-			program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
-			break;
-		case 4:
-			theta = 0;
-			program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
-			break;
-		case 5:
-			theta = 0;
-			program->getScene()->changeImage("image5-pattern.png", objects, theta);
-			break;
-		case 6:
-			theta = 0;
-			program->getScene()->changeImage("image6-bubble.png", objects, theta);
-			break;
-		}
-
-	}
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS && shiftModifier == true) {
-		theta += M_PI / 6;
-		std::cout << "theta value " + std::to_string(theta) << std::endl;
-		switch (scene) {
-		case 1:
-			theta = 0;
-			program->getScene()->changeImage("image1-mandrill.png", objects, theta);
-			break;
-		case 2:
-			theta = 0;
-			program->getScene()->changeImage("image2-uclogo.png", objects, theta);
-			break;
-		case 3:
-			theta = 0;
-			program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
-			break;
-		case 4:
-			theta = 0;
-			program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
-			break;
-		case 5:
-			theta = 0;
-			program->getScene()->changeImage("image5-pattern.png", objects, theta);
-			break;
-		case 6:
-			theta = 0;
-			program->getScene()->changeImage("image6-bubble.png", objects, theta);
-			break;
+			case 1:
+				program->getScene()->diamondAndSquare(level, objects);
+				break;
+			case 2:
+				program->getScene()->createSpiral(level, objects);
+				break;
+			case 3:
+				program->getScene()->sierpinjski(level, objects);
+				break;
+			/*case 4: //for debugging
+				program->getScene()->sierpinjskiReloaded(reloadLevel, objects);
+				break;*/
 		}
 	}
-
-}
-
-void mouse_callback(GLFWwindow* window, int button, int action, int mods){
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-	{
-		return;
+	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS && level > 0) {
+		//program->getScene()->iterationDown();
+		//reloadLevel = reloadLevel - 500;
+		level--;
+		switch (scene) {
+		case 1:
+			program->getScene()->diamondAndSquare(level, objects);
+			break;
+		case 2:
+			program->getScene()->createSpiral(level, objects);
+			break;
+		/*case 3:
+			program->getScene()->sierpinjski(reloadLevel, objects);
+			break;*/
+		}
 	}
-	//mouse drag
-}
+	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS && reloadLevel > 0) {
+		//program->getScene()->iterationDown();
+		reloadLevel = reloadLevel - 500;
+		program->getScene()->sierpinjskiReloaded(reloadLevel, objects);
+	}
 
+	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+		//program->getScene()->iterationDown();
+		reloadLevel = reloadLevel + 500;
+		program->getScene()->sierpinjskiReloaded(reloadLevel, objects);
+	}
+}
