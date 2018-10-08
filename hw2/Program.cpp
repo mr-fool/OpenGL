@@ -19,6 +19,13 @@
 
 #include "texture.h"
 
+
+//Pi
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+#include <string>     // std::string, std::to_string
+
 Program::Program() {
 	setupWindow();
 }
@@ -106,6 +113,9 @@ void ErrorCallback(int error, const char* description) {
 }
 
 static int scene = 1;
+//rotation
+bool shiftModifier = false;
+static float theta = 0.0;
 
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 
@@ -120,21 +130,64 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
 		std::cout << "Key 1 is detected" << std::endl;
-		program->getScene()->changeImage("image1-mandrill.png", objects);
+		program->getScene()->changeImage("image1-mandrill.png", objects, theta);
 		scene = 1;
 
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
 		std::cout << "Key 2 is detected" << std::endl;
-		program->getScene()->changeImage("image2-uclogo.png", objects);
+		program->getScene()->changeImage("image2-uclogo.png", objects, theta);
 		scene = 2;
 	}
 
 	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
 		std::cout << "Key 3 is detected" << std::endl;
-		program->getScene()->changeImage("image3-aerial.jpg", objects);
+		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
 		scene = 3;
 	}
+	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
+		std::cout << "Key 4 is detected" << std::endl;
+		program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
+		scene = 4;
+	}
+	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
+		std::cout << "Key 5 is detected" << std::endl;
+		program->getScene()->changeImage("image5-pattern.png", objects, theta);
+		scene = 5;
+	}
+	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
+		std::cout << "Key 6 is detected" << std::endl;
+		program->getScene()->changeImage("image6-bubble.png", objects, theta);
+		scene = 6;
+	}
+
+	//For rotation
+	struct SHADER {
+		enum { LINE = 0, COUNT };		//LINE=0, COUNT=1
+	};
+	GLuint shader[SHADER::COUNT];
+
+	if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS) {
+		shiftModifier = true;
+	}
+	if (key == GLFW_KEY_RIGHT_SHIFT && action == GLFW_PRESS) {
+		shiftModifier = true;
+	}
+	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS && shiftModifier == true) {
+		theta += M_PI / 6;
+		std::cout << "theta value " + std::to_string(theta) << std::endl;
+		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
+		scene = 3;
+		//GLint thetaUniformLocation = glGetUniformLocation(shader[SHADER::LINE], "theta");
+		//glUniform1f(thetaUniformLocation, theta);
+	}
+	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS && shiftModifier == true) {
+		theta -= M_PI / 6;
+		std::cout << "theta value " + std::to_string(theta) << std::endl;
+		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
+		scene = 3;
+	}
+
 }
 
 void mouse_callback(GLFWwindow* window, int button, int action, int mods){
