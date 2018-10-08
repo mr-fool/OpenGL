@@ -131,33 +131,39 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	std::vector<Geometry>& objects = program->getScene()->getObjects();
 
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+		theta = 0;
 		std::cout << "Key 1 is detected" << std::endl;
 		program->getScene()->changeImage("image1-mandrill.png", objects, theta);
 		scene = 1;
 
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
+		theta = 0;
 		std::cout << "Key 2 is detected" << std::endl;
 		program->getScene()->changeImage("image2-uclogo.png", objects, theta);
 		scene = 2;
 	}
 
 	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
+		theta = 0;
 		std::cout << "Key 3 is detected" << std::endl;
 		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
 		scene = 3;
 	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
+		theta = 0;
 		std::cout << "Key 4 is detected" << std::endl;
 		program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
 		scene = 4;
 	}
 	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
+		theta = 0;
 		std::cout << "Key 5 is detected" << std::endl;
 		program->getScene()->changeImage("image5-pattern.png", objects, theta);
 		scene = 5;
 	}
 	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
+		theta = 0;
 		std::cout << "Key 6 is detected" << std::endl;
 		program->getScene()->changeImage("image6-bubble.png", objects, theta);
 		scene = 6;
@@ -174,63 +180,13 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS && shiftModifier == true) {
 		theta -= M_PI / 6;
 		std::cout << "theta value " + std::to_string(theta) << std::endl;
-		switch (scene) {
-		case 1:
-			theta = 0;
-			program->getScene()->changeImage("image1-mandrill.png", objects, theta);
-			break;
-		case 2:
-			theta = 0;
-			program->getScene()->changeImage("image2-uclogo.png", objects, theta);
-			break;
-		case 3:
-			theta = 0;
-			program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
-			break;
-		case 4:
-			theta = 0;
-			program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
-			break;
-		case 5:
-			theta = 0;
-			program->getScene()->changeImage("image5-pattern.png", objects, theta);
-			break;
-		case 6:
-			theta = 0;
-			program->getScene()->changeImage("image6-bubble.png", objects, theta);
-			break;
-		}
+		
 
 	}
 	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS && shiftModifier == true) {
 		theta += M_PI / 6;
 		std::cout << "theta value " + std::to_string(theta) << std::endl;
-		switch (scene) {
-		case 1:
-			theta = 0;
-			program->getScene()->changeImage("image1-mandrill.png", objects, theta);
-			break;
-		case 2:
-			theta = 0;
-			program->getScene()->changeImage("image2-uclogo.png", objects, theta);
-			break;
-		case 3:
-			theta = 0;
-			program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
-			break;
-		case 4:
-			theta = 0;
-			program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
-			break;
-		case 5:
-			theta = 0;
-			program->getScene()->changeImage("image5-pattern.png", objects, theta);
-			break;
-		case 6:
-			theta = 0;
-			program->getScene()->changeImage("image6-bubble.png", objects, theta);
-			break;
-		}
+		
 	}
 
 }
