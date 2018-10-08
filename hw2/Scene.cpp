@@ -70,24 +70,34 @@ void Scene::changeImage(const char* imageName, std::vector<Geometry> &objects) {
 	int windowWidth = 1024;
 	int max_u;
 	int max_v;
+	int offsetU;
+	int offsetV;
 
 	//aspect ratio
 	if (texture.width / texture.height < windowWidth / windowHeight) {
 		max_u = windowWidth * texture.height / windowHeight;
 		max_v = texture.height;
+		offsetU = 0.5*(texture.width - max_u);
+		offsetV = 0;
+		max_u += offsetU;
+		max_v += offsetV;
 	}
 	else {
 		max_u = texture.width;
 		max_v = windowHeight * texture.width / windowWidth;
+		offsetU = 0;
+		offsetV = 0.5 *(texture.height - max_v);
+		max_u += offsetU;
+		max_v += offsetV;
 	}
 
 
-	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2(float(max_u), 0.f));
+	rectangle.uvs.push_back(glm::vec2(float(offsetU), float(offsetV)));
+	rectangle.uvs.push_back(glm::vec2(float(max_u), float(offsetV)));
 	rectangle.uvs.push_back(glm::vec2(float(max_u), float(max_v)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
+	rectangle.uvs.push_back(glm::vec2(float(offsetU), float(offsetV)));
 	rectangle.uvs.push_back(glm::vec2(float(max_u), float(max_v)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, float(max_v)));
+	rectangle.uvs.push_back(glm::vec2(float(offsetU), float(max_v)));
 
 	//Construct vao and vbos for the triangle
 	RenderingEngine::assignBuffers(rectangle);
@@ -122,6 +132,9 @@ Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	}
 
 	// three vertex positions and assocated colours of a triangle
+	
+
+	
 	rectangle.verts.push_back(glm::vec3( -0.9f, -0.9f, 1.0f));
 	rectangle.verts.push_back(glm::vec3( 0.9f,  -0.9f, 1.0f));
 	rectangle.verts.push_back(glm::vec3( 0.9f, 0.9f, 1.0f));
@@ -139,24 +152,33 @@ Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	int windowWidth = 1024;
 	int max_u;
 	int max_v;
-
+	int offsetU;
+	int offsetV;
 	//aspect ratio
 	if (texture.width / texture.height < windowWidth / windowHeight) {
 		max_u = windowWidth * texture.height / windowHeight;
 		max_v = texture.height;
+		offsetU = 0.5*(texture.width - max_u);
+		offsetV = 0;
+		max_u += offsetU;
+		max_v += offsetV;
 	}
 	else {
 		max_u = texture.width;
 		max_v = windowHeight * texture.width / windowWidth;
+		offsetU = 0;
+		offsetV = 0.5 *(texture.height - max_v);
+		max_u += offsetU;
+		max_v += offsetV;
 	}
 
 
-	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2(float(max_u), 0.f));
+	rectangle.uvs.push_back(glm::vec2(float(offsetU), float(offsetV)));
+	rectangle.uvs.push_back(glm::vec2(float(max_u), float(offsetV)));
 	rectangle.uvs.push_back(glm::vec2(float(max_u), float(max_v)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
+	rectangle.uvs.push_back(glm::vec2(float(offsetU), float(offsetV)));
 	rectangle.uvs.push_back(glm::vec2(float(max_u), float(max_v)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, float(max_v)));
+	rectangle.uvs.push_back(glm::vec2(float(offsetU), float(max_v)));
 
 	/*rectangle.uvs.push_back(glm::vec2( 0.0f, 0.0f));
 	rectangle.uvs.push_back(glm::vec2( float(texture.width), 0.f));
