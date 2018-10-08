@@ -90,7 +90,7 @@ bool InitializeTexture(MyTexture* texture, const char* filename, GLenum target)
 		glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
 
-		float color[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+		float color[] = { 0.2f, 0.2f, 0.2f, 0.0f };
 		glTexParameterfv(texture->target, GL_TEXTURE_BORDER_COLOR, color);
 
 
