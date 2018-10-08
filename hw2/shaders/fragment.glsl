@@ -18,10 +18,5 @@ void main(void)
 {
     // write colour output without modification
     //FragmentColour = vec4(Colour, 0);
-	//FragmentColour = texture(imageTexture, uv);
-	/*if (FragmentColour.a < 0.8) {
-		discard;
-	}*/
-	vec3 col = mix(vec3(0.2), texture(imageTexture, uv).xyz,  vec3(texture(imageTexture, uv).a));
-	FragmentColour = vec4(col, 1.0);
+	FragmentColour = texture(imageTexture, uv);
 }
