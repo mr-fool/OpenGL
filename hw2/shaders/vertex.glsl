@@ -26,8 +26,8 @@ void main()
 	mat2 rMatrix;
 	rMatrix[0] = vec2(cos(theta), -sin(theta));
 	rMatrix[1] = vec2(sin(theta), cos(theta));
-	float x = (VertexPosition.x + offset.x); 
-	float y = (VertexPosition.y + offset.y);
+	//float x = (VertexPosition.x + offset.x); 
+	//float y = (VertexPosition.y + offset.y);
 	vec2 pos= rMatrix * VertexPosition.xy + offset;
 	gl_Position = vec4(pos, 0.0, 0.0);
 
