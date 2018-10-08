@@ -16,7 +16,7 @@ out vec2 uv;
 
 uniform vec2 offset; // x and y offset
 uniform float theta; // angle of rotation
-
+uniform float scale; 
 void main()
 {
     // assign vertex position without modification
@@ -28,7 +28,7 @@ void main()
 	rMatrix[1] = vec2(sin(theta), cos(theta));
 	//float x = (VertexPosition.x + offset.x); 
 	//float y = (VertexPosition.y + offset.y);
-	vec2 pos= rMatrix * VertexPosition.xy + offset;
+	vec2 pos= rMatrix * VertexPosition.xy *scale + offset;
 	gl_Position = vec4(pos, 1.0, 1.0);
 
     // assign output colour to be interpolated
