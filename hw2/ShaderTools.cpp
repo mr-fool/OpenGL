@@ -39,7 +39,7 @@ GLuint ShaderTools::CompileShader(GLenum shaderType, const std::string &source) 
 	GLuint shaderObject = glCreateShader(shaderType);
 
 	std::fstream file("error.txt");
-
+	file << "test" << std::endl;
 
 	// try compiling the source as a shader of the given type
 	const GLchar *source_ptr = source.c_str();
