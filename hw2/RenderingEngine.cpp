@@ -12,7 +12,7 @@
 //cpp file purposely included here because it just contains some global functions
 #include "ShaderTools.h"
 
-#include<global.h>
+#include "global.h"
 
 RenderingEngine::RenderingEngine() {
 	shaderProgram = ShaderTools::InitializeShaders();
