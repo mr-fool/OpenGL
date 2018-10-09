@@ -89,6 +89,7 @@ void main(void)
 	uSharp[1] = vec3(-1,  5, -1);
 	uSharp[2] = vec3( 0, -1,  0);
 
+	color = texture(imageTexture, uv);
 	if (edgeState == 1) { //no effect
 		FragmentColour = vec4(col, 1.0);
 	}
