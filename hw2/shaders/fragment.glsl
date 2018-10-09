@@ -22,11 +22,11 @@ uniform int edgeState;
 
 void main(void)
 {
-	vec4 color;
 	float lum;
 
 	vec3 col = mix(vec3(0.2), texture(imageTexture, uv).xyz,  vec3(texture(imageTexture, uv).a)); 
-	
+	vec4 color = vec4(col,1.0);
+
     // write colour output without modification
     //FragmentColour = vec4(Colour, 0);
 	if (colorState == 1) { // normal color
