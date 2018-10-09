@@ -6,7 +6,7 @@
 // ==========================================================================
 #version 410
 
-#define P(X,Y) texture(iChannel0, (fragCoord+vec2(X,Y))*scale).xyz
+#define P(X,Y) texture(imageTexture, (uv+vec2(X,Y))).xyz
 
 // interpolated colour received from vertex stage
 in vec2 uv;
