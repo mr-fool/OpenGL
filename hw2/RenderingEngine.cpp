@@ -39,17 +39,15 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	//partV 
 	glActiveTexture(GL_TEXTURE0 + 1);
 	//Bind the texture to GL_TEXTURE0
-	glBindTexture(GL_TEXTURE_RECTANGLE, texture1ID);
 	GLint uniformLocation1 = glGetUniformLocation(shaderProgram, "imageTexture2");
-	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_RECTANGLE, texture1ID);
     //Load texture unit number into uniform
 
     glUniform1i(uniformLocation1, 1);
 	glActiveTexture(GL_TEXTURE0);
 	//Bind the texture to GL_TEXTURE0
-	glBindTexture(GL_TEXTURE_RECTANGLE, textureID);
 	GLint uniformLocation0 = glGetUniformLocation(shaderProgram, "imageTexture");
-	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_RECTANGLE, textureID);
 	//Load texture unit number into uniform
 
 	glUniform1i(uniformLocation0, 0);
