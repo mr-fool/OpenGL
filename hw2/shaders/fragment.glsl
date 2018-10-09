@@ -122,5 +122,6 @@ void main(void)
 		color.a = 0.3;
 		FragmentColour = color;
 	}*/
-	FragmentColour = vec4(P(0,0),1.0);
+	col = apply3x3Kernel(dx, uv);
+	FragmentColour = vec4(abs(col),1.0);
 }
