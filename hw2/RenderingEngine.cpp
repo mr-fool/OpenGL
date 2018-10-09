@@ -35,15 +35,15 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(shaderProgram);
-	//partV 
+
+	//Part V
 	glActiveTexture(GL_TEXTURE0 + 1);
 	//Bind the texture to GL_TEXTURE0
 	GLint uniformLocation1 = glGetUniformLocation(shaderProgram, "imageTexture2");
 	glBindTexture(GL_TEXTURE_RECTANGLE, texture1ID);
-    //Load texture unit number into uniform
+	//Load texture unit number into uniform
 
-    glUniform1i(uniformLocation1, 1);
+	glUniform1i(uniformLocation1, 1);
 	glActiveTexture(GL_TEXTURE0);
 	//Bind the texture to GL_TEXTURE0
 	GLint uniformLocation0 = glGetUniformLocation(shaderProgram, "imageTexture");
@@ -51,6 +51,8 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	//Load texture unit number into uniform
 
 	glUniform1i(uniformLocation0, 0);
+	glUseProgram(shaderProgram);
+	
 
 	GLint offsetLoc = glGetUniformLocation(shaderProgram, "offset");
 	glUniform2f(offsetLoc, offsetX, offsetY);
