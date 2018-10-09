@@ -29,7 +29,20 @@ vec3 apply3x3Kernel(float kernel[9], vec2 uv)
         kernel[3] * P(-1,0) + kernel[4] * P(0,0) + kernel[5] * P(1,0) +
         kernel[6] * P(-1,-1) + kernel[7] * P(0,-1) + kernel[8] * P(1,-1);
 }
-
+float dx[9] = float[9]( 1.0, 0.0, -1.0,
+    					2.0, 0.0, -2.0,
+    					1.0, 0.0, -1.0 
+    					);
+    
+float dy[9] = float[9]( -1.0, -2.0, -1.0,
+    					0.0, 0.0, 0.0,
+    					1.0, 2.0, 1.0 
+    					);
+    
+float um[9] = float[9]( 0.0, -1.0, 0.0,
+    					-1.0, 5.0, -1.0,
+    					0.0, -1.0, 0.0 
+    					);
 //Gaussian Blur
 float gBlur(int x, int y, float o) {
 	return (1/(2*3.141592653589793238462643383*o*o))*pow(2.718281828459045235360287471, -((x*x)+(y*y))/(2*o*o)); //cant use M_PI import for some reason
