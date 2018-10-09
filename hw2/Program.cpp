@@ -137,7 +137,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 1 is detected" << std::endl;
-		program->getScene()->changeImage("image1-mandrill.png", "background1-asphalt.jpg", objects, theta);
+		program->getScene()->changeImage("image1-mandrill.png", "image1-mandrill.png", objects, theta);
 		scene = 1;
 
 	}
@@ -148,7 +148,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 2 is detected" << std::endl;
-		program->getScene()->changeImage("image2-uclogo.png", "background1-asphalt.jpg", objects, theta);
+		program->getScene()->changeImage("image2-uclogo.png", "image1-mandrill.png", objects, theta);
 		scene = 2;
 	}
 
@@ -159,7 +159,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 3 is detected" << std::endl;
-		program->getScene()->changeImage("image3-aerial.jpg", "background1-asphalt.jpg", objects, theta);
+		program->getScene()->changeImage("image3-aerial.jpg", "image1-mandrill.png", objects, theta);
 		scene = 3;
 	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
@@ -169,7 +169,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 4 is detected" << std::endl;
-		program->getScene()->changeImage("image4-thirsk.jpg", "background1-asphalt.jpg", objects, theta);
+		program->getScene()->changeImage("image4-thirsk.jpg", "image1-mandrill.png", objects, theta);
 		scene = 4;
 	}
 	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
@@ -179,7 +179,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 5 is detected" << std::endl;
-		program->getScene()->changeImage("image5-pattern.png", "background1-asphalt.jpg", objects, theta);
+		program->getScene()->changeImage("image5-pattern.png", "image1-mandrill.png", objects, theta);
 		scene = 5;
 	}
 	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
@@ -189,7 +189,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 6 is detected" << std::endl;
-		program->getScene()->changeImage("image6-bubble.png", "background1-asphalt.jpg", objects, theta);
+		program->getScene()->changeImage("image6-bubble.png", "image1-mandrill.png", objects, theta);
 		scene = 6;
 	}
 	if (key == GLFW_KEY_7 && action == GLFW_PRESS) {
@@ -199,7 +199,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 7 is detected" << std::endl;
-		program->getScene()->changeImage("image7.jpg", "background1-asphalt.jpg", objects, theta);
+		program->getScene()->changeImage("image7.jpg", "image1-mandrill.png", objects, theta);
 		scene = 7;
 	}
 	if (key == GLFW_KEY_8 && action == GLFW_PRESS) {
@@ -209,7 +209,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 8 is detected" << std::endl;
-		program->getScene()->changeImage("image8.jpg", "background1 - asphalt.jpg",  objects, theta);
+		program->getScene()->changeImage("image8.jpg", "image1-mandrill.png",  objects, theta);
 		scene = 8;
 	}
 
