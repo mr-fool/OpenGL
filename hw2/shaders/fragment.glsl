@@ -7,7 +7,7 @@
 #version 410
 
 //#define P(X,Y) texture(imageTexture, (uv+vec2(X,Y))).xyz
-#define P(X,Y) mix(vec3(0.2), texture(imageTexture, (uv+vec2(X,Y))).xyz, vec3(texture(imageTexture, uv+vec2(X,Y)).a)
+#define P(X,Y) mix(vec3(0.2), texture(imageTexture, (uv+vec2(X,Y))).xyz, vec3(texture(imageTexture, uv+vec2(X,Y)).a) )
 
 // interpolated colour received from vertex stage
 in vec2 uv;
@@ -22,6 +22,13 @@ uniform int colorState;
 
 //sobel
 uniform int edgeState;
+
+vec3 apply3x3Kernel(float kernel[9], vec2 uv)
+{
+    return kernel[0] * P(-1,1) + kernel[1] * P(0,1) + kernel[2] * P(1,1) +
+        kernel[3] * P(-1,0) + kernel[4] * P(0,0) + kernel[5] * P(1,0) +
+        kernel[6] * P(-1,-1) + kernel[7] * P(0,-1) + kernel[8] * P(1,-1);
+}
 
 //Gaussian Blur
 float gBlur(int x, int y, float o) {
