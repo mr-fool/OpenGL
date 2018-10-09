@@ -118,8 +118,7 @@ void ErrorCallback(int error, const char* description) {
 static int scene = 1;
 //rotation
 bool shiftModifier = false;
-float theta = 0.0;
-
+//float theta = 0.0;
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 
 	//Key codes are often prefixed with GLFW_KEY_ and can be found on the GLFW website
@@ -134,59 +133,83 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
 		theta = 0;
 		scale = 1;
+		offsetX = 0.0;
+		offsetY = 0.0;
+		colorState = 1;
 		std::cout << "Key 1 is detected" << std::endl;
-		program->getScene()->changeImage("image1-mandrill.png", objects, theta);
+		program->getScene()->changeImage("image1-mandrill.png", "background1 - asphalt.jpg", objects, theta);
 		scene = 1;
 
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
 		theta = 0;
 		scale = 1;
+		offsetX = 0.0;
+		offsetY = 0.0;
+		colorState = 1;
 		std::cout << "Key 2 is detected" << std::endl;
-		program->getScene()->changeImage("image2-uclogo.png", objects, theta);
+		program->getScene()->changeImage("image2-uclogo.png", "background1 - asphalt.jpg", objects, theta);
 		scene = 2;
 	}
 
 	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
 		theta = 0;
 		scale = 1;
+		offsetX = 0.0;
+		offsetY = 0.0;
+		colorState = 1;
 		std::cout << "Key 3 is detected" << std::endl;
-		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
+		program->getScene()->changeImage("image3-aerial.jpg", "background1 - asphalt.jpg", objects, theta);
 		scene = 3;
 	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
 		theta = 0;
 		scale = 1;
+		offsetX = 0.0;
+		offsetY = 0.0;
+		colorState = 1;
 		std::cout << "Key 4 is detected" << std::endl;
-		program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
+		program->getScene()->changeImage("image4-thirsk.jpg", "background1 - asphalt.jpg", objects, theta);
 		scene = 4;
 	}
 	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
 		theta = 0;
 		scale = 1;
+		offsetX = 0.0;
+		offsetY = 0.0;
+		colorState = 1;
 		std::cout << "Key 5 is detected" << std::endl;
-		program->getScene()->changeImage("image5-pattern.png", objects, theta);
+		program->getScene()->changeImage("image5-pattern.png", "background1 - asphalt.jpg", objects, theta);
 		scene = 5;
 	}
 	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
 		theta = 0;
 		scale = 1;
+		offsetX = 0.0;
+		offsetY = 0.0;
+		colorState = 1;
 		std::cout << "Key 6 is detected" << std::endl;
-		program->getScene()->changeImage("image6-bubble.png", objects, theta);
+		program->getScene()->changeImage("image6-bubble.png", "background1 - asphalt.jpg", objects, theta);
 		scene = 6;
 	}
 	if (key == GLFW_KEY_7 && action == GLFW_PRESS) {
 		theta = 0;
 		scale = 1;
+		offsetX = 0.0;
+		offsetY = 0.0;
+		colorState = 1;
 		std::cout << "Key 7 is detected" << std::endl;
-		program->getScene()->changeImage("image7.jpg", objects, theta);
+		program->getScene()->changeImage("image7.jpg", "background1 - asphalt.jpg", objects, theta);
 		scene = 7;
 	}
 	if (key == GLFW_KEY_8 && action == GLFW_PRESS) {
 		theta = 0;
 		scale = 1;
+		offsetX = 0.0;
+		offsetY = 0.0;
+		colorState = 1;
 		std::cout << "Key 8 is detected" << std::endl;
-		program->getScene()->changeImage("image8.jpg", objects, theta);
+		program->getScene()->changeImage("image8.jpg", "background1 - asphalt.jpg",  objects, theta);
 		scene = 8;
 	}
 
@@ -249,17 +272,48 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	//Edge effect
 	if (key == GLFW_KEY_S && action == GLFW_PRESS) {
 		std::cout << "Key S is detected" << std::endl;
-		colorState = 7; // vertical sobel
+		colorState = 7; // horizontal sobel
 	}
 	if (key == GLFW_KEY_D && action == GLFW_PRESS) {
 		std::cout << "Key D is detected" << std::endl;
-		colorState = 8; // horizontal sobel
+		colorState = 8; // vertical sobel
 	}
 	if (key == GLFW_KEY_F && action == GLFW_PRESS) {
 		std::cout << "Key F is detected" << std::endl;
-		colorState = 9; // horizontal sobel
+		colorState = 9; // unsharp sobel
 	}
 
+	//Gaussian Blur
+	if (key == GLFW_KEY_G && action == GLFW_PRESS) {
+		std::cout << "Key G is detected" << std::endl;
+		colorState = 10; // 3x3
+	}
+	if (key == GLFW_KEY_H && action == GLFW_PRESS) {
+		std::cout << "Key H is detected" << std::endl;
+		colorState = 11; // 5x5
+	}
+	if (key == GLFW_KEY_J && action == GLFW_PRESS) {
+		std::cout << "Key J is detected" << std::endl;
+		colorState = 12; // 7x7
+	}
+
+	//offset
+	if (key == GLFW_KEY_N && action == GLFW_PRESS) {
+		std::cout << "Key N is detected" << std::endl;
+		offsetX -= 0.01;
+	}
+	if (key == GLFW_KEY_V && action == GLFW_PRESS) {
+		std::cout << "Key V is detected" << std::endl;
+		offsetX += 0.01;
+	}
+	if (key == GLFW_KEY_M && action == GLFW_PRESS) {
+		std::cout << "Key M is detected" << std::endl;
+		offsetY += 0.01;
+	}
+	if (key == GLFW_KEY_B && action == GLFW_PRESS) {
+		std::cout << "Key B is detected" << std::endl;
+		offsetY -= 0.01;
+	}
 }
 
 void mouse_callback(GLFWwindow* window, int button, int action, int mods){
