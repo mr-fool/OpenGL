@@ -27,7 +27,7 @@ public:
 	void displayScene();
 
 	std::vector<Geometry>& getObjects();
-	void changeImage(const char* imageName, std::vector<Geometry> &objects);
+	void changeImage(const char* imageName, const char* imageName2, std::vector<Geometry> &objects, float theta);
 private:
 	RenderingEngine* renderer;
 
