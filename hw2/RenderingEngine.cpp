@@ -52,7 +52,7 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 
 	//Load texture unit number into uniform
 
-	glUniform1i(uniformLocation0, 1);
+	glUniform1i(uniformLocation0, 0);
 
 	GLint offsetLoc = glGetUniformLocation(shaderProgram, "offset");
 	glUniform2f(offsetLoc, offsetX, offsetY);
