@@ -6,6 +6,7 @@
 // ==========================================================================
 #version 410
 
+#define P(X,Y) texture(iChannel0, (fragCoord+vec2(X,Y))*scale).xyz
 
 // interpolated colour received from vertex stage
 in vec2 uv;
@@ -31,7 +32,7 @@ void main(void)
 	float lum;
 
 	vec3 col = mix(vec3(0.2), texture(imageTexture, uv).xyz,  vec3(texture(imageTexture, uv).a)); 
-	vec4 color = vec4(col,1.0);
+	//vec4 color = mix(vec4(0.2), texture(imageTexture, uv).xyz,  vec4(texture(imageTexture, uv).a));
 
     // write colour output without modification
     //FragmentColour = vec4(Colour, 0);
@@ -39,10 +40,12 @@ void main(void)
 		FragmentColour = vec4(col, 1.0);
 	}
 	if (colorState == 2) { 
-		lum = (col.x * 0.333) + (col.y * 0.333) + (col.z * 0.333);
-		col.x = lum;
-		col.y = lum;
-		col.z = lum;
+		//lum = (col.x * 0.333) + (col.y * 0.333) + (col.z * 0.333);
+		//col.x = lum;
+		//col.y = lum;
+		//col.z = lum;
+		vec3 lum1 = vec3(1.0)/3.0;
+		col = vec3(dot(lum1, col));
 		FragmentColour = vec4(col, 1.0);
 	}
 	if (colorState == 3) { 
@@ -95,11 +98,11 @@ void main(void)
 	uSharp[1] = vec3(-1,  5, -1);
 	uSharp[2] = vec3( 0, -1,  0);
 
-	color = texture(imageTexture, uv);
+	//color = texture(imageTexture, uv);
 	if (edgeState == 1) { //no effect
 		FragmentColour = vec4(col, 1.0);
 	}
-	if (edgeState == 2) {
+	/*if (edgeState == 2) {
 		color = vec4(0.0);
 		
 		for (int j = 0; j < 3; j++) {
@@ -110,6 +113,6 @@ void main(void)
 		color = abs(color); // stay positive 
 		color.a = 0.3;
 		FragmentColour = color;
-	}
+	}*/
 
 }
