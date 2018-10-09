@@ -175,7 +175,20 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		program->getScene()->changeImage("image6-bubble.png", objects, theta);
 		scene = 6;
 	}
-
+	if (key == GLFW_KEY_7 && action == GLFW_PRESS) {
+		theta = 0;
+		scale = 1;
+		std::cout << "Key 7 is detected" << std::endl;
+		program->getScene()->changeImage("image7.jpg", objects, theta);
+		scene = 7;
+	}
+	if (key == GLFW_KEY_8 && action == GLFW_PRESS) {
+		theta = 0;
+		scale = 1;
+		std::cout << "Key 8 is detected" << std::endl;
+		program->getScene()->changeImage("image8.jpg", objects, theta);
+		scene = 8;
+	}
 
 
 	if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS) {
@@ -204,6 +217,47 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		scale = std::max(0.0, scale - 0.01);
 		std::cout << "scale value " + std::to_string(scale) << std::endl;
 
+	}
+
+	//greyscale
+	if (key == GLFW_KEY_Q && action == GLFW_PRESS) {
+		std::cout << "Key Q is detected" << std::endl;
+		colorState = 2; // L = 0.333R + 0.333G + 0.333B
+	}
+	if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+		std::cout << "Key W is detected" << std::endl;
+		colorState = 3; // L = 0.299R + 0.587G + 0.114B
+	}
+	if (key == GLFW_KEY_E && action == GLFW_PRESS) {
+		std::cout << "Key E is detected" << std::endl;
+		colorState = 4; // L = 0.213R + 0.715G + 0.072B
+	}
+	if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+		std::cout << "Key R is detected" << std::endl;
+		colorState = 5; // inverted color
+	}
+	if (key == GLFW_KEY_T && action == GLFW_PRESS) {
+		std::cout << "Key T is detected" << std::endl;
+		colorState = 6; // sepia effect
+	}
+	if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
+		std::cout << "Key Z is detected" << std::endl;
+		colorState = 1; // normal
+	}
+
+
+	//Edge effect
+	if (key == GLFW_KEY_S && action == GLFW_PRESS) {
+		std::cout << "Key S is detected" << std::endl;
+		colorState = 7; // vertical sobel
+	}
+	if (key == GLFW_KEY_D && action == GLFW_PRESS) {
+		std::cout << "Key D is detected" << std::endl;
+		colorState = 8; // horizontal sobel
+	}
+	if (key == GLFW_KEY_F && action == GLFW_PRESS) {
+		std::cout << "Key F is detected" << std::endl;
+		colorState = 9; // horizontal sobel
 	}
 
 }
