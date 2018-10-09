@@ -37,7 +37,7 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shaderProgram);
 	GLint offsetLoc = glGetUniformLocation(shaderProgram, "offset");
-	glUniform2f(offsetLoc, 0, 0);
+	glUniform2f(offsetLoc, offsetX, offsetY);
 	GLint thetaUniformLocation = glGetUniformLocation(shaderProgram, "theta");
 	glUniform1f(thetaUniformLocation, theta);
 
@@ -48,6 +48,12 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	//greyscale
 	GLint greyUniformLocation = glGetUniformLocation(shaderProgram, "colorState");
 	glUniform1i(greyUniformLocation, colorState);
+
+	//edge effect
+	//GLint edgeUniformLocation = glGetUniformLocation(shaderProgram, "edgeState");
+	//glUniform1i(edgeUniformLocation, edgeState);
+
+	//offset
 
 	for (const Geometry& g : objects) {
 		glBindVertexArray(g.vao);
