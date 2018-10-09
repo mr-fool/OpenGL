@@ -122,15 +122,15 @@ void main(void)
 	if (edgeState == 1) { //no effect
 		FragmentColour = vec4(col, 1.0);
 	}
-	else if (edgeState == 2) {
+	else if (colorState == 7) {
 		col = apply3x3Kernel(dx, uv);
 		FragmentColour = vec4(abs(col),1.0);
 	}
-	else if (edgeState == 3) {
+	else if (colorState == 8) {
 		col = apply3x3Kernel(dy, uv);
 		FragmentColour = vec4(abs(col),1.0);
 	}
-	else if (edgeState == 4) {
+	else if (colorState == 9) {
 		col = apply3x3Kernel(um, uv);
 		FragmentColour = vec4(abs(col),1.0);
 	}
