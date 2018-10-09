@@ -40,36 +40,36 @@ void main(void)
 		FragmentColour = vec4(col, 1.0);
 	}
 	if (colorState == 2) { 
-		//lum = (col.x * 0.333) + (col.y * 0.333) + (col.z * 0.333);
-		//col.x = lum;
-		//col.y = lum;
-		//col.z = lum;
-		vec3 lum1 = vec3(1.0)/3.0;
-		col = vec3(dot(lum1, col));
+		lum = (col.x * 0.333) + (col.y * 0.333) + (col.z * 0.333);
+		col.x = lum;
+		col.y = lum;
+		col.z = lum;
+		//vec3 lum1 = vec3(1.0)/3.0;
+		//col = vec3(dot(lum1, col));
 		FragmentColour = vec4(col, 1.0);
 	}
-	if (colorState == 3) { 
+	else if (colorState == 3) { 
 		lum = (col.x * 0.299) + (col.y * 0.587) + (col.z * 0.114); // you're the best around nothins gonna ever keep you down
 		col.x = lum;
 		col.y = lum;
 		col.z = lum;
 		FragmentColour = vec4(col, 1.0);
 	}
-	if (colorState == 4) {
+	else if (colorState == 4) {
 		lum = (col.x * 0.213) + (col.y * 0.715) + (col.z * 0.072);
 		col.x = lum;
 		col.y = lum;
 		col.z = lum;
 		FragmentColour = vec4(col, 1.0);
 	}
-	if (colorState == 5) {
+	else if (colorState == 5) {
 		lum = (1 - col.x) + (1 - col.y) + (1 - col.z);
 		col.x = lum;
 		col.y = lum;
 		col.z = lum;
 		FragmentColour = vec4(col, 1.0);
 	}
-	if (colorState == 6) {
+	else if (colorState == 6) {
 		lum = (col.x *0.393) + (col.y* 0.769) + (col.z* 0.189);
 		col.x = lum;
 		col.y = lum;
