@@ -21,7 +21,7 @@ uniform sampler2DRect imageTexture;
 uniform int colorState;
 
 //sobel
-uniform int edgeState;
+//uniform int edgeState;
 
 vec3 apply3x3Kernel(float kernel[9], vec2 uv)
 {
@@ -46,6 +46,22 @@ float um[9] = float[9]( 0.0, -1.0, 0.0,
 //Gaussian Blur
 float gBlur(int x, int y, float o) {
 	return (1/(2*3.141592653589793238462643383*o*o))*pow(2.718281828459045235360287471, -((x*x)+(y*y))/(2*o*o)); //cant use M_PI import for some reason
+}
+
+#define PI 3.14159265359
+vec3 applyGaussianBlur(int size, float standardDeviation, vec2 uv)
+{
+    vec3 acc = vec3(0.0);
+    int halfSize = size/2;
+    for(int y=-halfSize;y<=halfSize;++y)
+    {
+        for(int x=-halfSize;x<=halfSize;++x)
+        {
+            acc += 1.0 / (2.0 * PI * standardDeviation * standardDeviation) * 
+                exp(-(float(x*x)+float(y*y))/(2.0*standardDeviation*standardDeviation)) * P(x,y);
+        }
+    }
+    return acc;
 }
 
 void main(void)
