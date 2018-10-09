@@ -97,31 +97,8 @@ void main(void)
 		col.z = lum;
 		FragmentColour = vec4(col, 1.0);
 	}
-	//FragmentColour = vec4(col, 1.0);
 
-	//Edge Effects
-	mat3 vSobel;
-	mat3 hSobel;
-	mat3 uSharp;
 
-	// Vertical Sobel
-	vSobel[0] = vec3(1,  0,  -1);
-	vSobel[1] = vec3(2,  0,  -2);
-	vSobel[2] = vec3(1,  0,  -1);
-
-	// Horizontal Sobel
-	hSobel[0] = vec3(-1, -2, -1);
-	hSobel[1] = vec3( 0,  0,  0);
-	hSobel[2] = vec3( 1,  2,  1);
-
-	// Unsharp Mask
-	uSharp[0] = vec3( 0, -1,  0);
-	uSharp[1] = vec3(-1,  5, -1);
-	uSharp[2] = vec3( 0, -1,  0);
-
-	if (edgeState == 1) { //no effect
-		FragmentColour = vec4(col, 1.0);
-	}
 	else if (colorState == 7) {
 		col = apply3x3Kernel(dx, uv);
 		FragmentColour = vec4(abs(col),1.0);
