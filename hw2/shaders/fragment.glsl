@@ -6,6 +6,7 @@
 // ==========================================================================
 #version 410
 
+
 // interpolated colour received from vertex stage
 in vec2 uv;
 
@@ -19,6 +20,11 @@ uniform int colorState;
 
 //sobel
 uniform int edgeState;
+
+//Gaussian Blur
+float gBlur(int x, int y, float o) {
+	return (1/(2*3.141592653589793238462643383*o*o))*pow(2.718281828459045235360287471, -((x*x)+(y*y))/(2*o*o)); //cant use M_PI import for some reason
+}
 
 void main(void)
 {
@@ -95,12 +101,14 @@ void main(void)
 	}
 	if (edgeState == 2) {
 		color = vec4(0.0);
+		
 		for (int j = 0; j < 3; j++) {
 			for (int i = 0; i < 3; i++) {
 				color += texture(imageTexture, (uv + vec2((i-1)/1024, (j-1)/1024))) * vSobel[i][j];
 			}
 		}
 		color = abs(color); // stay positive 
+		color.a = 0.3;
 		FragmentColour = color;
 	}
 
