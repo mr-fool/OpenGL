@@ -7,7 +7,8 @@
 #version 410
 
 //#define P(X,Y) texture(imageTexture, (uv+vec2(X,Y))).xyz
-#define P(X,Y) mix(vec3(0.2), texture(imageTexture, (uv+vec2(X,Y))).xyz, vec3(texture(imageTexture, uv+vec2(X,Y)).a) )
+//#define P(X,Y) mix(vec3(0.2), texture(imageTexture, (uv+vec2(X,Y))).xyz, vec3(texture(imageTexture, uv+vec2(X,Y)).a) )
+#define P(X,Y) mix(texture(imageTexture2, uv +vec2(X,Y)).xyz, texture(imageTexture, (uv+vec2(X,Y))).xyz, vec3(texture(imageTexture, uv+vec2(X,Y)).a) )
 
 // interpolated colour received from vertex stage
 in vec2 uv;
@@ -16,6 +17,8 @@ in vec2 uv;
 out vec4 FragmentColour;
 
 uniform sampler2DRect imageTexture;
+//Part IV
+uniform sampler2DRect imageTexture2;
 
 //greyscale
 uniform int colorState;
@@ -125,6 +128,26 @@ void main(void)
 	}
 	else if (colorState == 9) {
 		col = apply3x3Kernel(um, uv);
-		FragmentColour = vec4(abs(col),1.0);
+		FragmentColour = vec4(col,1.0);
+	}
+
+
+	else if (colorState == 10) {
+		int size = 3;
+		float standardDeviation = float(size)/3.0;
+		col = applyGaussianBlur(size,standardDeviation,uv);
+		FragmentColour = vec4(col,1.0);
+	}
+	else if (colorState == 11) {
+		int size = 5;
+		float standardDeviation = float(size)/3.0;
+		col = applyGaussianBlur(size,standardDeviation,uv);
+		FragmentColour = vec4(col,1.0);
+	}
+	else if (colorState == 12) {
+		int size = 7;
+		float standardDeviation = float(size)/3.0;
+		col = applyGaussianBlur(size,standardDeviation,uv);
+		FragmentColour = vec4(col,1.0);
 	}
 }
