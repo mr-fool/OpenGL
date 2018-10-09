@@ -6,7 +6,8 @@
 // ==========================================================================
 #version 410
 
-#define P(X,Y) texture(imageTexture, (uv+vec2(X,Y))).xyz
+//#define P(X,Y) texture(imageTexture, (uv+vec2(X,Y))).xyz
+#define P(X,Y) mix(vec3(0.2), texture(imageTexture, (uv+vec2(X,Y))).xyz, vec3(texture(imageTexture, uv+vec2(X,Y)).a)
 
 // interpolated colour received from vertex stage
 in vec2 uv;
@@ -114,5 +115,5 @@ void main(void)
 		color.a = 0.3;
 		FragmentColour = color;
 	}*/
-
+	FragmentColour = vec4(P(0,0),1.0);
 }
