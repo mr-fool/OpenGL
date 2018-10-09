@@ -45,6 +45,10 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	GLint scaleUniformLocation = glGetUniformLocation(shaderProgram, "scale");
 	glUniform1f(scaleUniformLocation, scale);
 
+	//greyscale
+	GLint greyUniformLocation = glGetUniformLocation(shaderProgram, "colorState");
+	glUniform1i(greyUniformLocation, colorState);
+
 	for (const Geometry& g : objects) {
 		glBindVertexArray(g.vao);
 		glDrawArrays(g.drawMode, 0, g.verts.size());
