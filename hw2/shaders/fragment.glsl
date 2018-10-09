@@ -119,22 +119,19 @@ void main(void)
 	uSharp[1] = vec3(-1,  5, -1);
 	uSharp[2] = vec3( 0, -1,  0);
 
-	//color = texture(imageTexture, uv);
 	if (edgeState == 1) { //no effect
 		FragmentColour = vec4(col, 1.0);
 	}
-	/*if (edgeState == 2) {
-		color = vec4(0.0);
-		
-		for (int j = 0; j < 3; j++) {
-			for (int i = 0; i < 3; i++) {
-				color += texture(imageTexture, (uv + vec2((i-1)/1024, (j-1)/1024))) * vSobel[i][j];
-			}
-		}
-		color = abs(color); // stay positive 
-		color.a = 0.3;
-		FragmentColour = color;
-	}*/
-	col = apply3x3Kernel(dx, uv);
-	FragmentColour = vec4(abs(col),1.0);
+	else if (edgeState == 2) {
+		col = apply3x3Kernel(dx, uv);
+		FragmentColour = vec4(abs(col),1.0);
+	}
+	else if (edgeState == 3) {
+		col = apply3x3Kernel(dy, uv);
+		FragmentColour = vec4(abs(col),1.0);
+	}
+	else if (edgeState == 4) {
+		col = apply3x3Kernel(um, uv);
+		FragmentColour = vec4(abs(col),1.0);
+	}
 }
