@@ -14,6 +14,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/vec4.hpp> // glm::vec4, glm::ivec4
+#include <glm/mat4x4.hpp> // glm::mat4
 
 //**Must include glad and GLFW in this order or it breaks**
 #include <glad/glad.h>
@@ -29,13 +31,17 @@ std::vector<Geometry>& Scene::getObjects()
 	return this->objects;
 }
 
-void Scene::changeImage(const char* imageName, std::vector<Geometry> &objects) {
+void Scene::changeImage(const char* imageName, const char* imageName2, std::vector<Geometry> &objects, float theta) {
 
 	objects.clear();
 	rectangle.verts.clear();
 	rectangle.uvs.clear();
 	MyTexture texture;
 	InitializeTexture(&texture, imageName, GL_TEXTURE_RECTANGLE);
+
+	//Part V
+	MyTexture texture1;
+	InitializeTexture(&texture1, imageName2, GL_TEXTURE_RECTANGLE);
 
 	//Load texture uniform
 	//Shaders need to be active to load uniforms
@@ -49,18 +55,33 @@ void Scene::changeImage(const char* imageName, std::vector<Geometry> &objects) {
 	//Load texture unit number into uniform
 	glUniform1i(uniformLocation, 0);
 
+	//part V
+		//Load texture uniform
+	//Shaders need to be active to load uniforms
+	glUseProgram(renderer->shaderProgram);
+	//Set which texture unit the texture is bound to
+	glActiveTexture(GL_TEXTURE1);
+	//Bind the texture to GL_TEXTURE0
+	glBindTexture(GL_TEXTURE_RECTANGLE, texture1.textureID);
+	//Get identifier for uniform
+	GLuint uniformLocation1 = glGetUniformLocation(renderer->shaderProgram, "imageTexture2");
+	//Load texture unit number into uniform
+	glUniform1i(uniformLocation1, 1);
+
 	if (renderer->CheckGLErrors()) {
 		std::cout << "Texture creation failed" << std::endl;
 	}
 
 	// three vertex positions and assocated colours of a triangle
+	//glm::mat4 trans;
+	//trans = glm::rotate(trans, glm::radians(theta), glm::vec3(-0.9f, -0.9f, 1.0f));
+
 	rectangle.verts.push_back(glm::vec3(-0.9f, -0.9f, 1.0f));
 	rectangle.verts.push_back(glm::vec3(0.9f, -0.9f, 1.0f));
 	rectangle.verts.push_back(glm::vec3(0.9f, 0.9f, 1.0f));
 	rectangle.verts.push_back(glm::vec3(-0.9f, -0.9f, 1.0f));
 	rectangle.verts.push_back(glm::vec3(0.9f, 0.9f, 1.0f));
 	rectangle.verts.push_back(glm::vec3(-0.9f, 0.9f, 1.0f));
-
 
 
 
