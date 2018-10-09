@@ -58,7 +58,6 @@ void Scene::changeImage(const char* imageName, const char* imageName2, std::vect
 	//part V
 		//Load texture uniform
 	//Shaders need to be active to load uniforms
-	glUseProgram(renderer->shaderProgram);
 	//Set which texture unit the texture is bound to
 	glActiveTexture(GL_TEXTURE0+1);
 	//Bind the texture to GL_TEXTURE0
