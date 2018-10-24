@@ -19,6 +19,7 @@ void main()
 	}
 	if (mode == 2) {
 		gl_Position = b0 * b0 * b0 * gl_in[0].gl_Position + 3 * b0 * b0 * b1 * gl_in[1].gl_Position + 3 * b1 * b1 * b0 * gl_in[2].gl_Position + b1 * b1 * b1 * gl_in[3].gl_Position;
+		color 	= b0 * teColour[0] + b1 * teColour[3];
 	}
 
 
