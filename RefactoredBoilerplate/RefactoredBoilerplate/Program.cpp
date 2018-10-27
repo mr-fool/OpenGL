@@ -117,31 +117,37 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	RenderingEngine* renderingEngine;
 
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+		scrolling = 1;
 		std::cout << "Key 1 is detected" << std::endl;
 		mode = 1;
 		program->getScene()->firstSetBezierCurves(objects);
 	}
 	if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
+		scrolling = 1;
 		std::cout << "Key 2 is detected" << std::endl;
 		mode = 2;
 		program->getScene()->secondSetBezierCurves(objects);
 	}
 	if (key == GLFW_KEY_3 && action == GLFW_PRESS) {
+		scrolling = 1;
 		std::cout << "Key 3 is detected" << std::endl;
 		program->getScene()->setText("John Smith", objects);
 
 
 	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
+		scrolling = 1;
 		std::cout << "Key 4 is detected" << std::endl;
 		program->getScene()->setOTFText("John Smith", objects);
 	}
 	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
+		scrolling = 1;
 		std::cout << "Key 5 is detected" << std::endl;
 		program->getScene()->setThirdText("John Smith", objects);
 	}
 	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
 		std::cout << "Key 6 is detected" << std::endl;
+		scrolling = 0;
 		program->getScene()->setAlexText("The quick brown fox jumps over the lazy dog.", objects);
 	}
 }
