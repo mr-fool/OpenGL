@@ -34,7 +34,7 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shaderProgram);
 	GLint scrollback = glGetUniformLocation(shaderProgram, "scrollOffset");
-
+	glUniform2f(scrollback, offsetX, offsetY);
 	/* Here you can just update offsetX also... */
 	offsetX -= 20.0 / (3.0 * (60.0));  // I don't know what the scale is and how much a '1' unit is...
 	if (offsetX > -20.0) { // 500 should be some #define or const int value.... that is 'well... 
