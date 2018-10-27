@@ -1,0 +1,7 @@
+﻿LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+  Generating code
+  0 of 485 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  RefactoredBoilerplate.vcxproj -> C:\Users\hetzer\Documents\OpenGL\hw1\Release\RefactoredBoilerplate.exe
