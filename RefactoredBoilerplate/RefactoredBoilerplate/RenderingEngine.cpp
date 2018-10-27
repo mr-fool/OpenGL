@@ -84,7 +84,7 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	}
 	if (mode == 6) {
 		GLint loc = glGetUniformLocation(shaderProgram, "scale");
-		GLint scrollback = glGetUniformLocation(shaderProgram, "offset");
+		GLint scrollback = glGetUniformLocation(shaderProgram, "scrollOffset");
 		glUniform2f(scrollback, offsetX, 0);
 		glUniform1f(loc, 0.2);
 		GLint linearLevel = glGetUniformLocation(shaderProgram, "mode");
