@@ -36,7 +36,7 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	GLint scrollback = glGetUniformLocation(shaderProgram, "scrollOffset");
 	glUniform2f(scrollback, offsetX, offsetY);
 	/* Here you can just update offsetX also... */
-	if (scrolling = 0) {
+	if (scrolling == 0) {
 		offsetX -= 20.0 / (3.0 * (60 * 8));  // I don't know what the scale is and how much a '1' unit is...
 		if (offsetX < -2.0) { // 500 should be some #define or const int value.... that is 'well... 
 						  // if you saved the very last offsetX from setAlex, that would be the length....
@@ -45,7 +45,9 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 			offsetX = 2.0;
 		}
 	}
-
+	if (scrolling == 1) {
+		offsetX = 0;
+	}
 	GLint loc = glGetUniformLocation(shaderProgram, "scale");
 	glUniform1f(loc, 0.35);
 	if (linearTracker == 1) {
