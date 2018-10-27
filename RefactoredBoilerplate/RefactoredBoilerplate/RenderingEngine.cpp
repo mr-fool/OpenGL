@@ -33,6 +33,8 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shaderProgram);
+	GLint scrollback = glGetUniformLocation(shaderProgram, "scrollOffset");
+
 	/* Here you can just update offsetX also... */
 	offsetX += 1000;  // I don't know what the scale is and how much a '1' unit is...
 	if (offsetX > 500) { // 500 should be some #define or const int value.... that is 'well... 
@@ -89,8 +91,6 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 		glUniform1i(modeLevel, 3);
 		glPatchParameteri(GL_PATCH_VERTICES, 4);
 	}
-	GLint scrollback = glGetUniformLocation(shaderProgram, "scrollOffset");
-
 	if (mode == 6) {
 		GLint loc = glGetUniformLocation(shaderProgram, "scale");
 		glUniform1f(loc, 0.2);
