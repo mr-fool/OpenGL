@@ -29,6 +29,15 @@
 #include "global.h"
 #include <algorithm>
 
+
+//mouse
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/vec4.hpp> // glm::vec4, glm::ivec4
+#include <glm/mat4x4.hpp>
+#include <glm/vec2.hpp>
+
 Program::Program() {
 	setupWindow();
 }
@@ -42,6 +51,7 @@ Program::~Program() {
 void Program::start() {
 	renderingEngine = new RenderingEngine();
 	scene = new Scene(renderingEngine);
+
 
 	//Main render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -86,6 +96,7 @@ void Program::setupWindow() {
 	//Bring the new window to the foreground (not strictly necessary but convenient)
 	glfwMakeContextCurrent(window);
 
+	glfwSetCursorPosCallback(window, cursor_position_callback);
 
 	//Intialize GLAD (finds appropriate OpenGL configuration for your system)
 	if (!gladLoadGL()) {
@@ -137,7 +148,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 1 is detected" << std::endl;
-		program->getScene()->changeImage("image1-mandrill.png", "image1-mandrill.png", objects, theta);
+		program->getScene()->changeImage("image1-mandrill.png", objects, theta);
 		scene = 1;
 
 	}
@@ -148,7 +159,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 2 is detected" << std::endl;
-		program->getScene()->changeImage("image2-uclogo.png", "image1-mandrill.png", objects, theta);
+		program->getScene()->changeImage("image2-uclogo.png", objects, theta);
 		scene = 2;
 	}
 
@@ -159,7 +170,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 3 is detected" << std::endl;
-		program->getScene()->changeImage("image3-aerial.jpg", "image1-mandrill.png", objects, theta);
+		program->getScene()->changeImage("image3-aerial.jpg", objects, theta);
 		scene = 3;
 	}
 	if (key == GLFW_KEY_4 && action == GLFW_PRESS) {
@@ -169,7 +180,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 4 is detected" << std::endl;
-		program->getScene()->changeImage("image4-thirsk.jpg", "image1-mandrill.png", objects, theta);
+		program->getScene()->changeImage("image4-thirsk.jpg", objects, theta);
 		scene = 4;
 	}
 	if (key == GLFW_KEY_5 && action == GLFW_PRESS) {
@@ -179,7 +190,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 5 is detected" << std::endl;
-		program->getScene()->changeImage("image5-pattern.png", "image1-mandrill.png", objects, theta);
+		program->getScene()->changeImage("image5-pattern.png", objects, theta);
 		scene = 5;
 	}
 	if (key == GLFW_KEY_6 && action == GLFW_PRESS) {
@@ -189,7 +200,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 6 is detected" << std::endl;
-		program->getScene()->changeImage("image6-bubble.png", "image1-mandrill.png", objects, theta);
+		program->getScene()->changeImage("image6-bubble.png", objects, theta);
 		scene = 6;
 	}
 	if (key == GLFW_KEY_7 && action == GLFW_PRESS) {
@@ -199,7 +210,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 7 is detected" << std::endl;
-		program->getScene()->changeImage("image7.jpg", "image1-mandrill.png", objects, theta);
+		program->getScene()->changeImage("image7.jpg", objects, theta);
 		scene = 7;
 	}
 	if (key == GLFW_KEY_8 && action == GLFW_PRESS) {
@@ -209,7 +220,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		offsetY = 0.0;
 		colorState = 1;
 		std::cout << "Key 8 is detected" << std::endl;
-		program->getScene()->changeImage("image8.jpg", "image1-mandrill.png",  objects, theta);
+		program->getScene()->changeImage("image8.jpg", objects, theta);
 		scene = 8;
 	}
 
@@ -316,11 +327,27 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	}
 }
 
-void mouse_callback(GLFWwindow* window, int button, int action, int mods){
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-	{
-		return;
+//attempt at mouse drag
+static void cursor_position_callback(GLFWwindow* window, double x, double y) {
+	static glm::vec2 oldPosition(0, 0);
+	int state; 
+	glm::vec2 currentPosition((x - (1024 / 2)) / (1024 / 2),
+		(y - (1024/2) ) / (1024/2) * 1.0f);
+
+	state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+
+	if (state == GLFW_PRESS) {
+		offsetX += currentPosition.x - oldPosition.x;
+		offsetY -= currentPosition.y - oldPosition.y;
+
+		std::cout << "offsetX value " +std::to_string(offsetX) << std::endl;
+		std::cout << "offsetY value " + std::to_string(offsetY) << std::endl;
 	}
-	//mouse drag
+
+	oldPosition = currentPosition;
 }
+/*void mouse_callback(GLFWwindow* window, int button, int action, int mods) {
+	//do nothing
+}*/
+
 

@@ -54,10 +54,11 @@ GLuint ShaderTools::CompileShader(GLenum shaderType, const std::string &source) 
 		glGetShaderiv(shaderObject, GL_INFO_LOG_LENGTH, &length);
 		std::string info(length, ' ');
 		glGetShaderInfoLog(shaderObject, info.length(), &length, &info[0]);
-		file << "ERROR compiling shader:" << std::endl << std::endl;
-		file << source << std::endl;
-		file << info << std::endl;
-		
+		std::cout << "ERROR compiling shader:" << std::endl << std::endl;
+		std::cout << source << std::endl;
+		std::cout << info << std::endl;
+		int a;
+		std::cin >> a;
 	}
 	file.close();
 	return shaderObject;

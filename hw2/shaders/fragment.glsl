@@ -7,8 +7,7 @@
 #version 410
 
 //#define P(X,Y) texture(imageTexture, (uv+vec2(X,Y))).xyz
-//#define P(X,Y) mix(vec3(0.2), texture(imageTexture, (uv+vec2(X,Y))).xyz, vec3(texture(imageTexture, uv+vec2(X,Y)).a) )
-#define P(X,Y) mix(texture(imageTexture2, uv +vec2(X,Y)).xyz, texture(imageTexture, (uv+vec2(X,Y))).xyz, vec3(texture(imageTexture, uv+vec2(X,Y)).a) )
+#define P(X,Y) mix(vec3(0.2), texture(imageTexture, (uv+vec2(X,Y))).xyz, vec3(texture(imageTexture, uv+vec2(X,Y)).a) )
 
 // interpolated colour received from vertex stage
 in vec2 uv;
@@ -17,8 +16,6 @@ in vec2 uv;
 out vec4 FragmentColour;
 
 uniform sampler2DRect imageTexture;
-//Part IV
-uniform sampler2DRect imageTexture2;
 
 //greyscale
 uniform int colorState;
@@ -46,10 +43,6 @@ float um[9] = float[9]( 0.0, -1.0, 0.0,
     					-1.0, 5.0, -1.0,
     					0.0, -1.0, 0.0 
     					);
-//Gaussian Blur
-float gBlur(int x, int y, float o) {
-	return (1/(2*3.141592653589793238462643383*o*o))*pow(2.718281828459045235360287471, -((x*x)+(y*y))/(2*o*o)); //cant use M_PI import for some reason
-}
 
 #define PI 3.14159265359
 vec3 applyGaussianBlur(int size, float standardDeviation, vec2 uv)

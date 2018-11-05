@@ -43,6 +43,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 
 //mouse input
-void mouse_callback(GLFWwindow* window, int button, int action, int mods);
+//void mouse_callback(GLFWwindow* window, int button, int action, int mods);
+static void cursor_position_callback(GLFWwindow* window, double x, double y);
 
 #endif /* PROGRAM_H_ */

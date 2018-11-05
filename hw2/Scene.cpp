@@ -25,14 +25,13 @@
 
 //so I can take image name
 #include <string>
-#include "global.h"
 
 std::vector<Geometry>& Scene::getObjects()
 {
 	return this->objects;
 }
 
-void Scene::changeImage(const char* imageName, const char* imageName2, std::vector<Geometry> &objects, float theta) {
+void Scene::changeImage(const char* imageName, std::vector<Geometry> &objects, float theta) {
 
 	objects.clear();
 	rectangle.verts.clear();
@@ -40,35 +39,17 @@ void Scene::changeImage(const char* imageName, const char* imageName2, std::vect
 	MyTexture texture;
 	InitializeTexture(&texture, imageName, GL_TEXTURE_RECTANGLE);
 
-	//Part V
-	MyTexture texture1;
-	InitializeTexture(&texture1, imageName2, GL_TEXTURE_RECTANGLE);
-	textureID = texture.textureID;
-	texture1ID = texture1.textureID;
-
 	//Load texture uniform
 	//Shaders need to be active to load uniforms
 	glUseProgram(renderer->shaderProgram);
 	//Set which texture unit the texture is bound to
 	glActiveTexture(GL_TEXTURE0);
 	//Bind the texture to GL_TEXTURE0
-	glBindTexture(GL_TEXTURE_RECTANGLE, textureID);
+	glBindTexture(GL_TEXTURE_RECTANGLE, texture.textureID);
 	//Get identifier for uniform
 	GLuint uniformLocation = glGetUniformLocation(renderer->shaderProgram, "imageTexture");
 	//Load texture unit number into uniform
 	glUniform1i(uniformLocation, 0);
-
-	//part V
-		//Load texture uniform
-	//Shaders need to be active to load uniforms
-	//Set which texture unit the texture is bound to
-	glActiveTexture(GL_TEXTURE0+1);
-	//Bind the texture to GL_TEXTURE0
-	glBindTexture(GL_TEXTURE_RECTANGLE, texture1ID);
-	//Get identifier for uniform
-	GLuint uniformLocation1 = glGetUniformLocation(renderer->shaderProgram, "imageTexture2");
-	//Load texture unit number into uniform
-	glUniform1i(uniformLocation1, 1);
 
 	if (renderer->CheckGLErrors()) {
 		std::cout << "Texture creation failed" << std::endl;
