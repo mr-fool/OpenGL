@@ -6,7 +6,6 @@
  */
 
 #include "Program.h"
-#include "Geometry.h"
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -240,7 +239,7 @@ vec3 getPixelColour(Ray r, vector<Shape*> shapes, Light light, int count) {
 
 	return L;
 }
-
+ImageBuffer rays;
 void generateRays(vector<vec2>* pts, vector<vec3>* colours, vector<Shape*> s, Light l, int w, int h, float f) {
 	pts->clear();
 	colours->clear();
@@ -256,8 +255,13 @@ void generateRays(vector<vec2>* pts, vector<vec3>* colours, vector<Shape*> s, Li
 
 			vec3 colour = getPixelColour(r, s, l, 0);
 
-			pts->push_back(vec2(x / (w / 2), y / (h / 2)));
-			colours->push_back(colour);
+			//pts->push_back(vec2(x / (w / 2), y / (h / 2)));
+			//colours->push_back(colour);
+			rays.Initialize();
+			//int i = (x / (w / 2));
+			//int j = y / (h / 2);
+			rays.SetPixel(x / (w / 2), y / (h / 2),colour);
+
 		}
 	}
 }
@@ -350,7 +354,7 @@ void Program::start() {
 	for (unsigned int i = 0; i < image.Width(); i++) {
 	  for (unsigned int j = 0; j < image.Height(); j++) {
 	    //set pixel colors here
-	    image.SetPixel(i, j, glm::vec3(1.0, 0.0, 0.0));
+	    image.SetPixel(i, j, glm::vec3(0.0, 0.0, 0.0));
 	  }
 	}
 	//Main render loop
@@ -445,6 +449,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+		scene = 1;
 		cout << "Scene 1" << endl;
 		generateRays(&points, &colours, scene1Shapes, *light1, 1024, 1024, focalLen);
 	}
