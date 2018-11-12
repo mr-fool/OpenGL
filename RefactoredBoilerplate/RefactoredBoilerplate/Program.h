@@ -27,11 +27,10 @@ public:
 
 	//Prints system specs to the console
 	void QueryGLVersion();
+	ImageBuffer image;
 
 private:
 	GLFWwindow* window;
-        ImageBuffer image;
-  
 };
 
 //Functions passed to GLFW to handle errors and keyboard input
