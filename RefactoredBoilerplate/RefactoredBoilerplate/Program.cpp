@@ -239,7 +239,6 @@ vec3 getPixelColour(Ray r, vector<Shape*> shapes, Light light, int count) {
 
 	return L;
 }
-ImageBuffer rays;
 void generateRays(vector<vec2>* pts, vector<vec3>* colours, vector<Shape*> s, Light l, int w, int h, float f) {
 	pts->clear();
 	colours->clear();
@@ -257,10 +256,10 @@ void generateRays(vector<vec2>* pts, vector<vec3>* colours, vector<Shape*> s, Li
 
 			//pts->push_back(vec2(x / (w / 2), y / (h / 2)));
 			//colours->push_back(colour);
-			rays.Initialize();
+			image.Initialize();
 			//int i = (x / (w / 2));
 			//int j = y / (h / 2);
-			rays.SetPixel(x / (w / 2), y / (h / 2),colour);
+			image.SetPixel(x / (w / 2), y / (h / 2),colour);
 
 		}
 	}
