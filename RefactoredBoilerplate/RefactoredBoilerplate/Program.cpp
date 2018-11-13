@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 
-//**Must include glad and GLFW in this order or it breaks**
+ //**Must include glad and GLFW in this order or it breaks**
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <algorithm> 
@@ -22,6 +22,8 @@
 #include "glm/ext.hpp"
 using namespace std;
 using namespace glm;
+
+ImageBuffer image;
 
 int scene = 1;
 float focalLen = 470.0f;
@@ -256,10 +258,10 @@ void generateRays(vector<vec2>* pts, vector<vec3>* colours, vector<Shape*> s, Li
 
 			//pts->push_back(vec2(x / (w / 2), y / (h / 2)));
 			//colours->push_back(colour);
-			image.Initialize();
+			//image.Initialize();
 			//int i = (x / (w / 2));
 			//int j = y / (h / 2);
-			image.SetPixel(x / (w / 2), y / (h / 2),colour);
+			image.SetPixel(x / (w / 2), y / (h / 2), colour);
 
 		}
 	}
@@ -340,25 +342,25 @@ void parseFile(string filename, vector<Shape*>* shapes, Light** l) {
 }
 
 Program::Program() {
-        setupWindow();
+	setupWindow();
 }
 
 Program::~Program() {
-  
+
 }
 
 void Program::start() {
 
-        image.Initialize();
+	image.Initialize();
 	for (unsigned int i = 0; i < image.Width(); i++) {
-	  for (unsigned int j = 0; j < image.Height(); j++) {
-	    //set pixel colors here
-	    image.SetPixel(i, j, glm::vec3(0.0, 0.0, 0.0));
-	  }
+		for (unsigned int j = 0; j < image.Height(); j++) {
+			//set pixel colors here
+			image.SetPixel(i, j, glm::vec3(0.0, 0.0, 0.0));
+		}
 	}
 	//Main render loop
-	while(!glfwWindowShouldClose(window)) {
-	        image.Render();
+	while (!glfwWindowShouldClose(window)) {
+		image.Render();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
