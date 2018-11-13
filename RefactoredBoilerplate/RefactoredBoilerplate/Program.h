@@ -10,10 +10,10 @@
 
 #include "imagebuffer.h"
 
-//Forward declaration of classes
-//(note this is necessary because these are pointers and it allows the #include to appear in the .cpp file)
+ //Forward declaration of classes
+ //(note this is necessary because these are pointers and it allows the #include to appear in the .cpp file)
 struct GLFWwindow;
-
+ImageBuffer image;
 class Program {
 public:
 	Program();
@@ -27,7 +27,6 @@ public:
 
 	//Prints system specs to the console
 	void QueryGLVersion();
-	ImageBuffer image;
 
 private:
 	GLFWwindow* window;
