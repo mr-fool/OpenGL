@@ -258,10 +258,10 @@ void generateRays(vector<vec2>* pts, vector<vec3>* colours, vector<Shape*> s, Li
 
 			//pts->push_back(vec2(x / (w / 2), y / (h / 2)));
 			//colours->push_back(colour);
-			//image.Initialize();
+			image.Initialize();
 			//int i = (x / (w / 2));
 			//int j = y / (h / 2);
-			image.SetPixel(x / (w / 2), y / (h / 2), colour);
+			image.SetPixel(x / (w / 2), y / (h / 2), vec3(1,0,0) );
 
 		}
 	}
