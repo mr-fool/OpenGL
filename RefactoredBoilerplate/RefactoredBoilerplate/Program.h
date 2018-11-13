@@ -13,7 +13,7 @@
  //Forward declaration of classes
  //(note this is necessary because these are pointers and it allows the #include to appear in the .cpp file)
 struct GLFWwindow;
-ImageBuffer image;
+extern ImageBuffer image;
 class Program {
 public:
 	Program();
