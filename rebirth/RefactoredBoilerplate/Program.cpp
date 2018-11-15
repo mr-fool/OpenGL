@@ -16,6 +16,10 @@
 #include <glm/ext.hpp>
 //#include "vld.h"
 
+
+//Def PI
+#define M_PI 3.14159265358979323846
+
 //Different Objects and Shapes
 struct Ray {
 	glm::vec3 origin;
@@ -88,12 +92,18 @@ float findDiscriminant(float a, float b, float c) {
 	return pow(b, 2) - a * c;
 }
 
-void Program::generateRay(int width, int height) {
+void Program::generateRay(int width, int height, int fov) {
 	Ray ray;
 	float mag = findMagnitude(ray.direction);
 	ray.direction.x /= mag;
 	ray.direction.y /= mag;
 	ray.direction.z /= mag;
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			float x = -width / 2 + i + 0.5;
+			float y = height / 2 - j + 0.5;
+			float z = (width / 2) / tan(fov * 180 / M_PI);
+		}
 	std::cout << "generate ray is being called";
 }
 //testing normalization
