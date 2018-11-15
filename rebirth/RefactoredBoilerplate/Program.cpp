@@ -16,6 +16,46 @@
 #include <glm/ext.hpp>
 //#include "vld.h"
 
+//Different Objects and Shapes
+struct Ray {
+	glm::vec3 origin;
+	glm::vec3 direction;
+};
+
+struct Sphere {
+	glm::vec3 center;
+	float radius;
+	glm::vec3 color;
+	int material;   // 0 = phong, 1 = transparent, 2 = mirror
+	float Kd;       // diffuse, refraction index, or
+	float Ks;
+	float n;
+	float Ir;
+};
+
+struct Triangle {
+	glm::vec3 p0;
+	glm::vec3 p1;
+	glm::vec3 p2;
+	glm::vec3 color;
+	int material;
+	float Kd;
+	float Ks;
+	float n;
+	float Ir;
+};
+
+struct Plane {
+	glm::vec3 point;
+	glm::vec3 normal;
+	glm::vec3 color;
+	int material;
+	float Kd;
+	float Ks;
+	float n;
+	float Ir;
+};
+
 //normalizing
 float Program::norm(glm::vec3 a) {
 	return (a.x * a.x) + (a.y * a.y) + (a.z * a.z);
