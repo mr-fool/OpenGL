@@ -130,15 +130,15 @@ Program::~Program() {
 
 void Program::start() {
 	image.Initialize();
-	std::cout << "image width is " + image.Width() << std::endl;
-	std::cout << "image height is " + image.Height() << std::endl;
+	std::cout << "image width is " + std::to_string( image.Width() )<< std::endl;
+	std::cout << "image height is " + std::to_string( image.Height() )<< std::endl;
 	for (unsigned int i = 0; i < image.Width(); i++) {
 		for (unsigned int j = 0; j < image.Height(); j++) {
 			//set pixel colors here
 			image.SetPixel(i, j, glm::vec3(1.0, 1.0, 1.0));
 		}
 	}
-	generateRay(30, 30,focalLen);
+	generateRay(100, 100,focalLen);
 	std::cout << "normalize value " + glm::to_string(normalizeValue) << std::endl;
 
 	
