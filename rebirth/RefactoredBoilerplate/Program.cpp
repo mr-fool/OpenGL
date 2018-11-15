@@ -13,6 +13,22 @@
 //**Must include glad and GLFW in this order or it breaks**
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+//#include "vld.h"
+
+//normalizing
+float Program::norm(glm::vec3 a) {
+	return (a.x * a.x) + (a.y * a.y) + (a.z * a.z);
+}
+glm::vec3 Program::normalize(glm::vec3 a) {
+	float n = norm(a);
+	if (n > 0) {
+		float w = 1 / sqrt(n);
+		a.x *= w;
+		a.y *= w;
+		a.z *= w;
+	}
+	return a;
+}
 
 Program::Program() {
         setupWindow();
@@ -28,7 +44,7 @@ void Program::start() {
 	for (unsigned int i = 0; i < image.Width(); i++) {
 	  for (unsigned int j = 0; j < image.Height(); j++) {
 	    //set pixel colors here
-	    image.SetPixel(i, j, glm::vec3(1.0, 0.0, 0.0));
+	    image.SetPixel(i, j, glm::vec3(0.0, 1.0, 0.0));
 	  }
 	}
 	//Main render loop
@@ -103,5 +119,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	//Key codes are often prefixed with GLFW_KEY_ and can be found on the GLFW website
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+		std::cout << "Key 1 is pressed" << std::endl;
 	}
 }
