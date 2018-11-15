@@ -100,6 +100,8 @@ void Program::generateRay(int width, int height, int fov) {
 			float y = height / 2 - j + 0.5;
 			float z = (width / 2) / tan(fov * 180 / M_PI);
 			Ray ray;
+			ray.origin = glm::vec3(0, 0, 0);
+			ray.direction = glm::vec3(x, y, z);
 			float mag = findMagnitude(ray.direction);
 			ray.direction.x /= mag;
 			ray.direction.y /= mag;
