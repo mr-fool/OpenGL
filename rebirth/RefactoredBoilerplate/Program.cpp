@@ -112,7 +112,7 @@ void Program::generateRay(int width, int height, int fov) {
 			image.SetPixel(x / (width / 2), y / (height / 2) , glm::vec3(1,0,0) );
 		}
 	}
-	std::cout << "generate ray is being called";
+	std::cout << "generate ray is being called" << std::endl;
 }
 
 //testing normalization
