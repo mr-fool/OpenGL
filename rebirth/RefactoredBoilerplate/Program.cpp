@@ -57,10 +57,10 @@ struct Plane {
 };
 
 //normalizing
-float Program::norm(glm::vec3 a) {
+float norm(glm::vec3 a) {
 	return (a.x * a.x) + (a.y * a.y) + (a.z * a.z);
 }
-glm::vec3 Program::normalize(glm::vec3 a) {
+glm::vec3 normalize(glm::vec3 a) {
 	float n = norm(a);
 	if (n > 0) {
 		float w = 1 / sqrt(n);
@@ -70,25 +70,32 @@ glm::vec3 Program::normalize(glm::vec3 a) {
 	}
 	return a;
 }
-float Program::findMagnitude(glm::vec3 v) {
+float findMagnitude(glm::vec3 v) {
 	return sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2));
 }
 
-glm::vec3 Program::crossProduct(glm::vec3 a, glm::vec3 b) {
+glm::vec3 crossProduct(glm::vec3 a, glm::vec3 b) {
 	return glm::vec3(a.y * b.z - a.z * b.y,
 		a.z * b.x - a.x * b.z,
 		a.x * b.y - a.y * b.x);
 }
 
-float Program::dotProduct(glm::vec3 a, glm::vec3 b) {
+float dotProduct(glm::vec3 a, glm::vec3 b) {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
-float Program::findDiscriminant(float a, float b, float c) {
+float findDiscriminant(float a, float b, float c) {
 	return pow(b, 2) - a * c;
 }
 
-
+void Program::generateRay(int width, int height) {
+	Ray ray;
+	float mag = findMagnitude(ray.direction);
+	ray.direction.x /= mag;
+	ray.direction.y /= mag;
+	ray.direction.z /= mag;
+	std::cout << "generate ray is being called";
+}
 //testing normalization
 glm::vec3 testing = glm::vec3(0,2.5,-7.75);
 glm::vec3 normalizeValue = normalize(testing);
@@ -240,9 +247,10 @@ void Program::start() {
 	for (unsigned int i = 0; i < image.Width(); i++) {
 		for (unsigned int j = 0; j < image.Height(); j++) {
 			//set pixel colors here
-			image.SetPixel(i, j, glm::vec3(0.0, 1.0, 0.0));
+			image.SetPixel(i, j, glm::vec3(1.0, 1.0, 1.0));
 		}
 	}
+	generateRay(1, 2);
 	/*Need some kind for loop and some functions like 
 	vec3 getPixelColour(Ray r, vector<Shape*> shapes, Light light, int count) {
     vec3 kd;
