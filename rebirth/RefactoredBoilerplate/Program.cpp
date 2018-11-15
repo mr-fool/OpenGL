@@ -18,7 +18,7 @@
 
 
 //Def PI
-#define M_PI 3.14159265358979323846
+constexpr auto M_PI = 3.14159265358979323846;
 
 //Different Objects and Shapes
 struct Ray {
@@ -93,19 +93,22 @@ float findDiscriminant(float a, float b, float c) {
 }
 
 void Program::generateRay(int width, int height, int fov) {
-	Ray ray;
-	float mag = findMagnitude(ray.direction);
-	ray.direction.x /= mag;
-	ray.direction.y /= mag;
-	ray.direction.z /= mag;
+
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
 			float x = -width / 2 + i + 0.5;
 			float y = height / 2 - j + 0.5;
 			float z = (width / 2) / tan(fov * 180 / M_PI);
+			Ray ray;
+			float mag = findMagnitude(ray.direction);
+			ray.direction.x /= mag;
+			ray.direction.y /= mag;
+			ray.direction.z /= mag;
 		}
+	}
 	std::cout << "generate ray is being called";
 }
+
 //testing normalization
 glm::vec3 testing = glm::vec3(0,2.5,-7.75);
 glm::vec3 normalizeValue = normalize(testing);
@@ -260,7 +263,7 @@ void Program::start() {
 			image.SetPixel(i, j, glm::vec3(1.0, 1.0, 1.0));
 		}
 	}
-	generateRay(1, 2);
+	generateRay(1, 2,3);
 	/*Need some kind for loop and some functions like 
 	vec3 getPixelColour(Ray r, vector<Shape*> shapes, Light light, int count) {
     vec3 kd;
