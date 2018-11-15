@@ -32,9 +32,24 @@ public:
 	float norm(glm::vec3 a);
 	glm::vec3 normalize(glm::vec3 a);
 
+	//find magnitude
+	float findMagnitude(glm::vec3 v);
+
+	//Cross Product
+	glm::vec3 crossProduct(glm::vec3 a, glm::vec3 b);
+
+	//Dot Product
+	float dotProduct(glm::vec3 a, glm::vec3 b);
+
+	//Find Discriminant
+	float findDiscriminant(float a, float b, float c);
+
+	//making it public for easier access
+	ImageBuffer image;
+
 private:
 	GLFWwindow* window;
-        ImageBuffer image;
+      
   
 };
 
