@@ -28,6 +28,10 @@ public:
 	//Prints system specs to the console
 	void QueryGLVersion();
 
+	//normalizing function
+	float norm(glm::vec3 a);
+	glm::vec3 normalize(glm::vec3 a);
+
 private:
 	GLFWwindow* window;
         ImageBuffer image;
