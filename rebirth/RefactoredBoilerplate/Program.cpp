@@ -32,6 +32,7 @@ void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, gl
 			int ib = int( 255.99*col[2] );
 			//image.Initialize();
 			image.SetPixel(i, j, glm::vec3(ir, ig, ib));
+			std::cout << ir << " " << ig << " " << ib << std::endl;
 			//image.Render();
 		}
 	}
