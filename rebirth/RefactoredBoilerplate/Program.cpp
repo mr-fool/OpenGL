@@ -20,7 +20,22 @@
 
 float focalLen = 470.0f;
 
-
+void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 horizontal, glm::vec3 vertical, glm::vec3 origin) {
+	for (int j = height - 1; j >= 0; j--) {
+		for (int i = 0; i < width; i++) {
+			float u = float(i) / float(width);
+			float v = float(j) / float(height);
+			ray r(origin, lower_left_corner + u * horizontal + v * vertical);
+			glm::vec3 col = r.color(r);
+			int ir = int( 255.99*col[0] ); 
+			int ig = int( 255.99*col[1] );
+			int ib = int( 255.99*col[2] );
+			//image.Initialize();
+			image.SetPixel(i, j, glm::vec3(ir, ig, ib));
+			//image.Render();
+		}
+	}
+}
 
 
 Program::Program() {
@@ -41,7 +56,7 @@ void Program::start() {
 			image.SetPixel(i, j, glm::vec3(1.0, 1.0, 1.0));
 		}
 	}
-
+	generateRay(200, 100, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
 	
 	//Main render loop
 	while(!glfwWindowShouldClose(window)) {
