@@ -4,22 +4,22 @@
 #include <glm/ext.hpp>
 class ray {
 public:
-	glm::vec3 A;
-	glm::vec3 B;
+	glm::vec3 ray_origin;
+	glm::vec3 ray_direction;
 
 	ray() {}
 	ray(const glm::vec3& a, const glm::vec3 &b) {
-		A = a;
-		B = b;
+		ray_origin = a;
+		ray_direction = b;
 	}
 	glm::vec3 origin() const {
-		return A;
+		return ray_origin;
 	}
 	glm::vec3 direction() const {
-		return B;
+		return ray_direction;
 	}
 	glm::vec3 point_at_parameter(float t) const {
-		return A + t * B;
+		return ray_origin + t * ray_direction;
 	}
 
 };
