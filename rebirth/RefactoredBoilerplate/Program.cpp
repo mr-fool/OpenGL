@@ -15,10 +15,17 @@
 #include <GLFW/glfw3.h>
 #include <glm/ext.hpp>
 #include "ray.h"
+
 //#include "vld.h"
 
 
 float focalLen = 470.0f;
+
+glm::vec3 Program::rayColor(const ray& r) {
+	glm::vec3 unit_direction = glm::normalize(r.direction());
+	float t = 0.5* (unit_direction.y + 1.0);
+	return (1.0 - t)* glm::vec3(1, 1, 1) + t * glm::vec3(0.5, 0.7, 1.0);
+}
 
 void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 horizontal, glm::vec3 vertical, glm::vec3 origin) {
 	for (int j = height - 1; j >= 0; j--) {
@@ -26,15 +33,21 @@ void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, gl
 			float u = float(i) / float(width);
 			float v = float(j) / float(height);
 			ray r(origin, lower_left_corner + u * horizontal + v * vertical);
-			glm::vec3 col = r.color(r);
+			glm::vec3 col = rayColor(r);
 			int ir = int( 255.99*col[0] ); 
 			int ig = int( 255.99*col[1] );
 			int ib = int( 255.99*col[2] );
 			//image.Initialize();
-			image.SetPixel(i, j, glm::vec3(ir, ig, ib));
+			image.SetPixel(i, j, col);
 			std::cout << ir << " " << ig << " " << ib << std::endl;
 			//image.Render();
 		}
+	}
+	//Main render loop
+	while (!glfwWindowShouldClose(window)) {
+		image.Render();
+		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 }
 
@@ -57,7 +70,6 @@ void Program::start() {
 			image.SetPixel(i, j, glm::vec3(1.0, 1.0, 1.0));
 		}
 	}
-	generateRay(200, 100, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
 	
 	//Main render loop
 	while(!glfwWindowShouldClose(window)) {
@@ -65,7 +77,7 @@ void Program::start() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-
+	generateRay(200, 100, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
 }
 
 void Program::setupWindow() {
