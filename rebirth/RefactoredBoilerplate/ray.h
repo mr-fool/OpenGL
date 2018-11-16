@@ -21,5 +21,5 @@ public:
 	glm::vec3 point_at_parameter(float t) const {
 		return ray_origin + t * ray_direction;
 	}
-
+	glm::vec3 color(const ray& r);
 };
