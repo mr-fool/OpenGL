@@ -9,6 +9,7 @@
 #define PROGRAM_H_
 
 #include "imagebuffer.h"
+#include "ray.h"
 
 //Forward declaration of classes
 //(note this is necessary because these are pointers and it allows the #include to appear in the .cpp file)
@@ -29,7 +30,8 @@ public:
 	void QueryGLVersion();
 
 	void generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 horizontal, glm::vec3 vertical, glm::vec3 origin);
-
+	glm::vec3 rayColor(const ray& r);
+		
 	//making it public for easier access
 	ImageBuffer image;
 
