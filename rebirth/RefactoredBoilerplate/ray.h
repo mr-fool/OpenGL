@@ -1,7 +1,10 @@
 //**Must include glad and GLFW in this order or it breaks**
+#pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/ext.hpp>
+
+
 class ray {
 public:
 	glm::vec3 ray_origin;
