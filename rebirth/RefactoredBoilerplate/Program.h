@@ -28,6 +28,7 @@ public:
 	//Prints system specs to the console
 	void QueryGLVersion();
 
+	void generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 horizontal, glm::vec3 vertical, glm::vec3 origin);
 
 	//making it public for easier access
 	ImageBuffer image;
