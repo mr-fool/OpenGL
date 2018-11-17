@@ -17,7 +17,16 @@
 #include "ray.h"
 
 //#include "vld.h"
+/*Tirangle
+u = v1-v0, v = v2-v0, r(t) = r.o + t * r.d,
+Let h = (a,b,t0)^T, M = [ u, v, -d], then:
+h = inverse(M) * r.o
+intersection with triangle plane: r(t0)
+Check whether it is valid: t>0
+Check whether inside tri: 0<a, 0<b, a+b<1
+the columns of m are made of u, v, -r.d
 
+*/
 
 float focalLen = 470.0f;
 
@@ -25,6 +34,7 @@ glm::vec3 Program::rayColor(const ray& r) {
 	glm::vec3 unit_direction = glm::normalize(r.direction());
 	float t = 0.5* (unit_direction.y + 1.0);
 	return (1.0 - t)* glm::vec3(1, 1, 1) + t * glm::vec3(0.5, 0.7, 1.0);
+
 }
 
 void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 horizontal, glm::vec3 vertical, glm::vec3 origin) {
@@ -34,13 +44,8 @@ void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, gl
 			float v = float(j) / float(height);
 			ray r(origin, lower_left_corner + u * horizontal + v * vertical);
 			glm::vec3 col = rayColor(r);
-			int ir = int( 255.99*col[0] ); 
-			int ig = int( 255.99*col[1] );
-			int ib = int( 255.99*col[2] );
-			//image.Initialize();
 			image.SetPixel(i, j, col);
-			std::cout << ir << " " << ig << " " << ib << std::endl;
-			//image.Render();
+
 		}
 	}
 	//Main render loop
@@ -51,6 +56,25 @@ void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, gl
 	}
 }
 
+bool hit_sphere(const glm::vec3& center, float radius, const ray& r) {
+	glm::vec3 oc = r.origin() - center;
+	float a = dot(r.direction(), r.direction());
+	float b = 2.0 * dot(oc  , r.direction()  );
+	float c = dot(oc, oc) - radius * radius;
+	float discriminant = b * b - 4 * a * c;
+	return (discriminant > c);
+	
+}
+glm::vec3 sphereColor(const ray& r) {
+	if (hit_sphere(glm::vec3(0, 0, -1), 0.5, r)) {
+		return glm::vec3(1, 0, 0);
+	}
+	glm::vec3 unit_direction = glm::normalize(r.direction());
+	float t = 0.5 * (unit_direction.y + 1.0);
+	glm::vec3 result = (1 - t) * glm::vec3(1, 1, 1) + t * glm::vec3(0.5, 0.7, 1.0);
+	std::cout << "The result is " + glm::to_string(result) << std::endl;
+	return (1 - t) * glm::vec3(1, 1, 1) + t * glm::vec3(0.5, 0.7, 1.0);
+}
 
 Program::Program() {
         setupWindow();
@@ -70,14 +94,18 @@ void Program::start() {
 			image.SetPixel(i, j, glm::vec3(1.0, 1.0, 1.0));
 		}
 	}
-	
+	ray testing;
+	sphereColor(testing);
+	//generateRay(200, 100, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
+
 	//Main render loop
 	while(!glfwWindowShouldClose(window)) {
-	        image.Render();
+	    image.Render();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	generateRay(200, 100, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
+
+	
 }
 
 void Program::setupWindow() {
@@ -98,7 +126,7 @@ void Program::setupWindow() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	int width = 1024;
 	int height = 1024;
-	window = glfwCreateWindow(width, height, "CPSC 453 OpenGL Boilerplate", 0, 0);
+	window = glfwCreateWindow(width, height, "HW4", 0, 0);
 	if (!window) {
 		std::cout << "Program failed to create GLFW window, TERMINATING" << std::endl;
 		glfwTerminate();
