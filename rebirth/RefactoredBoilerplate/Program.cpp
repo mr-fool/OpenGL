@@ -15,7 +15,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/ext.hpp>
 #include "ray.h"
-
+#include "sphere.cpp"
 //#include "vld.h"
 /*Tirangle
 u = v1-v0, v = v2-v0, r(t) = r.o + t * r.d,
@@ -28,8 +28,43 @@ the columns of m are made of u, v, -r.d
 
 */
 
-float focalLen = 470.0f;
+//float focalLen = 470.0f;
 
+struct Plane {
+	glm::vec3 p;
+	glm::vec3 n;
+	glm::vec3 colour;
+
+	glm::vec3 intersect;
+	float intmag;
+};
+struct Sphere {
+	glm::vec3 c;
+	float r;
+	glm::vec3 colour;
+
+	glm::vec3 n;
+	glm::vec3 intersect;
+	float intmag;
+};
+
+bool intersectSphere(Sphere& cr, glm::vec3& d, glm::vec3& o) {
+	float A = dot(d, d);
+	float B = 2 * dot(d, (o - cr.c));
+	float C = (dot((o - cr.c), (o - cr.c)) - pow(cr.r, 2));
+
+	float quad = pow(B, 2) - (4 * A*C);
+	if (quad < 0) {
+		return false;
+	}
+	float t = (-B + sqrt(quad)) / (2 * A);
+
+	cr.intersect = o + t * d;
+	cr.n = cr.intersect - cr.c;
+	cr.intmag = length(cr.intersect);
+
+	return true;
+}
 glm::vec3 Program::rayColor(const ray& r) {
 	glm::vec3 unit_direction = glm::normalize(r.direction());
 	float t = 0.5* (unit_direction.y + 1.0);
