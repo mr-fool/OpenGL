@@ -66,9 +66,15 @@ bool hit_sphere(const glm::vec3& center, float radius, const ray& r) {
 	
 }
 glm::vec3 sphereColor(const ray& r) {
+	/*glm::vec3 horizontal = glm::vec3(4, 0, 0);
+	glm::vec3 vertical = glm::vec3(0, 2, 0);
+	glm::vec3 lower_left_corner = glm::vec3(-2, -1, -1);
+	glm::vec3 origin = glm::vec3(0, 0, 0);*/
+	//ray r(origin, lower_left_corner + u * horizontal + v * vertical);
 	if (hit_sphere(glm::vec3(0, 0, -1), 0.5, r)) {
 		return glm::vec3(1, 0, 0);
 	}
+	std::cout << "The r.direction is " + glm::to_string( r.direction() ) << std::endl;
 	glm::vec3 unit_direction = glm::normalize(r.direction());
 	float t = 0.5 * (unit_direction.y + 1.0);
 	glm::vec3 result = (1 - t) * glm::vec3(1, 1, 1) + t * glm::vec3(0.5, 0.7, 1.0);
@@ -94,9 +100,13 @@ void Program::start() {
 			image.SetPixel(i, j, glm::vec3(1.0, 1.0, 1.0));
 		}
 	}
-	ray testing;
+	glm::vec3 horizontal = glm::vec3(4, 0, 0);
+	glm::vec3 vertical = glm::vec3(0, 2, 0);
+	glm::vec3 lower_left_corner = glm::vec3(-2, -1, -1);
+	glm::vec3 origin = glm::vec3(0, 0, 0);
+	ray testing = ray(origin, lower_left_corner + horizontal + vertical);
 	sphereColor(testing);
-	//generateRay(200, 100, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
+	generateRay(200, 100, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
 
 	//Main render loop
 	while(!glfwWindowShouldClose(window)) {
