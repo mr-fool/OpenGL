@@ -51,6 +51,7 @@ void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, gl
 			image.SetPixel(i, j, col);
 		}
 	}
+}
 
 
 bool hit_sphere(const glm::vec3& center, float radius, const ray& r) {
