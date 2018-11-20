@@ -105,7 +105,7 @@ void Program::start() {
 	glm::vec3 origin = glm::vec3(0, 0, 0);
 	ray testing = ray(origin, lower_left_corner + horizontal + vertical);
 	sphereColor(testing);
-	generateRay(200, 100, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
+	generateRay(1024, 1024, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
 	std::fstream f;
 	f.open("scene1.txt", std::fstream::in);
 	Tokenizer t(f);
