@@ -30,7 +30,7 @@ the columns of m are made of u, v, -r.d
 
 //float focalLen = 470.0f;
 
-struct Plane {
+/*struct Plane {
 	glm::vec3 p;
 	glm::vec3 n;
 	glm::vec3 colour;
@@ -64,7 +64,7 @@ bool intersectSphere(Sphere& cr, glm::vec3& d, glm::vec3& o) {
 	cr.intmag = length(cr.intersect);
 
 	return true;
-}
+}*/
 glm::vec3 Program::rayColor(const ray& r) {
 	glm::vec3 unit_direction = glm::normalize(r.direction());
 	float t = 0.5* (unit_direction.y + 1.0);
