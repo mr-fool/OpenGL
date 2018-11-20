@@ -31,21 +31,7 @@ the columns of m are made of u, v, -r.d
 
 //float focalLen = 470.0f;
 
-struct Sphere {
-	glm::vec3 c;
-	float r;
-	glm::vec3 colour;
-	glm::vec3 n;
-	glm::vec3 intersect;
-	float intmag;
-};
 
-struct Triangle {
-	float pointA;
-	float pointB;
-	float pointC;
-	glm::vec3 color;
-};
 
 glm::vec3 Program::rayColor(const ray& r) {
 	glm::vec3 unit_direction = glm::normalize(r.direction());
