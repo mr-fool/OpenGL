@@ -41,20 +41,6 @@ glm::vec3 Program::rayColor(const ray& r) {
 
 }
 
-void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 horizontal, glm::vec3 vertical, glm::vec3 origin, Scene r) {
-
-	for (int j = height - 1; j >= 0; j--) {
-		for (int i = 0; i < width; i++) {
-			float u = float(i) / float(width);
-			float v = float(j) / float(height);
-			ray r(origin, lower_left_corner + u * horizontal + v * vertical);
-			glm::vec3 col = rayColor(r);
-			image.SetPixel(i, j, col);
-		}
-	}
-}
-
-
 bool hit_sphere(const glm::vec3& center, float radius, const ray& r) {
 	glm::vec3 oc = r.origin() - center;
 	float a = dot(r.direction(), r.direction());
@@ -63,6 +49,24 @@ bool hit_sphere(const glm::vec3& center, float radius, const ray& r) {
 	float discriminant = b * b - 4 * a * c;
 	return (discriminant > c);
 	
+}
+
+void Program::generateRay(int width, int height, glm::vec3 lookat, glm::vec3 horizontal, glm::vec3 vertical, glm::vec3 origin, Scene s) {
+
+    for (int j = height - 1; j >= 0; j--) {
+        for (int i = 0; i < width; i++) {
+            float u = float(i) / float(width) - 0.5;
+            float v = float(j) / float(height) - 0.5;
+            ray r(origin, glm::normalize(lookat + u * horizontal + v * vertical));
+            glm::vec3 col = rayColor(r);
+            for(size_t i = 0; i < s.spheres->size(); i++) {
+                if(hit_sphere((*s.spheres)[i].c, (*s.spheres)[i].r, r)) {
+                    col = glm::vec3(0,1,0);
+                }
+            }
+            image.SetPixel(i, j, col);
+        }
+    }
 }
 
 glm::vec3 sphereColor(const ray& r) {
@@ -92,11 +96,6 @@ Program::~Program() {
 
 void Program::start() {
 	image.Initialize();
-	Scene s;
-	s.lights = &lights;
-	s.planes = &planes;
-	s.tris = &tris;
-	s.spheres = &spheres;
 	std::cout << "image width is " + std::to_string( image.Width() )<< std::endl;
 	std::cout << "image height is " + std::to_string( image.Height() )<< std::endl;
 	for (unsigned int i = 0; i < image.Width(); i++) {
@@ -115,8 +114,13 @@ void Program::start() {
 	std::vector<Plane> planes;
 	std::vector<Sphere> spheres;
 	p.ParseFiles(tris, lights, spheres, planes);
-	generateRay(1024, 1024, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0),s);
-	//Main render loop
+    Scene s;
+    s.lights = &lights;
+    s.planes = &planes;
+    s.tris = &tris;
+    s.spheres = &spheres;
+    generateRay(1024, 1024, -spheres[0].c, glm::normalize(glm::cross(glm::vec3(0, 1, 0), -spheres[0].c)), glm::vec3(0, 1, 0), glm::vec3(0, 0, 0), s);
+    //Main render loop
 	while(!glfwWindowShouldClose(window)) {
 	    image.Render();
 		glfwSwapBuffers(window);

@@ -36,6 +36,8 @@ public:
 		if (s == "") {
 			goto skip;
 		}
+        if(s == " ")
+            goto skip;
 		if (s == "{")
 			return OpenBracket;
 		if (s == "}")
@@ -50,7 +52,7 @@ public:
 			return PlaneT;
 		bool isnum = true;
 		for (char c : s) {
-			if ((c != '.') && (!isdigit(c)))
+            if ((c != '-') && (c != '.') && (!isdigit(c)))
 				isnum = false;
 		}
 		if (!isnum) {
@@ -78,52 +80,52 @@ public:
 		Token tok;
 		while ((tok = t.getNextToken()) != TheEnd) {
 			if (tok == TriangleT) {
-				t.getNextToken();
+                tok = t.getNextToken();
 				glm::vec3 p0;
 				glm::vec3 p1;
 				glm::vec3 p2;
-				t.getNextToken();
+                tok = t.getNextToken();
 				p0.x = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p0.y = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p0.z = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p1.x = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p1.y = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p1.z = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p2.x = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p2.y = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p2.z = t.getValue();
 				struct Triangle t;
-				this->t.getNextToken();
+                tok = this->t.getNextToken();
 				t.pointA = p0;
 				t.pointB = p1;
 				t.pointC = p2;
 				t.color = glm::vec3(1.0f, 1.0f, 1.0f);
 				tris.push_back(t);
-				this->t.getNextToken();
+                tok = this->t.getNextToken();
 			}
 			if (tok == LightT) {
-				t.getNextToken();
+                tok = t.getNextToken();
 				glm::vec3 p0;
-				t.getNextToken();
+                tok = t.getNextToken();
 				p0.x = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p0.y = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				p0.z = t.getValue();
-				t.getNextToken();
+                tok = t.getNextToken();
 				struct Light l;
 				l.postion = p0;
 				l.color = glm::vec3(1.0f, 1.0f, 1.0f);
 				lights.push_back(l);
-				t.getNextToken();
+                tok = t.getNextToken();
 			}
 			if (tok == SphereT) {
 				t.getNextToken();
