@@ -15,6 +15,27 @@
 //(note this is necessary because these are pointers and it allows the #include to appear in the .cpp file)
 struct GLFWwindow;
 
+struct Sphere {
+	glm::vec3 c;
+	float r;
+	glm::vec3 colour;
+	glm::vec3 n;
+	glm::vec3 intersect;
+	float intmag;
+};
+
+struct Triangle {
+	glm::vec3 pointA;
+	glm::vec3 pointB;
+	glm::vec3 pointC;
+	glm::vec3 color;
+};
+
+struct Light {
+	glm::vec3 postion;
+	glm::vec3 color;
+};
+
 class Program {
 public:
 	Program();
