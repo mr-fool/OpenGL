@@ -41,51 +41,86 @@ glm::vec3 Program::rayColor(const ray& r) {
 
 }
 
-bool hit_sphere(const glm::vec3& center, float radius, const ray& r) {
-    glm::vec3 oc = r.origin() -  center;
-    float a = glm::dot(r.direction(), r.direction());
-    float b = glm::dot(oc, r.direction());
-    float c = glm::dot(oc, oc) - radius*radius;
-    float disc = b*b - a*c;
-    if(disc > 0)
-        return true;
-    return false;
+bool hit_sphere(const glm::vec3& center, float radius, const ray& r, float *t) {
+    glm::vec3 rayToCenter = center - r.origin();
+
+    /* calculate coefficients a, b, c from quadratic equation */
+
+    /* float a = dot(ray->dir, ray->dir); // ray direction is normalised, dotproduct simplifies to 1 */
+    float b = glm::dot(rayToCenter, r.direction());
+    float c = glm::dot(rayToCenter, rayToCenter) - radius*radius;
+    float disc = b * b - c; /* discriminant of quadratic formula */
+
+    /* solve for t (distance to hitpoint along ray) */
+
+    if (disc < 0.0f) return false;
+    else *t = b - sqrt(disc);
+
+    if (*t < 0.0f){
+        *t = b + sqrt(disc);
+        if (*t < 0.0f) return false;
+    }
+
+    else return true;
+}
+
+struct result {
+    float t;
+    bool hit;
+    glm::vec3 normal;
+    glm::vec3 color;
+};
+
+result intersect(Scene s, ray r) {
+    result res;
+    res.t = INFINITY;
+    res.hit = false;
+    for(size_t i = 0; i < s.spheres->size(); i++) {
+        float cur_t;
+        if(hit_sphere((*s.spheres)[i].c, (*s.spheres)[i].r, r, &cur_t)) {
+            if(cur_t < res.t){
+                res.color = glm::vec3(0,1,0);
+                res.t = cur_t;
+                res.hit = true;
+                res.normal = glm::normalize(r.point_at_parameter(res.t) - (*s.spheres)[i].c);
+            }
+        }
+    }
+    return res;
 }
 
 void Program::generateRay(int width, int height, glm::vec3 lookat, glm::vec3 up, glm::vec3 origin, Scene s) {
-    glm::vec3 right = glm::cross(up, lookat);
+    glm::vec3 right = glm::normalize(glm::cross(up, lookat));
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
-            float u = float(i) / float(width) - 0.5;
-            float v = float(j) / float(height) - 0.5;
-            ray r = ray(origin, glm::normalize(u * right + v * up + lookat));
+            float u = 2*((float(i) / float(width)) - 0.5);
+            float v = 2*((float(j) / float(height)) - 0.5);
+            ray r = ray(origin, glm::normalize((u * right) + (v * up) + lookat));
             glm::vec3 col = rayColor(r);
-            for(size_t i = 0; i < s.spheres->size(); i++) {
-                if(hit_sphere((*s.spheres)[i].c, (*s.spheres)[i].r, r)) {
-                    col = glm::vec3(0,1,0);
-                }
-            }
+            result res = intersect(s, r);
+            if(res.hit)
+                col = res.color * glm::dot(-r.direction(), res.normal);
             image.SetPixel(i, j, col);
         }
     }
 }
 
-glm::vec3 sphereColor(const ray& r) {
-    /*glm::vec3 horizontal = glm::vec3(4, 0, 0);
-    glm::vec3 vertical = glm::vec3(0, 2, 0);
-    glm::vec3 lower_left_corner = glm::vec3(-2, -1, -1);
-    glm::vec3 origin = glm::vec3(0, 0, 0);*/
-    //ray r(origin, lower_left_corner + u * horizontal + v * vertical);
-    if (hit_sphere(glm::vec3(0, 0, -1), 0.5, r)) {
-        return glm::vec3(1, 0, 0);
-    }
-    std::cout << "The r.direction is " + glm::to_string( r.direction() ) << std::endl;
-    glm::vec3 unit_direction = glm::normalize(r.direction());
-    float t = 0.5 * (unit_direction.y + 1.0);
-    glm::vec3 result = (1 - t) * glm::vec3(1, 1, 1) + t * glm::vec3(0.5, 0.7, 1.0);
-    std::cout << "The result is " + glm::to_string(result) << std::endl;
-    return (1 - t) * glm::vec3(1, 1, 1) + t * glm::vec3(0.5, 0.7, 1.0);
-}
+//glm::vec3 sphereColor(const ray& r) {
+//    /*glm::vec3 horizontal = glm::vec3(4, 0, 0);
+//    glm::vec3 vertical = glm::vec3(0, 2, 0);
+//    glm::vec3 lower_left_corner = glm::vec3(-2, -1, -1);
+//    glm::vec3 origin = glm::vec3(0, 0, 0);*/
+//    //ray r(origin, lower_left_corner + u * horizontal + v * vertical);
+//    if (hit_sphere(glm::vec3(0, 0, -1), 0.5, r)) {
+//        return glm::vec3(1, 0, 0);
+//    }
+//    std::cout << "The r.direction is " + glm::to_string( r.direction() ) << std::endl;
+//    glm::vec3 unit_direction = glm::normalize(r.direction());
+//    float t = 0.5 * (unit_direction.y + 1.0);
+//    glm::vec3 result = (1 - t) * glm::vec3(1, 1, 1) + t * glm::vec3(0.5, 0.7, 1.0);
+//    std::cout << "The result is " + glm::to_string(result) << std::endl;
+//    return (1 - t) * glm::vec3(1, 1, 1) + t * glm::vec3(0.5, 0.7, 1.0);
+//}
 
 Program::Program() {
     setupWindow();
@@ -120,7 +155,11 @@ void Program::start() {
     s.planes = &planes;
     s.tris = &tris;
     s.spheres = &spheres;
-    generateRay(1024, 1024, glm::vec3(0.9, -1.925, -6.69), glm::vec3(0, 1, 0), glm::vec3(0, -2, 0), s);
+    glm::vec3 lookat = (*s.spheres)[0].c;
+    glm::vec3 gup(0,1,0);
+    glm::vec3 right = glm::normalize(glm::cross(gup, lookat));
+    glm::vec3 up = glm::normalize(glm::cross(lookat, right));
+    generateRay(1024, 1024, lookat, up, glm::vec3(0, 0, 0), s);
     //Main render loop
     while(!glfwWindowShouldClose(window)) {
         image.Render();
