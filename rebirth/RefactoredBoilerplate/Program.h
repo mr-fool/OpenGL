@@ -35,11 +35,20 @@ struct Light {
 	glm::vec3 postion;
 	glm::vec3 color;
 };
+
 struct Plane {
 	glm::vec3 point;
 	glm::vec3 normal;
 	glm::vec3 color;
 };
+
+struct Scene {
+	std::vector<Triangle> *tris;
+	std::vector<Light> *lights;
+	std::vector<Plane> *planes;
+	std::vector<Sphere> *spheres;
+};
+
 class Program {
 public:
 	Program();
