@@ -40,6 +40,12 @@ struct Sphere {
 	float intmag;
 };
 
+struct Triangle {
+	float pointA;
+	float pointB;
+	float pointC;
+	glm::vec3 color;
+};
 
 glm::vec3 Program::rayColor(const ray& r) {
 	glm::vec3 unit_direction = glm::normalize(r.direction());
