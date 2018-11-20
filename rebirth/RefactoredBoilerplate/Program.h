@@ -35,7 +35,11 @@ struct Light {
 	glm::vec3 postion;
 	glm::vec3 color;
 };
-
+struct Plane {
+	glm::vec3 point;
+	glm::vec3 normal;
+	glm::vec3 color;
+};
 class Program {
 public:
 	Program();
