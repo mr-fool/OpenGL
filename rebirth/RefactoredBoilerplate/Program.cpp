@@ -15,6 +15,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/ext.hpp>
 #include "ray.h"
+#include "parseFile.h"
+
 //#include "sphere.cpp"
 
 //#include "vld.h"
@@ -42,14 +44,12 @@ glm::vec3 Program::rayColor(const ray& r) {
 
 void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 horizontal, glm::vec3 vertical, glm::vec3 origin) {
 	for (int j = height - 1; j >= 0; j--) {
-		for (int i = 0; i < width; i++) {
 			float u = float(i) / float(width);
 			float v = float(j) / float(height);
 			ray r(origin, lower_left_corner + u * horizontal + v * vertical);
 			glm::vec3 col = rayColor(r);
 			image.SetPixel(i, j, col);
 
-		}
 	}
 	//Main render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -111,7 +111,15 @@ void Program::start() {
 	ray testing = ray(origin, lower_left_corner + horizontal + vertical);
 	sphereColor(testing);
 	generateRay(200, 100, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
-
+	std::fstream f;
+	f.open("scene1.txt", std::fstream::in);
+	Tokenizer t(f);
+	Parser p(t);
+	std::vector<Triangle> tris;
+	std::vector<Light> lights;
+	std::vector<Plane> planes;
+	std::vector<Sphere> spheres;
+	p.ParseFiles(tris, lights, spheres, planes);
 	//Main render loop
 	while(!glfwWindowShouldClose(window)) {
 	    image.Render();
