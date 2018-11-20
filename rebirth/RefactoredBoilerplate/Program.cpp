@@ -16,7 +16,6 @@
 #include <glm/ext.hpp>
 #include "ray.h"
 #include "parseFile.h"
-
 //#include "sphere.cpp"
 
 //#include "vld.h"
@@ -44,20 +43,15 @@ glm::vec3 Program::rayColor(const ray& r) {
 
 void Program::generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 horizontal, glm::vec3 vertical, glm::vec3 origin) {
 	for (int j = height - 1; j >= 0; j--) {
+		for (int i = 0; i < width; i++) {
 			float u = float(i) / float(width);
 			float v = float(j) / float(height);
 			ray r(origin, lower_left_corner + u * horizontal + v * vertical);
 			glm::vec3 col = rayColor(r);
 			image.SetPixel(i, j, col);
+		}
+	}
 
-	}
-	//Main render loop
-	while (!glfwWindowShouldClose(window)) {
-		image.Render();
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-}
 
 bool hit_sphere(const glm::vec3& center, float radius, const ray& r) {
 	glm::vec3 oc = r.origin() - center;
