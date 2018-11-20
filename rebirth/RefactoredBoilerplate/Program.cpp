@@ -105,13 +105,7 @@ void Program::start() {
 			image.SetPixel(i, j, glm::vec3(1.0, 1.0, 1.0));
 		}
 	}
-	glm::vec3 horizontal = glm::vec3(4, 0, 0);
-	glm::vec3 vertical = glm::vec3(0, 2, 0);
-	glm::vec3 lower_left_corner = glm::vec3(-2, -1, -1);
-	glm::vec3 origin = glm::vec3(0, 0, 0);
-	ray testing = ray(origin, lower_left_corner + horizontal + vertical);
-	sphereColor(testing);
-	generateRay(1024, 1024, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0));
+
 	std::fstream f;
 	f.open("scene1.txt", std::fstream::in);
 	Tokenizer t(f);
@@ -121,6 +115,7 @@ void Program::start() {
 	std::vector<Plane> planes;
 	std::vector<Sphere> spheres;
 	p.ParseFiles(tris, lights, spheres, planes);
+	generateRay(1024, 1024, glm::vec3(-2, -1, -1), glm::vec3(4, 0, 0), glm::vec3(0, 2, 0), glm::vec3(0, 0, 0),s);
 	//Main render loop
 	while(!glfwWindowShouldClose(window)) {
 	    image.Render();
