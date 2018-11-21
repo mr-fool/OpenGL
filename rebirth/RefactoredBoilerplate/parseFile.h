@@ -19,7 +19,7 @@ enum Token {
     Specular
 };
 
-glm::vec3 color2color(glm::vec3 c) {
+static glm::vec3 color2color(glm::vec3 c) {
     c.x = c.x/255.0f;
     c.y = c.y/255.0f;
     c.z = c.z/255.0f;
