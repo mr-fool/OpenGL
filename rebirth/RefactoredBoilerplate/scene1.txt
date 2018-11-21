@@ -33,7 +33,7 @@ light {
 sphere {
   0.9 -1.925 -6.69
   0.825
-  reflect 0.97
+  reflect 0.9
 }
 
 # Blue pyramid

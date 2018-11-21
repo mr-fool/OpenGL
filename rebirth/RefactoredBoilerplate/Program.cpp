@@ -186,7 +186,7 @@ glm::vec3 shadeRay(result res, ray r, Scene s, int depth) {
             float dist = glm::distance(hp, hp + lr.direction()*resl.t) - glm::distance(hp, (*s.lights)[0].postion);
             if(!resl.hit)
                 dist = 1.0f;
-            col += (1-res.reflective) * res.color * clip(glm::dot(lightdir, res.normal) * (dist > 0.0f), 0.05, 1.0);
+            col += (1-res.reflective) * res.color * clip(glm::dot(lightdir, res.normal) * (dist > 0.0f), 0.1, 1.0);
         }
     }
     return col;
@@ -202,21 +202,21 @@ void Program::generateRay(int width, int height, glm::vec3 lookat, glm::vec3 up,
             glm::vec3 col = rayColor(r);
             result res = intersect(s, r);
             col = shadeRay(res, r, s, 0);
-//            if(res.hit) {
-//                glm::vec3 hp = r.origin() + res.t*r.direction();
-//                for(size_t i = 0; i < (*s.lights).size(); i++) {
-//                    if(glm::dot(res.normal, -r.direction()) < 0) {
-//                        res.normal = -res.normal;
-//                    }
-//                    glm::vec3 lightdir = glm::normalize((*s.lights)[i].postion - hp);
-//                    ray lr(hp + res.normal*0.001f, lightdir);
-//                    result resl = intersect(s, lr);
-//                    float dist = glm::distance(hp, hp + lr.direction()*resl.t) - glm::distance(hp, (*s.lights)[0].postion);
-//                    if(!resl.hit)
-//                        dist = 1.0f;
-//                    col = res.color * clip(glm::dot(lightdir, res.normal) * (dist > 0.0f), 0.05, 1.0);
-//                }
-//            }
+            //            if(res.hit) {
+            //                glm::vec3 hp = r.origin() + res.t*r.direction();
+            //                for(size_t i = 0; i < (*s.lights).size(); i++) {
+            //                    if(glm::dot(res.normal, -r.direction()) < 0) {
+            //                        res.normal = -res.normal;
+            //                    }
+            //                    glm::vec3 lightdir = glm::normalize((*s.lights)[i].postion - hp);
+            //                    ray lr(hp + res.normal*0.001f, lightdir);
+            //                    result resl = intersect(s, lr);
+            //                    float dist = glm::distance(hp, hp + lr.direction()*resl.t) - glm::distance(hp, (*s.lights)[0].postion);
+            //                    if(!resl.hit)
+            //                        dist = 1.0f;
+            //                    col = res.color * clip(glm::dot(lightdir, res.normal) * (dist > 0.0f), 0.05, 1.0);
+            //                }
+            //            }
 
             col.x = pow(col.x, 1 / 2.2f);
             col.y = pow(col.y, 1 / 2.2f);
@@ -263,7 +263,8 @@ void Program::start() {
     }
 
     std::fstream f;
-    f.open("scene1.txt", std::fstream::in);
+    std::string sceneselect = "scene2.txt";
+    f.open(sceneselect, std::fstream::in);
     Tokenizer t(f);
     Parser p(t);
     std::vector<Triangle> tris;
@@ -276,11 +277,19 @@ void Program::start() {
     s.planes = &planes;
     s.tris = &tris;
     s.spheres = &spheres;
-    glm::vec3 lookat(0,0,-1);
-    glm::vec3 gup(0,1,0);
-    glm::vec3 right = glm::normalize(glm::cross(gup, lookat));
-    glm::vec3 up = glm::normalize(glm::cross(lookat, right));
-    generateRay(1024, 1024, lookat, up, lookat*2.75, s);
+    if(sceneselect == "scene1.txt") {
+        glm::vec3 lookat(0,0,-1);
+        glm::vec3 gup(0,1,0);
+        glm::vec3 right = glm::normalize(glm::cross(gup, lookat));
+        glm::vec3 up = glm::normalize(glm::cross(lookat, right));
+        generateRay(1024, 1024, lookat, up, lookat*2.75, s);
+    } else {
+        glm::vec3 lookat(0,0,-1);
+        glm::vec3 gup(0,1,0);
+        glm::vec3 right = glm::normalize(glm::cross(gup, lookat));
+        glm::vec3 up = glm::normalize(glm::cross(lookat, right));
+        generateRay(1024, 1024, lookat, up, lookat*2.75, s);
+    }
     //Main render loop
     while(!glfwWindowShouldClose(window)) {
         image.Render();
