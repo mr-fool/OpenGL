@@ -22,6 +22,8 @@ struct Sphere {
 	glm::vec3 n;
 	glm::vec3 intersect;
 	float intmag;
+    float reflective;
+
 };
 
 struct Triangle {
@@ -29,6 +31,7 @@ struct Triangle {
 	glm::vec3 pointB;
 	glm::vec3 pointC;
 	glm::vec3 color;
+    float reflective;
 };
 
 struct Light {
@@ -40,6 +43,7 @@ struct Plane {
 	glm::vec3 point;
 	glm::vec3 normal;
 	glm::vec3 color;
+    float reflective;
 };
 
 struct Scene {

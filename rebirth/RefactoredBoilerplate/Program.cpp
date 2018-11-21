@@ -14,6 +14,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/ext.hpp>
+#include <glm/gtx/intersect.hpp>
 #include "ray.h"
 #include "parseFile.h"
 //#include "sphere.cpp"
@@ -31,8 +32,6 @@ the columns of m are made of u, v, -r.d
 */
 
 //float focalLen = 470.0f;
-
-
 
 glm::vec3 Program::rayColor(const ray& r) {
     glm::vec3 unit_direction = glm::normalize(r.direction());
@@ -64,24 +63,92 @@ bool hit_sphere(const glm::vec3& center, float radius, const ray& r, float *t) {
     else return true;
 }
 
+bool hit_plane(const glm::vec3& p0, glm::vec3 n, const ray& r, float *t) {
+    // assuming vectors are all normalized
+    if(glm::intersectRayPlane(r.origin(), r.direction(), p0, n, *t)) {
+        return true;
+    }
+
+    return false;
+}
+
+bool hit_triangle(const Triangle tri, const ray& r, float *t) {
+    glm::vec3 pt0 = tri.pointA;
+    glm::vec3 ut = tri.pointB - tri.pointA;
+    glm::vec3 vt = tri.pointC - tri.pointA;
+    const float eps = 0.0001f;
+    glm::vec3 h = glm::cross(r.direction(), vt);
+    const float a = glm::dot(ut, h);
+    if(a > -eps && a < eps) {
+        return false;
+    }
+    const float f = 1.0f / a;
+    glm::vec3 s = r.origin() - pt0;
+    const float u = f * glm::dot(s, h);
+    if(u < 0.0f || u > 1.0f) {
+        return false;
+    }
+    glm::vec3 q = glm::cross(s, ut);
+    const float v = f * glm::dot(r.direction(), q);
+    if(v < 0.0f || u+v > 1.0f) {
+        return false;
+    }
+    const float ts = f * glm::dot(vt, q);
+    if(ts < eps) {
+        return false;
+    }
+    *t = ts;
+    return true;
+}
+
+
 struct result {
     float t;
     bool hit;
     glm::vec3 normal;
     glm::vec3 color;
+    float reflective;
 };
 
 result intersect(Scene s, ray r) {
     result res;
     res.t = INFINITY;
     res.hit = false;
+    for(size_t i = 0; i < s.tris->size(); i++) {
+        float cur_t;
+        if(hit_triangle((*s.tris)[i], r, &cur_t)) {
+            if(cur_t < res.t) {
+                Triangle tri = (*s.tris)[i];
+                res.color =(*s.tris)[i].color;
+                res.t = cur_t;
+                res.hit = true;
+                res.reflective = (*s.tris)[i].reflective;
+                glm::vec3 ut = tri.pointB - tri.pointA;
+                glm::vec3 vt = tri.pointC - tri.pointA;
+                res.normal = glm::normalize(glm::cross(ut,vt));
+            }
+        }
+    }
+    for(size_t i = 0; i < s.planes->size(); i++) {
+        float cur_t;
+        if(hit_plane((*s.planes)[i].point, (*s.planes)[i].normal, r, &cur_t)){
+            if(cur_t < res.t) {
+                res.color = (*s.planes)[i].color;
+                res.t = cur_t;
+                res.hit = true;
+                res.reflective = (*s.planes)[i].reflective;
+                res.normal = (*s.planes)[i].normal;
+            }
+        }
+    }
     for(size_t i = 0; i < s.spheres->size(); i++) {
         float cur_t;
         if(hit_sphere((*s.spheres)[i].c, (*s.spheres)[i].r, r, &cur_t)) {
             if(cur_t < res.t){
-                res.color = glm::vec3(0,1,0);
+                res.color = (*s.spheres)[i].colour;
                 res.t = cur_t;
                 res.hit = true;
+                res.reflective = (*s.spheres)[i].reflective;
                 res.normal = glm::normalize(r.point_at_parameter(res.t) - (*s.spheres)[i].c);
             }
         }
@@ -89,8 +156,44 @@ result intersect(Scene s, ray r) {
     return res;
 }
 
+float clip(float n, float lower, float upper) {
+    return std::max(lower, std::min(n, upper));
+}
+
+
+glm::vec3 shadeRay(result res, ray r, Scene s, int depth) {
+    glm::vec3 col(0,0,0);
+    if(depth > 3){
+        return glm::vec3(0.0f, 0.0f, 0.0f);
+    }
+    if(res.hit) {
+        glm::vec3 hp = r.origin() + res.t*r.direction();
+        if(res.reflective > 0.0f) {
+            ray ref(hp + res.normal*0.001f, r.direction() - 2*res.normal*glm::dot(r.direction(), res.normal));
+            result rref = intersect(s, ref);
+            if(rref.hit) {
+                glm::vec3 c = shadeRay(rref, ref, s, depth+1);
+                col += res.reflective * c;
+            }
+        }
+        for(size_t i = 0; i < (*s.lights).size(); i++) {
+            if(glm::dot(res.normal, -r.direction()) < 0) {
+                res.normal = -res.normal;
+            }
+            glm::vec3 lightdir = glm::normalize((*s.lights)[i].postion - hp);
+            ray lr(hp + res.normal*0.001f, lightdir);
+            result resl = intersect(s, lr);
+            float dist = glm::distance(hp, hp + lr.direction()*resl.t) - glm::distance(hp, (*s.lights)[0].postion);
+            if(!resl.hit)
+                dist = 1.0f;
+            col += (1-res.reflective) * res.color * clip(glm::dot(lightdir, res.normal) * (dist > 0.0f), 0.05, 1.0);
+        }
+    }
+    return col;
+}
+
 void Program::generateRay(int width, int height, glm::vec3 lookat, glm::vec3 up, glm::vec3 origin, Scene s) {
-    glm::vec3 right = glm::normalize(glm::cross(up, lookat));
+    glm::vec3 right = -glm::normalize(glm::cross(up, lookat));
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
             float u = 2*((float(i) / float(width)) - 0.5);
@@ -98,8 +201,26 @@ void Program::generateRay(int width, int height, glm::vec3 lookat, glm::vec3 up,
             ray r = ray(origin, glm::normalize((u * right) + (v * up) + lookat));
             glm::vec3 col = rayColor(r);
             result res = intersect(s, r);
-            if(res.hit)
-                col = res.color * glm::dot(-r.direction(), res.normal);
+            col = shadeRay(res, r, s, 0);
+//            if(res.hit) {
+//                glm::vec3 hp = r.origin() + res.t*r.direction();
+//                for(size_t i = 0; i < (*s.lights).size(); i++) {
+//                    if(glm::dot(res.normal, -r.direction()) < 0) {
+//                        res.normal = -res.normal;
+//                    }
+//                    glm::vec3 lightdir = glm::normalize((*s.lights)[i].postion - hp);
+//                    ray lr(hp + res.normal*0.001f, lightdir);
+//                    result resl = intersect(s, lr);
+//                    float dist = glm::distance(hp, hp + lr.direction()*resl.t) - glm::distance(hp, (*s.lights)[0].postion);
+//                    if(!resl.hit)
+//                        dist = 1.0f;
+//                    col = res.color * clip(glm::dot(lightdir, res.normal) * (dist > 0.0f), 0.05, 1.0);
+//                }
+//            }
+
+            col.x = pow(col.x, 1 / 2.2f);
+            col.y = pow(col.y, 1 / 2.2f);
+            col.z = pow(col.z, 1 / 2.2f);
             image.SetPixel(i, j, col);
         }
     }
@@ -155,11 +276,11 @@ void Program::start() {
     s.planes = &planes;
     s.tris = &tris;
     s.spheres = &spheres;
-    glm::vec3 lookat = (*s.spheres)[0].c;
+    glm::vec3 lookat(0,0,-1);
     glm::vec3 gup(0,1,0);
     glm::vec3 right = glm::normalize(glm::cross(gup, lookat));
     glm::vec3 up = glm::normalize(glm::cross(lookat, right));
-    generateRay(1024, 1024, lookat, up, glm::vec3(0, 0, 0), s);
+    generateRay(1024, 1024, lookat, up, lookat*2.75, s);
     //Main render loop
     while(!glfwWindowShouldClose(window)) {
         image.Render();
