@@ -215,8 +215,8 @@ void Program::generateRay(int width, int height, glm::vec3 lookat, glm::vec3 up,
     glm::vec3 right = -glm::normalize(glm::cross(up, lookat));
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
-            float u = 2*((float(i) / float(width)) - 0.5) * tan(fov / 2 * M_PI / 180);
-            float v = 2*((float(j) / float(height)) - 0.5) * tan(fov / 2 * M_PI / 180);
+            float u = 2*((float(i) / float(width)) - 0.5) * tan(fov / 2 * acos(-1) / 180);
+            float v = 2*((float(j) / float(height)) - 0.5) * tan(fov / 2 * acos(-1) / 180);
             ray r = ray(origin, glm::normalize((u * right) + (v * up) + lookat));
             glm::vec3 col = rayColor(r);
             result res = intersect(s, r);
