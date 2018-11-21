@@ -17,6 +17,7 @@
 #include <glm/gtx/intersect.hpp>
 #include "ray.h"
 #include "parseFile.h"
+#include <algorithm>
 //#include "sphere.cpp"
 
 //#include "vld.h"
@@ -210,12 +211,12 @@ glm::vec3 shadeRay(result res, ray r, Scene s, int depth) {
     return col;
 }
 
-void Program::generateRay(int width, int height, glm::vec3 lookat, glm::vec3 up, glm::vec3 origin, Scene s) {
+void Program::generateRay(int width, int height, glm::vec3 lookat, glm::vec3 up, glm::vec3 origin, float fov, Scene s) {
     glm::vec3 right = -glm::normalize(glm::cross(up, lookat));
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
-            float u = 2*((float(i) / float(width)) - 0.5);
-            float v = 2*((float(j) / float(height)) - 0.5);
+            float u = 2*((float(i) / float(width)) - 0.5) * tan(fov / 2 * M_PI / 180);
+            float v = 2*((float(j) / float(height)) - 0.5) * tan(fov / 2 * M_PI / 180);
             ray r = ray(origin, glm::normalize((u * right) + (v * up) + lookat));
             glm::vec3 col = rayColor(r);
             result res = intersect(s, r);
@@ -296,17 +297,19 @@ void Program::start() {
     s.tris = &tris;
     s.spheres = &spheres;
     if(sceneselect == "scene1.txt") {
-        glm::vec3 lookat(0,0,-1);
+        glm::vec3 origin(0,0,-0.75);
+        glm::vec3 lookat = origin + glm::vec3(0,0,-1);
         glm::vec3 gup(0,1,0);
         glm::vec3 right = glm::normalize(glm::cross(gup, lookat));
         glm::vec3 up = glm::normalize(glm::cross(lookat, right));
-        generateRay(1024, 1024, lookat, up, lookat*2.75, s);
+        generateRay(1024, 1024, lookat, up, origin, 90,  s);
     } else {
-        glm::vec3 lookat(0,0,-1);
+        glm::vec3 origin(0,0,-0.7);
+        glm::vec3 lookat = origin + glm::vec3(0,0,-1);
         glm::vec3 gup(0,1,0);
         glm::vec3 right = glm::normalize(glm::cross(gup, lookat));
         glm::vec3 up = glm::normalize(glm::cross(lookat, right));
-        generateRay(1024, 1024, lookat, up, lookat*1.75, s);
+        generateRay(1024, 1024, lookat, up, origin, 90, s);
     }
     //Main render loop
     while(!glfwWindowShouldClose(window)) {

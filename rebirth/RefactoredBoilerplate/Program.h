@@ -75,7 +75,7 @@ public:
 	//Prints system specs to the console
 	void QueryGLVersion();
 
-    void generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 up, glm::vec3 origin, Scene s);
+    void generateRay(int width, int height, glm::vec3 lower_left_corner, glm::vec3 up, glm::vec3 origin, float fov, Scene s);
 	glm::vec3 rayColor(const ray& r);
 		
 	//making it public for easier access

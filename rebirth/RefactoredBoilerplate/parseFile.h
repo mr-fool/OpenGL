@@ -1,3 +1,5 @@
+#ifndef PARSEFILE_H
+#define PARSEFILE_H
 #include <fstream>
 #include "Program.h"
 #include <iostream>
@@ -314,3 +316,4 @@ public:
 private:
     Tokenizer &t;
 };
+#endif
