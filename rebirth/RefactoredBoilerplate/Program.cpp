@@ -108,6 +108,9 @@ struct result {
     glm::vec3 normal;
     glm::vec3 color;
     float reflective;
+    float gaussian;
+    bool metallic;
+    float specular;
 };
 
 result intersect(Scene s, ray r) {
@@ -123,6 +126,9 @@ result intersect(Scene s, ray r) {
                 res.t = cur_t;
                 res.hit = true;
                 res.reflective = (*s.tris)[i].reflective;
+                res.gaussian = (*s.tris)[i].gaussian;
+                res.metallic = (*s.tris)[i].metallic;
+                res.specular = (*s.tris)[i].specular;
                 glm::vec3 ut = tri.pointB - tri.pointA;
                 glm::vec3 vt = tri.pointC - tri.pointA;
                 res.normal = glm::normalize(glm::cross(ut,vt));
@@ -136,7 +142,10 @@ result intersect(Scene s, ray r) {
                 res.color = (*s.planes)[i].color;
                 res.t = cur_t;
                 res.hit = true;
+                res.specular = (*s.planes)[i].specular;
+                res.gaussian = (*s.planes)[i].gaussian;
                 res.reflective = (*s.planes)[i].reflective;
+                res.metallic = (*s.planes)[i].metallic;
                 res.normal = (*s.planes)[i].normal;
             }
         }
@@ -148,7 +157,10 @@ result intersect(Scene s, ray r) {
                 res.color = (*s.spheres)[i].colour;
                 res.t = cur_t;
                 res.hit = true;
+                res.specular = (*s.spheres)[i].specular;
                 res.reflective = (*s.spheres)[i].reflective;
+                res.gaussian = (*s.spheres)[i].gaussian;
+                res.metallic = (*s.spheres)[i].metallic;
                 res.normal = glm::normalize(r.point_at_parameter(res.t) - (*s.spheres)[i].c);
             }
         }
@@ -186,6 +198,12 @@ glm::vec3 shadeRay(result res, ray r, Scene s, int depth) {
             float dist = glm::distance(hp, hp + lr.direction()*resl.t) - glm::distance(hp, (*s.lights)[0].postion);
             if(!resl.hit)
                 dist = 1.0f;
+            glm::vec3 halfangle = glm::normalize(lightdir - r.direction());
+            float ahalf = acos(glm::dot(halfangle, res.normal));
+            float expn = ahalf / res.gaussian;
+            expn = -(expn * expn);
+            float gauss = exp(expn);
+            col += res.specular * gauss * ((res.metallic) ? res.color : (*s.lights)[i].color);
             col += (1-res.reflective) * res.color * clip(glm::dot(lightdir, res.normal) * (dist > 0.0f), 0.1, 1.0);
         }
     }
@@ -288,7 +306,7 @@ void Program::start() {
         glm::vec3 gup(0,1,0);
         glm::vec3 right = glm::normalize(glm::cross(gup, lookat));
         glm::vec3 up = glm::normalize(glm::cross(lookat, right));
-        generateRay(1024, 1024, lookat, up, lookat*2.75, s);
+        generateRay(1024, 1024, lookat, up, lookat*1.75, s);
     }
     //Main render loop
     while(!glfwWindowShouldClose(window)) {

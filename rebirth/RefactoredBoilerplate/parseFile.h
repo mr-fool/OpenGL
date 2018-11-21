@@ -11,7 +11,10 @@ enum Token {
     PlaneT,
     TheEnd,
     Color,
-    Reflect
+    Reflect,
+    Gaussian,
+    Metallic,
+    Specular
 };
 
 glm::vec3 color2color(glm::vec3 c) {
@@ -67,6 +70,12 @@ skip:
             return Reflect;
         if (s == "color")
             return Color;
+        if (s == "gaussian")
+            return Gaussian;
+        if (s == "metallic")
+            return Metallic;
+        if (s == "specular")
+            return Specular;
         bool isnum = true;
         for (char c : s) {
             if ((c != '-') && (c != '.') && (!isdigit(c)))
@@ -126,14 +135,21 @@ public:
                 t.pointC = p2;
                 t.color = glm::vec3(1.0f, 1.0f, 1.0f);
                 t.reflective = 0.0f;
-                while(tok == Color || tok == Reflect) {
+                t.gaussian = 0.0f;
+                t.specular = 1.0f;
+                t.metallic = false;
+                while(tok == Color || tok == Reflect || tok == Gaussian || tok == Metallic || tok == Specular) {
                     switch(tok) {
                     case Reflect:
                         tok = this->t.getNextToken();
                         t.reflective = this->t.getValue();
                         tok = this->t.getNextToken();
                         break;
-
+                    case Specular:
+                        tok = this->t.getNextToken();
+                        t.specular = this->t.getValue();
+                        tok = this->t.getNextToken();
+                        break;
                     case Color:
                         tok = this->t.getNextToken();
                         t.color.x = this->t.getValue();
@@ -143,6 +159,15 @@ public:
                         t.color.z = this->t.getValue();
                         tok = this->t.getNextToken();
                         t.color = color2color(t.color);
+                        break;
+                    case Gaussian:
+                        tok = this->t.getNextToken();
+                        t.gaussian = this->t.getValue();
+                        tok = this->t.getNextToken();
+                        break;
+                    case Metallic:
+                        t.metallic = true;
+                        tok = this->t.getNextToken();
                         break;
                     }
                 }
@@ -183,14 +208,21 @@ public:
                 s.colour = glm::vec3(1.0f, 1.0f, 1.0f);
                 s.r = radius;
                 s.reflective = 0.0f;
-                while(tok == Color || tok == Reflect) {
+                s.gaussian = 0.0f;
+                s.specular = 1.0f;
+                s.metallic = false;
+                while(tok == Color || tok == Reflect || tok == Gaussian || tok == Metallic || tok == Specular) {
                     switch(tok) {
                     case Reflect:
                         tok = this->t.getNextToken();
                         s.reflective = this->t.getValue();
                         tok = this->t.getNextToken();
                         break;
-
+                    case Specular:
+                        tok = this->t.getNextToken();
+                        s.specular = this->t.getValue();
+                        tok = this->t.getNextToken();
+                        break;
                     case Color:
                         tok = this->t.getNextToken();
                         s.colour.x = this->t.getValue();
@@ -200,6 +232,15 @@ public:
                         s.colour.z = this->t.getValue();
                         tok = this->t.getNextToken();
                         s.colour = color2color(s.colour);
+                        break;
+                    case Gaussian:
+                        tok = this->t.getNextToken();
+                        s.gaussian = t.getValue();
+                        tok = this->t.getNextToken();
+                        break;
+                    case Metallic:
+                        s.metallic = true;
+                        tok = t.getNextToken();
                         break;
                     }
                 }
@@ -228,14 +269,21 @@ public:
                 p.point = p0;
                 p.normal = n;
                 p.reflective = 0.0f;
-                while(tok == Color || tok == Reflect) {
+                p.gaussian = 0.0f;
+                p.metallic = false;
+                p.specular = 1.0f;
+                while(tok == Color || tok == Reflect || tok == Gaussian || tok == Metallic || tok == Specular) {
                     switch(tok) {
                     case Reflect:
                         tok = this->t.getNextToken();
                         p.reflective = this->t.getValue();
                         tok = this->t.getNextToken();
                         break;
-
+                    case Specular:
+                        tok = this->t.getNextToken();
+                        p.specular = this->t.getValue();
+                        tok = this->t.getNextToken();
+                        break;
                     case Color:
                         tok = this->t.getNextToken();
                         p.color.x = this->t.getValue();
@@ -245,6 +293,15 @@ public:
                         p.color.z = this->t.getValue();
                         tok = this->t.getNextToken();
                         p.color = color2color(p.color);
+                        break;
+                    case Gaussian:
+                        tok = this->t.getNextToken();
+                        p.gaussian = t.getValue();
+                        tok = this->t.getNextToken();
+                        break;
+                    case Metallic:
+                        p.metallic = true;
+                        tok = t.getNextToken();
                         break;
                     }
                 }

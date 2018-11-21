@@ -33,30 +33,44 @@ light {
 plane {
   0 1 0
   0 -1 0
+  color 62 62 62
 }
 
 # Back wall
 plane {
   0 0 1
   0 0 -12
+  color 0 46.7 46.7
+  gaussian 0.8
+  specular 0.2
 }
 
 # Large yellow sphere
 sphere {
   1 -0.5 -3.5
   0.5
+  color 41.6 41.6 0 
+  gaussian 0.25
+  specular 0.3
 }
 
 # Reflective grey sphere
 sphere {
   0 1 -5
   0.4
+ reflect 0.9
+ gaussian 0.05
+ specular 0.6
 }
 
 # Metallic purple sphere
 sphere {
   -0.8 -0.75 -4
   0.25
+  color 39.2 0 39.2
+  reflect 0.1
+  gaussian 0.1
+  metallic
 }
 
 # Green cone
@@ -64,61 +78,97 @@ triangle {
   0 -1 -5.8
   0 0.6 -5
   0.4 -1 -5.693
+  color 0 51 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   0.4 -1 -5.693
   0 0.6 -5
   0.6928 -1 -5.4
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   0.6928 -1 -5.4
   0 0.6 -5
   0.8 -1 -5
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   0.8 -1 -5
   0 0.6 -5
   0.6928 -1 -4.6
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   0.6928 -1 -4.6
   0 0.6 -5
   0.4 -1 -4.307
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   0.4 -1 -4.307
   0 0.6 -5
   0 -1 -4.2
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   0 -1 -4.2
   0 0.6 -5
   -0.4 -1 -4.307
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   -0.4 -1 -4.307
   0 0.6 -5
   -0.6928 -1 -4.6
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   -0.6928 -1 -4.6
   0 0.6 -5
   -0.8 -1 -5
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   -0.8 -1 -5
   0 0.6 -5
   -0.6928 -1 -5.4
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   -0.6928 -1 -5.4
   0 0.6 -5
   -0.4 -1 -5.693
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 triangle {
   -0.4 -1 -5.693
   0 0.6 -5
   0 -1 -5.8
+  color 0 51.8 0
+  gaussian 0.3
+  specular 0.5
 }
 
 # Shiny red icosahedron
@@ -126,99 +176,139 @@ triangle {
   -2 -1 -7
   -1.276 -0.4472 -6.474
   -2.276 -0.4472 -6.149
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -1.276 -0.4472 -6.474
   -2 -1 -7
   -1.276 -0.4472 -7.526
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2 -1 -7
   -2.276 -0.4472 -6.149
   -2.894 -0.4472 -7
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2 -1 -7
   -2.894 -0.4472 -7
   -2.276 -0.4472 -7.851
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2 -1 -7
   -2.276 -0.4472 -7.851
   -1.276 -0.4472 -7.526
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -1.276 -0.4472 -6.474
   -1.276 -0.4472 -7.526
   -1.106 0.4472 -7
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2.276 -0.4472 -6.149
   -1.276 -0.4472 -6.474
   -1.724 0.4472 -6.149
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2.894 -0.4472 -7
   -2.276 -0.4472 -6.149
   -2.724 0.4472 -6.474
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2.276 -0.4472 -7.851
   -2.894 -0.4472 -7
   -2.724 0.4472 -7.526
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -1.276 -0.4472 -7.526
   -2.276 -0.4472 -7.851
   -1.724 0.4472 -7.851
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -1.276 -0.4472 -6.474
   -1.106 0.4472 -7
   -1.724 0.4472 -6.149
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2.276 -0.4472 -6.149
   -1.724 0.4472 -6.149
   -2.724 0.4472 -6.474
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2.894 -0.4472 -7
   -2.724 0.4472 -6.474
   -2.724 0.4472 -7.526
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2.276 -0.4472 -7.851
   -2.724 0.4472 -7.526
   -1.724 0.4472 -7.851
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -1.276 -0.4472 -7.526
   -1.724 0.4472 -7.851
   -1.106 0.4472 -7
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -1.724 0.4472 -6.149
   -1.106 0.4472 -7
   -2 1 -7
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2.724 0.4472 -6.474
   -1.724 0.4472 -6.149
   -2 1 -7
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -2.724 0.4472 -7.526
   -2.724 0.4472 -6.474
   -2 1 -7
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -1.724 0.4472 -7.851
   -2.724 0.4472 -7.526
   -2 1 -7
+  color 56.1 0 0
+  reflect 0.2
 }
 triangle {
   -1.106 0.4472 -7
   -1.724 0.4472 -7.851
   -2 1 -7
+  color 56.1 0 0
+  reflect 0.2
 }
