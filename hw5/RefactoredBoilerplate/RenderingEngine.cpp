@@ -84,7 +84,7 @@ void RenderingEngine::setBufferData(Geometry& geometry) {
 	//Send geometry to the GPU
 	//Must be called whenever anything is updated about the object
 	glBindBuffer(GL_ARRAY_BUFFER, geometry.vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * geometry.verts.size(), geometry.verts.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * geometry.verts.size(), geometry.verts.data(), GL_STATIC_DRAW);
 
 	/*glBindBuffer(GL_ARRAY_BUFFER, geometry.normalBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * geometry.normals.size(), geometry.normals.data(), GL_STATIC_DRAW);*/
