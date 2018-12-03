@@ -30,6 +30,21 @@ std::vector<Geometry>& Scene::getObjects(){
 }
 
 void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals,vector<vec2>& uvs, vector<unsigned int>& indices,vec3 center, float radius, int divisions){
+	objects.clear();
+	rectangle.verts.clear();
+	rectangle.uvs.clear();
+	MyTexture texture;
+	//Load texture uniform
+//Shaders need to be active to load uniforms
+	glUseProgram(renderer->shaderProgram);
+	//Set which texture unit the texture is bound to
+	glActiveTexture(GL_TEXTURE0);
+	//Bind the texture to GL_TEXTURE0
+	glBindTexture(GL_TEXTURE_RECTANGLE, texture.textureID);
+	//Get identifier for uniform
+	GLuint uniformLocation = glGetUniformLocation(renderer->shaderProgram, "imageTexture");
+	//Load texture unit number into uniform
+	glUniform1i(uniformLocation, 0);
 	float step = 1.f / (float)(divisions - 1);
 	float u = 0.f;
 
@@ -45,34 +60,25 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals,vector
 
 			vec3 normal = normalize(pos - center);
 
-			positions.push_back(pos);
-			normals.push_back(normal);
-			uvs.push_back(vec2(u, v));
+			rectangle.verts.push_back(pos);
+			rectangle.verts.push_back(normal);
+			rectangle.uvs.push_back(vec2(u, v));
 
 			v += step;
 		}
 
 		u += step;
 	}
+	//Construct vao and vbos for the triangle
+	RenderingEngine::assignBuffers(rectangle);
 
-	for (int i = 0; i < divisions - 1; i++)
-	{
-		for (int j = 0; j < divisions - 1; j++)
-		{
-			unsigned int p00 = i * divisions + j;
-			unsigned int p01 = i * divisions + j + 1;
-			unsigned int p10 = (i + 1) * divisions + j;
-			unsigned int p11 = (i + 1) * divisions + j + 1;
+	//Send the triangle data to the GPU
+	//Must be done every time the triangle is modified in any way, ex. verts, colors, normals, uvs, etc.
+	RenderingEngine::setBufferData(rectangle);
 
-			indices.push_back(p00);
-			indices.push_back(p10);
-			indices.push_back(p01);
+	//Add the triangle to the scene objects
+	objects.push_back(rectangle);
 
-			indices.push_back(p01);
-			indices.push_back(p10);
-			indices.push_back(p11);
-		}
-	}
 }
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 
