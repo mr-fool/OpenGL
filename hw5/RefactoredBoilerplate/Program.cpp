@@ -70,6 +70,8 @@ void Program::setupWindow() {
 		glfwTerminate();
 		return;
 	}
+	//So that we can access this object on key callbacks...
+	glfwSetWindowUserPointer(window, this);
 
 	//Set the custom function that tracks key presses
 	glfwSetKeyCallback(window, KeyCallback);
@@ -113,6 +115,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	MyTexture texture;
 	Program* program = (Program*)glfwGetWindowUserPointer(window);
 	std::vector<Geometry>& objects = program->getScene()->getObjects();
+
 	/*if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
 		vec3 earthCenter = vec3(0.0);
 		vector<vec3> earthPoints;
