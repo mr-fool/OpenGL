@@ -117,6 +117,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	std::vector<Geometry>& objects = program->getScene()->getObjects();
 
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+		std::cout << "Key 1 is detected" << std::endl;
 		vec3 earthCenter = vec3(0.0);
 		vector<vec3> earthPoints;
 		vector<vec3> earthNormals;
