@@ -69,6 +69,7 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals,vector
 
 		u += step;
 	}
+	rectangle.drawMode = GL_TRIANGLES;
 	//Construct vao and vbos for the triangle
 	RenderingEngine::assignBuffers(rectangle);
 
@@ -81,12 +82,19 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals,vector
 
 }
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
-
+	vec3 center = vec3(0.0);
+	vector<vec3> earthPoints;
+	vector<vec3> earthNormals;
+	vector<vec2> earthUvs;
+	float distScale = 35.0 / 149597870.7; // AU in km
+	float radScale = 1.0 / 6378.1; // E in km
+	vector<unsigned int> earthIndices;
+	center = vec3(distScale * 149597890, 0.0, 0.0);
+	float radius = pow(radScale * 6378.1, 0.5);
+	int divisions = 72;
 	MyTexture texture;
-	InitializeTexture(&texture, "image1-mandrill.png", GL_TEXTURE_RECTANGLE);
-
 	//Load texture uniform
-	//Shaders need to be active to load uniforms
+//Shaders need to be active to load uniforms
 	glUseProgram(renderer->shaderProgram);
 	//Set which texture unit the texture is bound to
 	glActiveTexture(GL_TEXTURE0);
@@ -96,30 +104,31 @@ Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	GLuint uniformLocation = glGetUniformLocation(renderer->shaderProgram, "imageTexture");
 	//Load texture unit number into uniform
 	glUniform1i(uniformLocation, 0);
+	float step = 1.f / (float)(divisions - 1);
+	float u = 0.f;
 
-	if(renderer->CheckGLErrors()) {
-		std::cout << "Texture creation failed" << std::endl;
+	// Traversing the planes of time and space
+	for (int i = 0; i < divisions; i++) {
+		float v = 0.f;
+
+		//Traversing the planes of time and space (again)
+		for (int j = 0; j < divisions; j++) {
+			vec3 pos = vec3(radius * cos(2.f * PI * u) * sin(PI * v),
+				radius * sin(2.f * PI * u) * sin(PI * v),
+				radius * cos(PI * v)) + center;
+
+			vec3 normal = normalize(pos - center);
+
+			rectangle.verts.push_back(pos);
+			rectangle.verts.push_back(normal);
+			rectangle.uvs.push_back(vec2(u, v));
+
+			v += step;
+		}
+
+		u += step;
 	}
-
-		// three vertex positions and assocated colours of a triangle
-	rectangle.verts.push_back(glm::vec3( -0.9f, -0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3( 0.9f,  -0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3( 0.9f, 0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3( -0.9f, -0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3( 0.9f, 0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3( -0.9f, 0.9f, 1.0f));
-
-
-
 	rectangle.drawMode = GL_TRIANGLES;
-
-	rectangle.uvs.push_back(glm::vec2( 0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2( float(texture.width), 0.f));
-	rectangle.uvs.push_back(glm::vec2( float(texture.width), float(texture.height)));
-	rectangle.uvs.push_back(glm::vec2( 0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2( float(texture.width), float(texture.height)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, float(texture.height)));
-
 	//Construct vao and vbos for the triangle
 	RenderingEngine::assignBuffers(rectangle);
 
