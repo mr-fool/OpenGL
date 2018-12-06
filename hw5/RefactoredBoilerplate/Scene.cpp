@@ -14,7 +14,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include <glm/gtx/string_cast.hpp>
  //**Must include glad and GLFW in this order or it breaks**
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -48,6 +48,7 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 				radius * cos(PI * v)) + center;
 
 			vec3 normal = normalize(pos - center);
+			std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
 
 			rectangle.verts.push_back(pos);
 			rectangle.verts.push_back(normal);
