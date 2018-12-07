@@ -123,8 +123,10 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		vector<vec3> earthNormals;
 		vector<vec2> earthUvs;
 		vector<unsigned int> earthIndices;
-		earthCenter = vec3(distScale * 149597890, 0.0, 0.0);
-		float earthRadius = pow(radScale * 6378.1, 0.5);
-		program->getScene()->generateSphere(earthPoints, earthNormals, earthUvs, earthIndices, earthCenter, earthRadius, 72);
+		//earthCenter = vec3(distScale * 149597890, 0.0, 0.0);
+		earthCenter = vec3(0.0, 0.0, 0.0);
+		//float earthRadius = pow(radScale * 6378.1, 0.5);
+		float earthRadius = 0.8f;
+		program->getScene()->generateSphere(earthPoints, earthNormals, earthUvs, earthIndices, earthCenter, earthRadius, 3);
 	}
 }
