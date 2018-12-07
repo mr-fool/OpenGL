@@ -1,34 +1,3 @@
-/*
- * Scene.cpp
- *
- *  Created on: Sep 10, 2018
- *  Author: John Hall
- */
-
-#include "Scene.h"
-
-#include <iostream>
-
-#include "RenderingEngine.h"
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/string_cast.hpp>
- //**Must include glad and GLFW in this order or it breaks**
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include "texture.h"
-#include <vector>
-using namespace std;
-using namespace glm;
-#define PI 3.141592653589793238462643383
-
-std::vector<Geometry>& Scene::getObjects() {
-	return this->objects;
-}
-
 void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vector<vec2>& uvs, vector<unsigned int>& indices, vec3 center, float radius, int divisions) {
 	objects.clear();
 	rectangle.verts.clear();
@@ -48,7 +17,7 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 				radius * cos(PI * v)) + center;
 
 			vec3 normal = normalize(pos - center);
-			std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
+			//std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
 
 			rectangle.verts.push_back(pos);
 			rectangle.verts.push_back(normal);
@@ -59,57 +28,25 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 
 		u += step;
 	}
-	rectangle.drawMode = GL_TRIANGLES;
-	//Construct vao and vbos for the triangle
-	RenderingEngine::assignBuffers(rectangle);
+	for (int i = 0; i < divisions - 1; i++)
+	{
+		for (int j = 0; j < divisions - 1; j++)
+		{
+			unsigned int p00 = i * divisions + j;
+			unsigned int p01 = i * divisions + j + 1;
+			unsigned int p10 = (i + 1) * divisions + j;
+			unsigned int p11 = (i + 1) * divisions + j + 1;
 
-	//Send the triangle data to the GPU
-	//Must be done every time the triangle is modified in any way, ex. verts, colors, normals, uvs, etc.
-	RenderingEngine::setBufferData(rectangle);
+			indices.push_back(p00);
+			indices.push_back(p10);
+			indices.push_back(p01);
 
-	//Add the triangle to the scene objects
-	objects.push_back(rectangle);
-}
-Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
-
-	MyTexture texture;
-	InitializeTexture(&texture, "image1-mandrill.png", GL_TEXTURE_RECTANGLE);
-
-	//Load texture uniform
-	//Shaders need to be active to load uniforms
-	glUseProgram(renderer->shaderProgram);
-	//Set which texture unit the texture is bound to
-	glActiveTexture(GL_TEXTURE0);
-	//Bind the texture to GL_TEXTURE0
-	glBindTexture(GL_TEXTURE_RECTANGLE, texture.textureID);
-	//Get identifier for uniform
-	GLuint uniformLocation = glGetUniformLocation(renderer->shaderProgram, "imageTexture");
-	//Load texture unit number into uniform
-	glUniform1i(uniformLocation, 0);
-
-	if (renderer->CheckGLErrors()) {
-		std::cout << "Texture creation failed" << std::endl;
+			indices.push_back(p01);
+			indices.push_back(p10);
+			indices.push_back(p11);
+		}
 	}
-
-	// three vertex positions and assocated colours of a triangle
-	rectangle.verts.push_back(glm::vec3(-0.9f, -0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(0.9f, -0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(0.9f, 0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(-0.9f, -0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(0.9f, 0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(-0.9f, 0.9f, 1.0f));
-
-
-
 	rectangle.drawMode = GL_TRIANGLES;
-
-	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2(float(texture.width), 0.f));
-	rectangle.uvs.push_back(glm::vec2(float(texture.width), float(texture.height)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2(float(texture.width), float(texture.height)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, float(texture.height)));
-
 	//Construct vao and vbos for the triangle
 	RenderingEngine::assignBuffers(rectangle);
 
@@ -119,14 +56,4 @@ Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 
 	//Add the triangle to the scene objects
 	objects.push_back(rectangle);
-
 }
-
-Scene::~Scene() {
-
-}
-
-void Scene::displayScene() {
-	renderer->RenderScene(objects);
-}
-
