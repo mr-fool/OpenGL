@@ -41,7 +41,7 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 	rectangle.verts.clear();
 	rectangle.uvs.clear();
 	MyTexture texture;
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	float step = 1.f / (float)(divisions - 1);
 	float u = 0.f;
 	// Traversing the planes of time and space
@@ -107,7 +107,7 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 
 			rectangle.verts.push_back(botLeft);
 			rectangle.verts.push_back(topRight);
-			rectangle.verts.push_back(botLeft);
+			rectangle.verts.push_back(botRight);
 			v += step;
 		}
 
