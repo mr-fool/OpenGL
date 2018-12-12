@@ -54,9 +54,9 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 				radius * cos(PI * v)) + center;*/
 
 			vec3 topLeft = getSphereCoords(u, v, 0, 1);
-			vec3 topRight = getSphereCoords(u + 1, v, 0, 1);
-			vec3 botLeft = getSphereCoords(u, v + 1, 0, 1);
-			vec3 botRight = getSphereCoords(u + 1, v + 1, 0, 1);
+			vec3 topRight = getSphereCoords(u + step, v, 0, 1);
+			vec3 botLeft = getSphereCoords(u, v + step, 0, 1);
+			vec3 botRight = getSphereCoords(u + step, v + step, 0, 1);
 			vec3 pos = vec3(u, v, 0.0f);
 			vec3 normal = normalize(pos - center);
 			//std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
