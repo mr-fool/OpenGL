@@ -45,7 +45,7 @@ Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 	rectangle.uvs.clear();
 	MyTexture texture;
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	float step = 1.f / (float)(divisions - 1);
+	float step = 1.f / (float)divisions;
 	float u = 0.f;
 	// Traversing the planes of time and space
 	for (int i = 0; i < divisions; i++) {
