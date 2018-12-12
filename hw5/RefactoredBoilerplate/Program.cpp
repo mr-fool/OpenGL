@@ -119,21 +119,5 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	Program* program = (Program*)glfwGetWindowUserPointer(window);
 	std::vector<Geometry>& objects = program->getScene()->getObjects();
 
-	if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
-		std::cout << "Key 1 is detected" << std::endl;
-		vec3 earthCenter = vec3(0.0);
-		vector<vec3> earthPoints;
-		vector<vec3> earthNormals;
-		vector<vec2> earthUvs;
-		vector<unsigned int> earthIndices;
-		//earthCenter = vec3(distScale * 149597890, 0.0, 0.0);
-		earthCenter = vec3(0.0, 0.0, 0.0);
-		//float earthRadius = pow(radScale * 6378.1, 0.5);
-		float earthRadius = 1;
-		program->getScene()->generateSphere(earthPoints, earthNormals, earthUvs, earthIndices, earthCenter, earthRadius, 45);
-	}
-	/*if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
-		// Initialize Loader
-		program->getScene()->sphere();
-	}*/
+
 }

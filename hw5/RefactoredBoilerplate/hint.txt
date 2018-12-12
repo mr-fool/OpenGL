@@ -1,5 +1,0 @@
-http://vterrain.org/Textures/spherical.html native approach
-https://pastebin.com/Lrx4r44m
-https://github.com/d3dcoder/d3d12book/blob/master/Common/GeometryGenerator.cpp
-https://github.com/DethRaid/AGameWithGod/blob/f9d00e3393ef3feddea58799b82be7b2ec1a7a11/AGameWithGod/Mesh.h
-https://github.com/DethRaid/AGameWithGod/blob/f9d00e3393ef3feddea58799b82be7b2ec1a7a11/AGameWithGod/Mesh.cpp#L60

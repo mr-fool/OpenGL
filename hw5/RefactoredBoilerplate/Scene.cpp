@@ -36,7 +36,10 @@ vec3 getSphereCoords(float u, float v, float center, float radius) {
 		radius * sin(2.f * PI * u) * sin(PI * v),
 		radius * cos(PI * v)) + center;
 }
-void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vector<vec2>& uvs, vector<unsigned int>& indices, vec3 center, float radius, int divisions) {
+
+
+Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
+	int divisions = 50;
 	objects.clear();
 	rectangle.verts.clear();
 	rectangle.uvs.clear();
@@ -55,8 +58,6 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 			vec3 topRight = getSphereCoords(u + step, v, 0, 1);
 			vec3 botLeft = getSphereCoords(u, v + step, 0, 1);
 			vec3 botRight = getSphereCoords(u + step, v + step, 0, 1);
-			vec3 pos = vec3(u, v, 0.0f);
-			vec3 normal = normalize(pos - center);
 
 			rectangle.uvs.push_back(vec2(u, v));
 			rectangle.uvs.push_back(vec2(u, v));
@@ -81,71 +82,6 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 	}
 
 	rectangle.drawMode = GL_TRIANGLES;
-	//Construct vao and vbos for the triangle
-	RenderingEngine::assignBuffers(rectangle);
-
-	//Send the triangle data to the GPU
-	//Must be done every time the triangle is modified in any way, ex. verts, colors, normals, uvs, etc.
-	RenderingEngine::setBufferData(rectangle);
-
-	//Add the triangle to the scene objects
-	objects.push_back(rectangle);
-}
-/*void Scene::sphere() {
-	objects.clear();
-	rectangle.verts.clear();
-	rectangle.uvs.clear();
-	MyTexture texture;
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	// Initialize Loader
-	objl::Loader Loader;
-
-	// Load .obj File
-	bool loadout = Loader.LoadFile("sphere.obj");
-	for (int i = 0; i < Loader.LoadedMeshes[0].Vertices.size(); i++) {
-		cout << Loader.LoadedMeshes[i].Vertices[i].Position.X << endl;
-	}
-}*/
-Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
-
-	MyTexture texture;
-	InitializeTexture(&texture, "image1-mandrill.png", GL_TEXTURE_RECTANGLE);
-
-	//Load texture uniform
-	//Shaders need to be active to load uniforms
-	glUseProgram(renderer->shaderProgram);
-	//Set which texture unit the texture is bound to
-	glActiveTexture(GL_TEXTURE0);
-	//Bind the texture to GL_TEXTURE0
-	glBindTexture(GL_TEXTURE_RECTANGLE, texture.textureID);
-	//Get identifier for uniform
-	GLuint uniformLocation = glGetUniformLocation(renderer->shaderProgram, "imageTexture");
-	//Load texture unit number into uniform
-	glUniform1i(uniformLocation, 0);
-
-	if (renderer->CheckGLErrors()) {
-		std::cout << "Texture creation failed" << std::endl;
-	}
-
-	// three vertex positions and assocated colours of a triangle
-	rectangle.verts.push_back(glm::vec3(-0.9f, -0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(0.9f, -0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(0.9f, 0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(-0.9f, -0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(0.9f, 0.9f, 1.0f));
-	rectangle.verts.push_back(glm::vec3(-0.9f, 0.9f, 1.0f));
-
-
-
-	rectangle.drawMode = GL_TRIANGLES;
-
-	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2(float(texture.width), 0.f));
-	rectangle.uvs.push_back(glm::vec2(float(texture.width), float(texture.height)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, 0.0f));
-	rectangle.uvs.push_back(glm::vec2(float(texture.width), float(texture.height)));
-	rectangle.uvs.push_back(glm::vec2(0.0f, float(texture.height)));
-
 	//Construct vao and vbos for the triangle
 	RenderingEngine::assignBuffers(rectangle);
 
