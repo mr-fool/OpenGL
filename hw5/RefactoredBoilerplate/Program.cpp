@@ -17,14 +17,11 @@
 #include "RenderingEngine.h"
 #include "Scene.h"
 #include "texture.h"
+#include "global.h"
 
 using namespace std;
 using namespace glm;
 
-bool mousePressed = false;
-float offsetX;
-float offsetY;
-float offsetZ;
 
 Program::Program() {
 	setupWindow();
