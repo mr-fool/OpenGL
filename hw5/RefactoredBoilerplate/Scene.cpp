@@ -21,6 +21,9 @@
 
 #include "texture.h"
 #include <vector>
+#include "parser.h"
+// fStream - STD File I/O Library
+#include <fstream>
 using namespace std;
 using namespace glm;
 #define PI 3.141592653589793238462643383
@@ -123,7 +126,21 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 	//Add the triangle to the scene objects
 	objects.push_back(rectangle);
 }
+void Scene::sphere() {
+	objects.clear();
+	rectangle.verts.clear();
+	rectangle.uvs.clear();
+	MyTexture texture;
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	// Initialize Loader
+	objl::Loader Loader;
 
+	// Load .obj File
+	bool loadout = Loader.LoadFile("sphere.obj");
+	for (int i = 0; i < Loader.LoadedMeshes[0].Vertices.size(); i++) {
+		 cout << Loader.LoadedMeshes[i].Vertices[i].Position.X << endl ;
+	}
+}
 Scene::Scene(RenderingEngine* renderer) : renderer(renderer) {
 
 	MyTexture texture;
