@@ -22,8 +22,9 @@ using namespace std;
 using namespace glm;
 
 bool mousePressed = false;
-
-
+float offsetX;
+float offsetY;
+float offsetZ;
 
 Program::Program() {
 	setupWindow();
@@ -52,8 +53,26 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	if ((action == GLFW_PRESS) || (action == GLFW_RELEASE))
 		mousePressed = !mousePressed;
 }
+static void cursor_position_callback(GLFWwindow* window, double x, double y) {
+	static glm::vec2 oldPosition(0, 0);
+	int state;
+	glm::vec2 currentPosition((x - (1024 / 2)) / (1024 / 2),
+		(y - (1024 / 2)) / (1024 / 2) * 1.0f);
 
+	state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+
+	if (state == GLFW_PRESS) {
+		offsetX += currentPosition.x - oldPosition.x;
+		offsetY -= currentPosition.y - oldPosition.y;
+
+		std::cout << "offsetX value " + std::to_string(offsetX) << std::endl;
+		std::cout << "offsetY value " + std::to_string(offsetY) << std::endl;
+	}
+
+	oldPosition = currentPosition;
+}
 void mousePosCallback(GLFWwindow* window, double xpos, double ypos) {
+	//mousePressed = (action == GLFW_PRESS);
 
 }
 void Program::setupWindow() {
