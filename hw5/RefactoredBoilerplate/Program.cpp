@@ -48,11 +48,11 @@ void Program::start() {
 	}
 
 }
-void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+/*void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
 	if ((action == GLFW_PRESS) || (action == GLFW_RELEASE))
 		mousePressed = !mousePressed;
-}
+}*/
 static void cursor_position_callback(GLFWwindow* window, double x, double y) {
 	static glm::vec2 oldPosition(0, 0);
 	int state;
@@ -71,10 +71,10 @@ static void cursor_position_callback(GLFWwindow* window, double x, double y) {
 
 	oldPosition = currentPosition;
 }
-void mousePosCallback(GLFWwindow* window, double xpos, double ypos) {
+/*void mousePosCallback(GLFWwindow* window, double xpos, double ypos) {
 	//mousePressed = (action == GLFW_PRESS);
 
-}
+}*/
 void Program::setupWindow() {
 	//Initialize the GLFW windowing system
 	if (!glfwInit()) {
@@ -104,10 +104,10 @@ void Program::setupWindow() {
 
 	//Set the custom function that tracks key presses
 	glfwSetKeyCallback(window, KeyCallback);
-	glfwSetMouseButtonCallback(window, mouseButtonCallback);
-	glfwSetCursorPosCallback(window, mousePosCallback);
 	//Bring the new window to the foreground (not strictly necessary but convenient)
 	glfwMakeContextCurrent(window);
+
+	glfwSetCursorPosCallback(window, cursor_position_callback);
 
 	//Intialize GLAD (finds appropriate OpenGL configuration for your system)
 	if (!gladLoadGL()) {
