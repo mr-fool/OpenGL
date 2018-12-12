@@ -26,6 +26,7 @@ public:
 	void displayScene();
 	std::vector<Geometry>& getObjects();
 	void generateSphere(vector<vec3>& positions, vector<vec3>& normals, vector<vec2>& uvs, vector<unsigned int>& indices, vec3 center, float radius, int divisions);
+	//void sphere();
 private:
 	RenderingEngine* renderer;
 
