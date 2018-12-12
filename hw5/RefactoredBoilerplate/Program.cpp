@@ -17,14 +17,13 @@
 #include "RenderingEngine.h"
 #include "Scene.h"
 #include "texture.h"
-//#include "parser.h"
-// fStream - STD File I/O Library
-#include <fstream>
+
 using namespace std;
 using namespace glm;
 
-float distScale = 35.0 / 149597870.7; // AU in km
-float radScale = 1.0 / 6378.1; // E in km
+bool mousePressed = false;
+
+
 
 Program::Program() {
 	setupWindow();
@@ -48,7 +47,15 @@ void Program::start() {
 	}
 
 }
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	if ((action == GLFW_PRESS) || (action == GLFW_RELEASE))
+		mousePressed = !mousePressed;
+}
 
+void mousePosCallback(GLFWwindow* window, double xpos, double ypos) {
+
+}
 void Program::setupWindow() {
 	//Initialize the GLFW windowing system
 	if (!glfwInit()) {
@@ -78,7 +85,8 @@ void Program::setupWindow() {
 
 	//Set the custom function that tracks key presses
 	glfwSetKeyCallback(window, KeyCallback);
-
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+	glfwSetCursorPosCallback(window, mousePosCallback);
 	//Bring the new window to the foreground (not strictly necessary but convenient)
 	glfwMakeContextCurrent(window);
 
@@ -91,8 +99,6 @@ void Program::setupWindow() {
 	//Query and print out information about our OpenGL environment
 	QueryGLVersion();
 }
-
-
 
 void Program::QueryGLVersion() {
 	// query opengl version and renderer information
