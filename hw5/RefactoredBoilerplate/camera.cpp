@@ -20,7 +20,7 @@ mat4 rotateAbout(vec3 axis, float radians)
 	return matrix;
 }
 
-Camera::Camera() : dir(vec3(0, 0, -1)),
+Camera::Camera() : direction(vec3(0, 0, -1)),
 right(vec3(1, 0, 0)),
 up(vec3(0, 1, 0)),
 polarPos(vec3(0, 0, 0)),
@@ -45,9 +45,9 @@ void Camera::pol2cart() {
 	pos = polarPos.z * vec3(sin(polarPos.x) * cos(polarPos.y),
 		sin(polarPos.y) * sin(polarPos.x),
 		cos(polarPos.x)) + lookingAt;
-	dir = normalize(pos - lookingAt);
-	right = normalize(cross(dir, vec3(0, 0, 1)));
-	up = normalize(cross(right, dir));
+	direction = normalize(pos - lookingAt);
+	right = normalize(cross(direction, vec3(0, 0, 1)));
+	up = normalize(cross(right, direction));
 }
 
 /*
@@ -62,7 +62,7 @@ mat4 Camera::getMatrix()
 	mat4 cameraRotation = mat4(
 		vec4(right, 0),
 		vec4(up, 0),
-		vec4(-dir, 0),
+		vec4(-direction, 0),
 		vec4(0, 0, 0, 1));
 
 	mat4 translation = mat4(

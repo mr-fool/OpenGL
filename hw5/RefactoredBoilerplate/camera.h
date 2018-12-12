@@ -24,3 +24,4 @@ public:
 	void translateCamera(float up, float around, float theOtherOne);
 
 };
+#endif /* CAMERA_H */
