@@ -1,3 +1,7 @@
+/* Credit to https://github.com/Bly7/OBJ-Loader/blob/master/Source/OBJ_Loader.h
+Prof said okay to use people's parser in piazza*/
+
+
 #pragma once
 
 // Iostream - STD I/O Library
