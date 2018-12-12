@@ -49,9 +49,7 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 		float v = 0.f;
 		//Traversing the planes of time and space (again)
 		for (int j = 0; j < divisions; j++) {
-			/*vec3 pos = vec3(radius * cos(2.f * PI * u) * sin(PI * v),
-				radius * sin(2.f * PI * u) * sin(PI * v),
-				radius * cos(PI * v)) + center;*/
+
 
 			vec3 topLeft = getSphereCoords(u, v, 0, 1);
 			vec3 topRight = getSphereCoords(u + step, v, 0, 1);
@@ -59,48 +57,15 @@ void Scene::generateSphere(vector<vec3>& positions, vector<vec3>& normals, vecto
 			vec3 botRight = getSphereCoords(u + step, v + step, 0, 1);
 			vec3 pos = vec3(u, v, 0.0f);
 			vec3 normal = normalize(pos - center);
-			//std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
-
-			//rectangle.verts.push_back(pos);
-			//rectangle.verts.push_back(normal);
-			rectangle.uvs.push_back(vec2(u, v));
-
-			pos = vec3(u + step, v, 0.0f);
-			//std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
-
-			//rectangle.verts.push_back(pos);
-			//rectangle.verts.push_back(normal);
-			rectangle.uvs.push_back(vec2(u, v));
-
-			pos = vec3(u, v + step, 0.0f);
-			//std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
-
-			//rectangle.verts.push_back(pos);
-			//rectangle.verts.push_back(normal);
-			rectangle.uvs.push_back(vec2(u, v));
-
-			pos = vec3(u + step, v + step, 0.0f);
-			//std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
-
-			//rectangle.verts.push_back(pos);
-			//rectangle.verts.push_back(normal);
-			rectangle.uvs.push_back(vec2(u, v));
-
-			pos = vec3(u, v + step, 0.0f);
-			//std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
-
-			//rectangle.verts.push_back(pos);
-			//rectangle.verts.push_back(normal);
-			rectangle.uvs.push_back(vec2(u, v));
-
-			pos = vec3(u + step, v, 0.0f);
-			//std::cout << "rectangle.verts.push_back " + glm::to_string(pos) << std::endl;
-
-			//rectangle.verts.push_back(pos);
-			//rectangle.verts.push_back(normal);
-
 
 			rectangle.uvs.push_back(vec2(u, v));
+			rectangle.uvs.push_back(vec2(u, v));
+			rectangle.uvs.push_back(vec2(u, v));
+			rectangle.uvs.push_back(vec2(u, v));
+			rectangle.uvs.push_back(vec2(u, v));
+			rectangle.uvs.push_back(vec2(u, v));
+
+
 			rectangle.verts.push_back(topLeft);
 			rectangle.verts.push_back(topRight);
 			rectangle.verts.push_back(botLeft);
