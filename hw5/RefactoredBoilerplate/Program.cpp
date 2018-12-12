@@ -130,7 +130,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		earthCenter = vec3(0.0, 0.0, 0.0);
 		//float earthRadius = pow(radScale * 6378.1, 0.5);
 		float earthRadius = 1;
-		program->getScene()->generateSphere(earthPoints, earthNormals, earthUvs, earthIndices, earthCenter, earthRadius, 50);
+		program->getScene()->generateSphere(earthPoints, earthNormals, earthUvs, earthIndices, earthCenter, earthRadius, 45);
 	}
 	/*if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
 		// Initialize Loader
