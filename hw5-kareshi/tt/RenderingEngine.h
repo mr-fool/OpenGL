@@ -9,7 +9,7 @@
 #define RENDERINGENGINE_H_
 
 //**Must include glad and GLFW in this order or it breaks**
-#include <glad/glad.h>
+#include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
 #include "Geometry.h"
@@ -24,7 +24,7 @@ public:
 	virtual ~RenderingEngine();
 
 	//Renders each object
-	void RenderScene(const std::vector<Geometry>& objects);
+	void RenderScene(const std::vector<Geometry>& objects, glm::mat4 model, glm::mat4 view, glm::mat4 proj);
 
 	//Create vao and vbos for objects
 	static void assignBuffers(Geometry& geometry);
@@ -36,6 +36,8 @@ public:
 
 	//Pointer to the current shader program being used to render
 	GLuint shaderProgram;
+	
+	
 };
 
 #endif /* RENDERINGENGINE_H_ */

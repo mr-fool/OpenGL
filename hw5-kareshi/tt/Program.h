@@ -8,6 +8,8 @@
 #ifndef PROGRAM_H_
 #define PROGRAM_H_
 
+#include "ArcballCamera.h"
+
 //Forward declaration of classes
 //(note this is necessary because these are pointers and it allows the #include to appear in the .cpp file)
 struct GLFWwindow;
@@ -39,5 +41,7 @@ private:
 //Note, GLFW requires them to not be member functions of a class
 void ErrorCallback(int error, const char* description);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void cursor_position_callback(GLFWwindow* window, double x, double y);
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 #endif /* PROGRAM_H_ */

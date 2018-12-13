@@ -14,8 +14,9 @@
 #include <glm/gtc/type_ptr.hpp>
 
 //**Must include glad and GLFW in this order or it breaks**
-#include <glad/glad.h>
+#include "glad/glad.h"
 #include <GLFW/glfw3.h>
+
 
 class Geometry {
 public:

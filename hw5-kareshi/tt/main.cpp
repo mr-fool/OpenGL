@@ -6,6 +6,10 @@
 */
 #include "Program.h"
 
+
+
+#pragma 
+
 int main(int argc, char* argv[]) {
 	Program p;
 	p.start();

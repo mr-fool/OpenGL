@@ -25,7 +25,7 @@ RenderingEngine::~RenderingEngine() {
 
 }
 
-void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
+void RenderingEngine::RenderScene(const std::vector<Geometry>& objects, glm::mat4 model, glm::mat4 view, glm::mat4 proj) {
 	//Clears the screen to a dark grey background
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -33,6 +33,14 @@ void RenderingEngine::RenderScene(const std::vector<Geometry>& objects) {
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shaderProgram);
+	int loc = glGetUniformLocation(shaderProgram, "M");
+	glUniformMatrix4fv(loc, 1, false, &model[0][0]);
+
+	loc = glGetUniformLocation(shaderProgram, "V");
+	glUniformMatrix4fv(loc, 1, false, &view[0][0]);
+
+	loc = glGetUniformLocation(shaderProgram, "P");
+	glUniformMatrix4fv(loc, 1, false, &proj[0][0]);
 
 	for (const Geometry& g : objects) {
 		glBindVertexArray(g.vao);

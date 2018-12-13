@@ -14,11 +14,19 @@ layout(location = 1) in vec2 VertexUV;
 // output to be interpolated between vertices and passed to the fragment stage
 out vec2 uv;
 
+uniform mat4 M;
+uniform mat4 V;
+uniform mat4 P;
+
+
 void main()
 {
+	vec4 wPos = M * vec4(VertexPosition, 1.0f);
+	gl_Position = P * V * wPos;	
+	
     // assign vertex position without modification
-    gl_Position = vec4(VertexPosition.xy, 0.0, 1.0);
+	// gl_Position = vec4(VertexPosition.xy, 0.0, 1.0);
 
     // assign output colour to be interpolated
-    uv = VertexUV;
+    // uv = VertexUV;
 }

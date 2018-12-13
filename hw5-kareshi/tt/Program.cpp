@@ -19,6 +19,9 @@
 #include "texture.h"
 #include "global.h"
 
+extern ArcballCamera ArcballCam;
+
+
 using namespace std;
 using namespace glm;
 
@@ -39,34 +42,49 @@ void Program::start() {
 
 	//Main render loop
 	while (!glfwWindowShouldClose(window)) {
+		
 		scene->displayScene();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
 }
-/*void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
-	if ((action == GLFW_PRESS) || (action == GLFW_RELEASE))
-		mousePressed = !mousePressed;
-}*/
-static void cursor_position_callback(GLFWwindow* window, double x, double y) {
-	static glm::vec2 oldPosition(0, 0);
-	int state;
-	glm::vec2 currentPosition((x - (1024 / 2)) / (1024 / 2),
-		(y - (1024 / 2)) / (1024 / 2) * 1.0f);
-
-	state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-
-	if (state == GLFW_PRESS) {
-		offsetX += currentPosition.x - oldPosition.x;
-		offsetY -= currentPosition.y - oldPosition.y;
-
-		std::cout << "offsetX value " + std::to_string(offsetX) << std::endl;
-		std::cout << "offsetY value " + std::to_string(offsetY) << std::endl;
+	double xpos, ypos;
+	glfwGetCursorPos(window, &xpos, &ypos);
+	if (action == GLFW_PRESS)
+	{
+		
+		ArcballCam.active = true;
+		ArcballCam.cur_mpos.x = ArcballCam.last_mpos.x = xpos;
+		ArcballCam.cur_mpos.y = ArcballCam.last_mpos.y = ypos;
+		std::cout << "arcball active" << std::endl;
+		std::cout << std::endl;
+		
 	}
+	else if (action == GLFW_RELEASE)
+	{
+		ArcballCam.active = false;
+		ArcballCam.last_mpos.x = xpos;
+		ArcballCam.last_mpos.y = ypos;
+		std::cout << "arcball inactive" << std::endl;
+		std::cout << std::endl;
+	}
+}
 
-	oldPosition = currentPosition;
+void cursor_position_callback(GLFWwindow* window, double x, double y) {
+	
+	
+	if (ArcballCam.active == true)
+	{
+		ArcballCam.last_mpos.x = x;
+		ArcballCam.last_mpos.y = y;
+		std::cout << "x is : " << ArcballCam.last_mpos.x << std::endl;
+		std::cout << "y is : " << ArcballCam.last_mpos.y << std::endl;
+	}	
+	
+	
 }
 /*void mousePosCallback(GLFWwindow* window, double xpos, double ypos) {
 	//mousePressed = (action == GLFW_PRESS);
@@ -104,8 +122,11 @@ void Program::setupWindow() {
 	//Bring the new window to the foreground (not strictly necessary but convenient)
 	glfwMakeContextCurrent(window);
 
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+	
 	glfwSetCursorPosCallback(window, cursor_position_callback);
 
+	//Intialize GLAD (finds appropriate OpenGL configuration for your system)
 	//Intialize GLAD (finds appropriate OpenGL configuration for your system)
 	if (!gladLoadGL()) {
 		std::cout << "GLAD init failed" << std::endl;
