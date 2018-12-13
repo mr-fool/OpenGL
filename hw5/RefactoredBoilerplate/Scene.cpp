@@ -79,29 +79,7 @@ void Scene::generateSphere() {
 		u += step;
 
 	}
-	int windowHeight = 1024;
-	int windowWidth = 1024;
-	int max_u;
-	int max_v;
-	int offsetU;
-	int offsetV;
-	//aspect ratio
-	if (texture.width / texture.height < windowWidth / windowHeight) {
-		max_u = windowWidth * texture.height / windowHeight;
-		max_v = texture.height;
-		offsetU = 0.5*(texture.width - max_u);
-		offsetV = 0;
-		max_u += offsetU;
-		max_v += offsetV;
-	}
-	else {
-		max_u = texture.width;
-		max_v = windowHeight * texture.width / windowWidth;
-		offsetU = 0;
-		offsetV = 0.5 *(texture.height - max_v);
-		max_u += offsetU;
-		max_v += offsetV;
-	}
+
 	rectangle.drawMode = GL_TRIANGLES;
 	//Construct vao and vbos for the triangle
 	RenderingEngine::assignBuffers(rectangle);
